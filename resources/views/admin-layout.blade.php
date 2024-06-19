@@ -25,8 +25,8 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <x-nav-item route="admin.projetos.index" text="Home" />
                             <x-nav-item route="admin.projetos.index" text="Projetos" />
-                            <x-nav-item route="admin.users.index" text="Usuários" />
                             <x-nav-item route="admin.categories.index" text="Categorias" />
+                            <x-nav-item route="admin.users.index" text="Usuários" />
                             {{-- <x-nav-item route="#" text="E-mail" /> --}}
                         </ul>
                     </div>
