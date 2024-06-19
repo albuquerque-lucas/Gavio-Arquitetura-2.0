@@ -1,5 +1,9 @@
 @extends('admin-layout')
 
+@section('extra-css')
+    @vite('resources/scss/admin/project-list.scss')
+@endsection
+
 @section('content')
     <div class="container mt-5">
         <div>
@@ -23,7 +27,7 @@
 
         <div class="my-5 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
             @foreach ($links as $link)
-                <a href="{{ $link['url'] }}" class="btn btn-secondary mx-2 {{ $link['active'] ? 'active' : '' }}">
+                <a href="{{ $link['url'] }}" class="btn btn-secondary mx-2 navlink {{ $link['active'] ? 'active' : '' }}">
                     {!! $link['label'] !!}
                 </a>
             @endforeach

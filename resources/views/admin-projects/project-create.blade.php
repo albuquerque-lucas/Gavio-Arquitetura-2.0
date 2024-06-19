@@ -1,5 +1,10 @@
 @extends('admin-layout')
 
+
+@section('extra-css')
+    @vite('resources/scss/admin/project-create.scss')
+@endsection
+
 @section('content')
     <div class="container mt-5">
         <div>

@@ -37,7 +37,7 @@ class Project extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(ProjectImages::class);
+        return $this->hasMany(ProjectImage::class);
     }
 
     public function coverUrl(): string

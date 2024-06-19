@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\ProjectImage;
 use App\Models\Cover;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,6 @@ class AdminProjectController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validação dos dados de entrada
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
                 'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -41,17 +41,15 @@ class AdminProjectController extends Controller
                 'date' => 'nullable|date',
             ]);
 
-            // Criação do projeto
             $project = Project::create([
                 'title' => $request->title,
                 'location' => $request->location,
                 'category_id' => $request->category_id,
-                'status' => (bool)$request->status,  // Conversão explícita para booleano
+                'status' => (bool)$request->status,
                 'description' => $request->description,
                 'date' => $request->date,
             ]);
 
-            // Verificação e armazenamento da imagem de capa, se presente
             if ($request->hasFile('cover')) {
                 $file = $request->file('cover');
                 $imagePath = $file->store('projects/cover', 'public');
@@ -62,16 +60,13 @@ class AdminProjectController extends Controller
                 ]);
             }
 
-            // Redirecionamento com mensagem de sucesso
             return redirect()->route('admin.projetos.index')->with('success', 'Projeto criado com sucesso!');
         } catch (ValidationException $e) {
-            // Captura erros de validação (422 Unprocessable Entity)
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
                 ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
-            // Captura todos os outros tipos de erro
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Ocorreu um erro ao criar o projeto: ' . $e->getMessage());
@@ -80,53 +75,89 @@ class AdminProjectController extends Controller
 
     public function edit($id)
     {
-        $project = Project::findOrFail($id);
-        $categories = Category::all();
-        return view('admin-projects.project-edit', compact('project', 'categories'));
+        try {
+            $project = Project::findOrFail($id);
+            $categories = Category::all();
+            return view('admin-projects.project-edit', compact('project', 'categories'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('admin.projetos.index')->with('error', 'Projeto não encontrado.');
+        } catch (Exception $e) {
+            return redirect()->route('admin.projetos.index')->with('error', 'Ocorreu um erro ao tentar editar o projeto: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'nullable|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'location' => 'nullable|string|max:255',
-            'category_id' => 'nullable|exists:categories,id',
-            'status' => 'nullable|string|in:Ativo,Inativo',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'nullable|string|max:255',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'location' => 'nullable|string|max:255',
+                'category_id' => 'nullable|exists:categories,id',
+                'status' => 'nullable|boolean',
+                'description' => 'nullable|string',
+                'date' => 'nullable|date',
+            ]);
 
-        $project = Project::findOrFail($id);
+            $project = Project::findOrFail($id);
 
-        $project->update(array_filter($request->only(['title', 'location', 'category_id', 'status'])));
+            $project->update(array_filter([
+                'title' => $request->title,
+                'location' => $request->location,
+                'category_id' => $request->category_id,
+                'status' => (bool)$request->status,
+                'description' => $request->description,
+                'date' => $request->date,
+            ]));
 
-        if ($request->hasFile('cover')) {
+            if ($request->hasFile('cover')) {
+                if ($project->cover) {
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->url));
+                    $project->cover->delete();
+                }
+
+                $file = $request->file('cover');
+                $imagePath = $file->store('projects/covers', 'public');
+                Cover::create([
+                    'path' => '/storage/' . $imagePath,
+                    'file_name' => $file->getClientOriginalName(),
+                    'project_id' => $project->id,
+                ]);
+            }
+
+            return redirect()->route('admin.projetos.edit', $project->id)->with('success', 'Projeto atualizado com sucesso!');
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('admin.projetos.index')->with('error', 'Projeto não encontrado.');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Ocorreu um erro ao atualizar o projeto: ' . $e->getMessage());
+        }
+    }
+
+
+
+    public function destroy($id)
+    {
+        try {
+            $project = Project::findOrFail($id);
+
             if ($project->cover) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->url));
                 $project->cover->delete();
             }
 
-            $cover = new Cover();
-            $imagePath = $request->file('cover')->store('projects/covers', 'public');
-            $cover->url = '/storage/' . $imagePath;
-            $cover->project_id = $project->id;
-            $cover->save();
+            $project->delete();
+
+            return redirect()->route('admin.projetos.index')->with('success', 'Projeto excluído com sucesso!');
+        } catch (Exception $e) {
+            return redirect()->route('admin.projetos.index')->with('error', 'Erro ao excluir o projeto: ' . $e->getMessage());
         }
-
-        return redirect()->route('admin.projetos.index')->with('success', 'Projeto atualizado com sucesso!');
-    }
-
-    public function destroy($id)
-    {
-        $project = Project::findOrFail($id);
-
-        if ($project->cover) {
-            Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->url));
-            $project->cover->delete();
-        }
-
-        $project->delete();
-
-        return redirect()->route('admin.projetos.index')->with('success', 'Projeto excluído com sucesso!');
     }
 
     public function toggleCarousel($id)
@@ -139,6 +170,55 @@ class AdminProjectController extends Controller
             return redirect()->route('admin.projetos.index')->with('success', 'Status do projeto atualizado com sucesso!');
         } catch (Exception $e) {
             return redirect()->route('admin.projetos.index')->with('error', 'Erro ao atualizar o status do projeto: ' . $e->getMessage());
+        }
+    }
+
+    public function addImage(Request $request, $id)
+    {
+        try {
+            $project = Project::findOrFail($id);
+
+            $request->validate([
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $imagePath = $file->store('projects/images', 'public');
+
+                    ProjectImage::create([
+                        'path' => '/storage/' . $imagePath,
+                        'file_name' => $file->getClientOriginalName(),
+                        'project_id' => $project->id,
+                    ]);
+                }
+            }
+
+            return redirect()->route('admin.projetos.edit', $project->id)->with('success', 'Imagens adicionadas com sucesso!');
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Ocorreu um erro ao adicionar as imagens: ' . $e->getMessage());
+        }
+    }
+
+    public function deleteImage($projectId, $imageId)
+    {
+        try {
+            $project = Project::findOrFail($projectId);
+            $image = ProjectImage::findOrFail($imageId);
+
+            Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
+            $image->delete();
+
+            return redirect()->route('admin.projetos.edit', $project->id)->with('success', 'Imagem excluída com sucesso!');
+        } catch (Exception $e) {
+            return redirect()->route('admin.projetos.edit', $project->id)->with('error', 'Ocorreu um erro ao excluir a imagem: ' . $e->getMessage());
         }
     }
 }
