@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gavio Arquitetura | Admin | Projetos</title>
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
-        @vite('resources/scss/app.scss', 'resources/js/app.js')
-        @yield('extra-css')
+    @vite('resources/scss/app.scss', 'resources/js/app.js')
+    @yield('extra-css')
 </head>
 
 <body class='bg-dark'>
@@ -25,21 +23,15 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('admin.projetos.index') }}">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.projetos.index') }}">Projetos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Usuário</a>
-                            </li>
-
+                            <x-nav-item route="admin.projetos.index" text="Home" />
+                            <x-nav-item route="admin.projetos.index" text="Projetos" />
+                            <x-nav-item route="admin.users.index" text="Usuários" />
+                            <x-nav-item route="admin.categories.index" text="Categorias" />
+                            {{-- <x-nav-item route="#" text="E-mail" /> --}}
                         </ul>
                     </div>
                 </div>
             </nav>
-
         </div>
     </header>
     <main class='layout-main'>
