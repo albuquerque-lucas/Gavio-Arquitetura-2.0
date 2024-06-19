@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -13,9 +16,13 @@ class Project extends Model
         'category_id',
         'title',
         'description',
-        'cover',
         'date',
         'location',
+        'status',
+    ];
+
+    protected $casts = [
+        'status' => 'boolean',
     ];
 
     public function cover(): HasOne
@@ -31,5 +38,14 @@ class Project extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProjectImages::class);
+    }
+
+    public function coverUrl(): string
+    {
+        if ($this->cover && $this->cover->path) {
+            return asset($this->cover->path);
+        } else {
+            return asset('storage/projects/cover/no-image.jpg');
+        }
     }
 }

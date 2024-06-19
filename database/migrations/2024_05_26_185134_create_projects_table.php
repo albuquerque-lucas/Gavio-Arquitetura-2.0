@@ -16,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Category::class);
             $table->string('title');
-            $table->string('cover')->nullable();
             $table->text('description')->nullable();
             $table->string('location')->nullable();
             $table->date('date')->nullable();
+            $table->boolean('status')->default(false);
 
             $table->timestamps();
         });

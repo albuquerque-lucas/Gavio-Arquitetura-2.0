@@ -1,0 +1,23 @@
+.form-control {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid black;
+    color: white;
+}
+
+.form-control:focus {
+    color: white;
+    background-color: transparent;
+    box-shadow: none;
+    border-bottom: 2px solid white;
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+select.form-control option {
+    color: black;
+
+}

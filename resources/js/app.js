@@ -9,3 +9,6 @@ import '@popperjs/core';
 
 // Import the custom JavaScript for the delete confirmation modal
 import './deleteConfirmation';
+
+
+import './projects/toggleCarousel';
