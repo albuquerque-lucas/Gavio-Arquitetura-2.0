@@ -30,7 +30,7 @@ class AuthenticationController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard');
+            return redirect()->intended(route('admin.projetos.index'));
         }
 
         return redirect()->back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
@@ -63,7 +63,7 @@ class AuthenticationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended('dashboard');
+        return redirect()->intended(route('admin.projetos.index'));
     }
 
     public function logout()

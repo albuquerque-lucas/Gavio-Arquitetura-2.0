@@ -23,11 +23,24 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <x-nav-item route="admin.projetos.index" text="Home" />
-                            <x-nav-item route="admin.projetos.index" text="Projetos" />
-                            <x-nav-item route="admin.categories.index" text="Categorias" />
-                            <x-nav-item route="admin.users.index" text="Usuários" />
-                            {{-- <x-nav-item route="#" text="E-mail" /> --}}
+                            @auth
+                                <x-nav-item route="admin.projetos.index" text="Home" />
+                                <x-nav-item route="admin.projetos.index" text="Projetos" />
+                                <x-nav-item route="admin.categories.index" text="Categorias" />
+                                <x-nav-item route="admin.users.index" text="Usuários" />
+                                <li class="nav-item">
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+                                    </form>
+                                </li>
+                            @endauth
+
+                            @guest
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                                </li>
+                            @endguest
                         </ul>
                     </div>
                 </div>
