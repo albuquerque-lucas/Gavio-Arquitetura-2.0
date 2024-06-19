@@ -1,18 +1,25 @@
 @extends('admin-layout')
 
+@section('extra-css')
+    @vite('resources/scss/auth/login.scss')
+@endsection
+
 @section('content')
 <div class="container">
-    <h2>Login</h2>
+    <div class="text-center mb-4 image-box">
+        <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="Gavio Arquitetura Logo" class="logo-image">
+        <h2 class="text-center page-title">Login - Admin</h2>
+    </div>
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
         </div>
     @endif
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="login-form">
         @csrf
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus>
+            <input type="email" name="email" class="form-control teste" value="{{ old('email') }}" required autofocus>
             @error('email')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
