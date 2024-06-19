@@ -30,7 +30,7 @@ class AdminCategoryController extends Controller
 
             Category::create($validated);
 
-            return redirect()->route('admin-categories.index')->with('success', 'Categoria criada com sucesso!');
+            return redirect()->route('admin.categories.index')->with('success', 'Categoria criada com sucesso!');
         } catch (ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
@@ -49,7 +49,7 @@ class AdminCategoryController extends Controller
             $category = Category::findOrFail($id);
             return view('admin-categories.edit', compact('category'));
         } catch (Exception $e) {
-            return redirect()->route('admin-categories.index')->with('error', 'Categoria não encontrada.');
+            return redirect()->route('admin.categories.index')->with('error', 'Categoria não encontrada.');
         }
     }
 
@@ -58,13 +58,12 @@ class AdminCategoryController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
             ]);
 
             $category = Category::findOrFail($id);
             $category->update($validated);
 
-            return redirect()->route('admin-categories.edit', $category->id)->with('success', 'Categoria atualizada com sucesso!');
+            return redirect()->route('admin.categories.index')->with('success', 'Categoria atualizada com sucesso!');
         } catch (ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
@@ -77,15 +76,16 @@ class AdminCategoryController extends Controller
         }
     }
 
+
     public function destroy($id)
     {
         try {
             $category = Category::findOrFail($id);
             $category->delete();
 
-            return redirect()->route('admin-categories.index')->with('success', 'Categoria excluída com sucesso!');
+            return redirect()->route('admin.categories.index')->with('success', 'Categoria excluída com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin-categories.index')->with('error', 'Ocorreu um erro ao excluir a categoria: ' . $e->getMessage());
+            return redirect()->route('admin.categories.index')->with('error', 'Ocorreu um erro ao excluir a categoria: ' . $e->getMessage());
         }
     }
 }

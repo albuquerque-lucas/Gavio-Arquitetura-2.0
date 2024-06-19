@@ -36,7 +36,6 @@
         </div>
     @endif
 
-    <!-- Nav Tabs -->
     <ul class="nav nav-tabs" id="projectTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="view-tab" data-bs-toggle="tab" href="#view" role="tab" aria-controls="view" aria-selected="true">Visualizar</a>
@@ -46,9 +45,7 @@
         </li>
     </ul>
 
-    <!-- Tab Content -->
     <div class="tab-content" id="projectTabsContent">
-        <!-- Visualizar Tab -->
         <div class="tab-pane fade show active" id="view" role="tabpanel" aria-labelledby="view-tab">
             <div class="mt-4">
                 <h5 class="text-white">Título:</h5>
@@ -58,7 +55,7 @@
                 <p class="text-white">{{ $project->location }}</p>
 
                 <h5 class="text-white">Categoria:</h5>
-                <p class="text-white">{{ $project->category->name }}</p>
+                <p class="text-white">{{ $project->category->name ?? 'Categoria não encontrada' }}</p>
 
                 <h5 class="text-white">Status:</h5>
                 <p class="text-white">{{ $project->status ? 'Ativo' : 'Inativo' }}</p>
@@ -75,7 +72,6 @@
                 @endif
             </div>
 
-            <!-- Formulário para adicionar imagens -->
             <div class="mt-4">
                 <h5 class="text-white">Adicionar Imagem</h5>
                 <form action="{{ route('admin.projetos.addImage', $project->id) }}" method="POST" enctype="multipart/form-data">
@@ -88,7 +84,6 @@
                 </form>
             </div>
 
-            <!-- Lista de imagens -->
             <div class="mt-4">
                 <h5 class="text-white">Imagens do Projeto</h5>
                 <div class="row">
@@ -110,7 +105,6 @@
             </div>
         </div>
 
-        <!-- Editar Tab -->
         <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
             <div class="mt-4">
                 <form action="{{ route('admin.projetos.update', $project->id) }}" method="POST" enctype="multipart/form-data">

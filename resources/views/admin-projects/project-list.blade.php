@@ -48,12 +48,16 @@
                 @foreach ($projects as $project)
                     <tr style="cursor: pointer;">
                         <th scope="row">{{ $project->id }}</th>
-                        <td>{{ $project->title }}</td>
+                        <td>{{ $project->title ?? 'Título não encontrado' }}</td>
                         <td>
-                            <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="100">
+                            @if ($project->coverUrl())
+                                <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="100">
+                            @else
+                                Imagem não disponível
+                            @endif
                         </td>
-                        <td>{{ $project->location }}</td>
-                        <td>{{ $project->category->name }}</td>
+                        <td>{{ $project->location ?? 'Localização não encontrada' }}</td>
+                        <td>{{ $project->category->name ?? 'Categoria não encontrada' }}</td>
                         <td>
                             <form action="{{ route('admin.projetos.toggleCarousel', $project->id) }}" method="POST" class="d-inline">
                                 @csrf
