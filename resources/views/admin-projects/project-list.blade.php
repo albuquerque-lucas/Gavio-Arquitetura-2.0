@@ -23,7 +23,7 @@
 
         <div class="my-5 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
             @foreach ($links as $link)
-                <a href="{{ $link['url'] }}" class="btn btn-secondary mx-2">
+                <a href="{{ $link['url'] }}" class="btn btn-secondary mx-2 {{ $link['active'] ? 'active' : '' }}">
                     {!! $link['label'] !!}
                 </a>
             @endforeach
