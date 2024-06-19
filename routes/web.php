@@ -5,9 +5,22 @@ use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AuthenticationController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/send-test-email', function () {
+    $details = [
+        'title' => 'Mail from Gavio Arquitetura',
+        'body' => 'This is a test email sent from Gavio Arquitetura.'
+    ];
+
+    Mail::to('lucaslpra@gmail.com')->send(new TestMail($details));
+
+    return 'Email sent';
 });
 
 // Rotas de Autenticação
