@@ -8,7 +8,7 @@
 <div class="container">
     <div class="text-center mb-4 image-box">
         <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="Gavio Arquitetura Logo" class="logo-image">
-        <h2 class="text-center page-title">Login - Admin</h2>
+        <h2 class="text-center page-title">Gávio Arquitetura - Admin</h2>
     </div>
     @if (session('status'))
         <div class="alert alert-success" role="alert">
