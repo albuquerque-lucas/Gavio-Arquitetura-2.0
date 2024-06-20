@@ -1,0 +1,72 @@
+
+.image-box {
+    padding: 1rem;
+    position: absolute;
+    left: 50%;
+    top: 12%;
+    transform: translateX(-50%);
+    img{
+        max-width: 100px;
+
+    }
+
+    h2 {
+        font-size: 1rem;
+        margin-top: 1rem;
+        color: grey;
+    }
+}
+
+.page-title {
+    color: white
+}
+
+.login-form {
+    width: 45%;
+    height: 30rem;
+    max-width: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        border-bottom: 2px solid rgb(56, 54, 54);
+        width: 600px;
+        border-radius: 0;
+        color: white;
+
+        &:focus {
+            background-color: transparent;
+            border-bottom: 2px solid white;
+            color: white;
+        }
+    }
+
+    .form-check {
+        margin: 2rem 0;
+        display: flex;
+        align-items: center;
+
+        .form-check-input {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .form-check-label {
+            margin-left: 0.5rem;
+        }
+    }
+
+    button {
+        width: 50%;
+    }
+}
