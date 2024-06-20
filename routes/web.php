@@ -5,12 +5,11 @@ use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PublicAppController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
 
 // Rotas de Autenticação
 Route::get('login', [AuthenticationController::class, 'showLoginForm'])->name('login');

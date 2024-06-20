@@ -1,0 +1,108 @@
+
+.body {
+    background-image: url('/storage/app/public/pages/pagina-background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.header {
+    background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, .5) 25%, rgba(0, 0, 0, .5) 75%, transparent 95%);
+    ul {
+        li {
+            border-bottom: 2px solid transparent;
+            margin: 0 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            &:hover {
+                border-bottom: 2px solid #D1BDB0;
+            }
+            a {
+                color: white;
+                &:hover {
+                    color: white;
+                }
+
+                &:focus {
+                    color: white;
+                }
+            }
+
+        }
+    }
+}
+
+.logo-image-primary {
+    max-width: 85px;
+}
+
+.logo-image-secondary {
+    max-width: 150px;
+}
+
+.main-footer {
+    margin: 4rem 0;
+    display: flex;
+    // background-color: rgba($color: #000000, $alpha: 0.5);
+    height: 20rem;
+    width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1rem;
+        // background-color: lightcoral;
+        width: 100%;
+        text-align: center;
+
+
+        .footer-social-media a, .footer-address p{
+            color: #333;
+        }
+
+        .footer-social-media {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social-media a {
+            font-size: 2rem;
+            margin: 0.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            input {
+                width: 100%;
+                border: none;
+                outline: none;
+                border-bottom: 1px solid black;
+                background-color: transparent;
+                padding: 0.35rem;
+                font-size: 1rem;
+                outline: none;
+
+                &:focus {
+                    border-bottom: 1px solid white;
+                }
+            }
+
+            textarea {
+                background-color: transparent;
+                border: none;
+                margin: 1rem 0;
+                padding: 0.5rem;
+                overflow: auto;
+                resize: none;
+            }
+
+            button {
+                background-color: #333;
+                color: white;
+            }
+        }
+    }
+}
