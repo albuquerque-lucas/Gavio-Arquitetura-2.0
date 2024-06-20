@@ -1,0 +1,36 @@
+
+.body {
+    background-image: url('/storage/app/public/pages/pagina-background.png');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.header {
+    background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, .5) 25%, rgba(0, 0, 0, .5) 75%, transparent 95%);
+    ul {
+        li {
+            border-bottom: 2px solid transparent;
+            margin: 0 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            &:hover {
+                border-bottom: 2px solid #D1BDB0;
+            }
+            a {
+                color: white;
+                &:hover {
+                    color: white;
+                }
+            }
+
+        }
+    }
+}
+
+.logo-image-primary {
+    max-width: 85px;
+}
+
+.logo-image-secondary {
+    max-width: 160px;
+}
