@@ -19,8 +19,7 @@ class TestMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Test Email from Gavio Arquitetura')
-                    ->view('emails.test')
+        return $this->markdown('emails.test')
                     ->with('details', $this->details);
     }
 }

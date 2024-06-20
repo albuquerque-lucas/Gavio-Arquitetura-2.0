@@ -12,17 +12,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/send-test-email', function () {
-    $details = [
-        'title' => 'Mail from Gavio Arquitetura',
-        'body' => 'This is a test email sent from Gavio Arquitetura.'
-    ];
-
-    Mail::to('lucaslpra@gmail.com')->send(new TestMail($details));
-
-    return 'Email sent';
-});
-
 // Rotas de Autenticação
 Route::get('login', [AuthenticationController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthenticationController::class, 'login']);
