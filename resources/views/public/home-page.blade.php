@@ -17,7 +17,7 @@
                 @foreach($projects as $index => $project)
                     <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
 
-                            <img src="{{ $project->coverUrl() }}" class="d-block w-100" alt="{{ $project->title }}">
+                        <img src="{{ $project->coverUrl() }}" class="d-block w-100" alt="{{ $project->title }}">
 
                     </div>
                 @endforeach
