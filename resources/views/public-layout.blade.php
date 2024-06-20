@@ -41,6 +41,44 @@
             </nav>
         </div>
     </header>
-    @yield('content')
+
+    <main class="container">
+        @yield('content')
+    </main>
+
+    <footer class='main-footer container'>
+        <div class="footer-content">
+            <div class="footer-social-media">
+                <a href="https://wa.me/5532988660027?text=Ol%C3%A1%2C+tudo+bem%3F+Vim+pelo+contato+do+site%21+Poder%C3%ADamos+fazer+um+or%C3%A7amento%3F" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/isagavio.arq/" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-address">
+                <p>Rua Ataliba de Barros, 182, São Mateus - Juiz de Fora (Rossi 360 Business, sala 407)</p>
+                <p>2021 - Todos os direitos reservados.</p>
+            </div>
+        </div>
+        <div class="footer-content">
+                <strong>Entre em contato conosco!</strong>
+                @if(!empty($message))
+                    <div class="alert alert-success w-50 text-center">
+                        {{ $message }}
+                    </div>
+                @endif
+                <form action="#" method="POST">
+                    @csrf
+                    <input type="text" name='name' placeholder='Seu nome'>
+
+                    <input type="text" name='email' placeholder='Seu e-mail'>
+
+                    <input type="text" name='subject' placeholder='Digite um assunto'>
+
+                    <textarea name="message" id="message-text" placeholder='Mensagem'></textarea>
+                    <button type='submit' name='submit' class='btn'>Enviar</button>
+                </form>
+
+        </div>
+
+
+    </footer>
 </body>
 </html>

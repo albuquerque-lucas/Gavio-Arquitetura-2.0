@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-<main class="main container">
     <section class='carousel_section container'>
         <div id="carouselExampleIndicators" class="carousel slide">
             <div class="carousel-indicators">
@@ -35,5 +34,4 @@
             </button>
         </div>
     </section>
-</main>
 @endsection
