@@ -16,9 +16,9 @@
             <div class="carousel-inner">
                 @foreach($projects as $index => $project)
                     <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                        <div class="d-flex justify-content-center">
-                            <img src="{{ $project->coverUrl() }}" class="d-block" alt="{{ $project->title }}">
-                        </div>
+
+                            <img src="{{ $project->coverUrl() }}" class="d-block w-100" alt="{{ $project->title }}">
+
                     </div>
                 @endforeach
             </div>
