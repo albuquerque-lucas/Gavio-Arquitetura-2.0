@@ -58,24 +58,23 @@
             </div>
         </div>
         <div class="footer-content">
-                <strong>Entre em contato conosco!</strong>
-                @if(!empty($message))
-                    <div class="alert alert-success w-50 text-center">
-                        {{ $message }}
-                    </div>
-                @endif
-                <form action="#" method="POST">
-                    @csrf
-                    <input type="text" name='name' placeholder='Seu nome'>
+            <strong>Entre em contato conosco!</strong>
+            @if(!empty($message))
+                <div class="alert alert-success w-50 text-center">
+                    {{ $message }}
+                </div>
+            @endif
+            <form action="#" method="POST">
+                @csrf
+                <input type="text" name='name' placeholder='Seu nome'>
 
-                    <input type="text" name='email' placeholder='Seu e-mail'>
+                <input type="text" name='email' placeholder='Seu e-mail'>
 
-                    <input type="text" name='subject' placeholder='Digite um assunto'>
+                <input type="text" name='subject' placeholder='Digite um assunto'>
 
-                    <textarea name="message" id="message-text" placeholder='Mensagem'></textarea>
-                    <button type='submit' name='submit' class='btn'>Enviar</button>
-                </form>
-
+                <textarea name="message" id="message-text" placeholder='Mensagem'></textarea>
+                <button type='submit' name='submit' class='btn'>Enviar</button>
+            </form>
         </div>
 
 
