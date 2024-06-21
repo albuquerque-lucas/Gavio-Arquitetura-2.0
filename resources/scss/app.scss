@@ -5,3 +5,10 @@
 @import 'bootstrap/scss/bootstrap';
 
 @import "@fortawesome/fontawesome-free/css/all.css";
+
+@import "./admin/project-list.scss";
+@import "./admin/project-create.scss";
+@import "./admin/project-edit.scss";
+
+@import "./auth/login.scss";
+@import "./auth/forgot-password.scss";

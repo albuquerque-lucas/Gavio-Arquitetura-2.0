@@ -1,8 +1,8 @@
 @extends('admin-layout')
 
-@section('extra-css')
+{{-- @section('extra-css')
     @vite('resources/scss/auth/forgot-password.scss')
-@endsection
+@endsection --}}
 
 @section('content')
 <div class="container">

@@ -1,8 +1,8 @@
 @extends('public-layout')
 
-@section('extra-css')
+{{-- @section('extra-css')
     @vite('resources/scss/public/home.scss')
-@endsection
+@endsection --}}
 
 @section('content')
     <section class='carousel_section container'>

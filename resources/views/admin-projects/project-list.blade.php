@@ -1,8 +1,8 @@
 @extends('admin-layout')
 
-@section('extra-css')
+{{-- @section('extra-css')
     @vite('resources/scss/admin/project-list.scss')
-@endsection
+@endsection --}}
 
 @section('content')
     <div class="container mt-5">
