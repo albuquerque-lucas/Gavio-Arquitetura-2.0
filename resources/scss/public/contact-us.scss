@@ -1,3 +1,9 @@
+.contact-form-container {
+    h2 {
+        font-weight: 300;
+    }
+}
+
 .contact-form-container textarea:focus,
 .contact-form-container input:not(:placeholder-shown),
 .contact-form-container textarea:not(:placeholder-shown) {

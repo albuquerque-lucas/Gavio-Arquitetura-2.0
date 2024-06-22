@@ -5,7 +5,7 @@
     <div class="container mt-5">
         <div class="row mb-4 text-center">
             <div class="col-12">
-                <h1 class="text-dark">Contato</h1>
+                <h2 class="text-dark">Entre em contato conosco</h2>
             </div>
         </div>
         <div class="row">
