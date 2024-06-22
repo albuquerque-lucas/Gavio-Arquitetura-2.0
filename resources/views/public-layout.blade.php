@@ -31,7 +31,7 @@
                             <a class="nav-link" href="{{ route('public.projects', 1) }}">Projetos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contato</a>
+                            <a class="nav-link" href="{{ route('public.contact.us') }}">Contato</a>
                         </li>
                     </ul>
                     <span class="navbar-text d-none d-lg-inline">

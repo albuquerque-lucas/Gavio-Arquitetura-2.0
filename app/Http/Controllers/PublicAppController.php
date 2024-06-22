@@ -42,4 +42,9 @@ class PublicAppController extends Controller
         $title = $project->title;
         return view('public.project-show', compact('project', 'title'));
     }
+
+    public function renderContactPage()
+    {
+        return view('public.contact-us');
+    }
 }
