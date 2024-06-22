@@ -12,6 +12,7 @@ use App\Mail\TestMail;
 Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
 Route::get('/quem-somos', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
 Route::get('/projetos/{categoryId}', [PublicAppController::class, 'renderProjectsPage'])->name('public.projects');
+Route::get('/projetos/{id}', [PublicAppController::class, 'showProject'])->name('public.project.show');
 
 
 // Rotas de Autenticação

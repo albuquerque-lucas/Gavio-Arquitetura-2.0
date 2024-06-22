@@ -36,5 +36,9 @@ class PublicAppController extends Controller
         return view('public.projects-page', compact('title', 'projects', 'categories', 'categoryId', 'links'));
     }
 
-
+    public function showProject($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('public.project-show', compact('project'));
+    }
 }
