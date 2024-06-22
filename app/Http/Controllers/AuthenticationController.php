@@ -18,11 +18,11 @@ class AuthenticationController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'username' => 'required|string',
+            'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {
@@ -33,7 +33,7 @@ class AuthenticationController extends Controller
             return redirect()->intended(route('admin.projetos.index'));
         }
 
-        return redirect()->back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
+        return redirect()->back()->withErrors(['username' => 'Credenciais inválidas'])->withInput();
     }
 
     public function showRegistrationForm()
@@ -43,10 +43,11 @@ class AuthenticationController extends Controller
 
     public function register(Request $request)
     {
-        $data = $request->only('name', 'email', 'password', 'password_confirmation');
+        $data = $request->only('name', 'username', 'email', 'password', 'password_confirmation');
 
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -57,6 +58,7 @@ class AuthenticationController extends Controller
 
         $user = User::create([
             'name' => $data['name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
