@@ -78,8 +78,11 @@ class AdminUserController extends Controller
                 'email' => 'required|string|email|max:255|unique:users,email,' . $id,
                 'password' => 'nullable|string|min:8|confirmed',
                 'cover_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'description' => 'nullable|string|max:255',
+                'ownership' => 'nullable|boolean',
+                'description' => 'nullable|string',
             ]);
+
+            $validated['ownership'] = $request->boolean('ownership');
 
             $user = User::findOrFail($id);
             $user->name = $validated['name'];
@@ -88,6 +91,7 @@ class AdminUserController extends Controller
                 $user->password = Hash::make($validated['password']);
             }
             $user->description = $validated['description'] ?? null;
+            $user->ownership = $validated['ownership'];
 
             if ($request->hasFile('cover_path')) {
                 if ($user->cover_path) {
@@ -113,6 +117,7 @@ class AdminUserController extends Controller
                 ->with('error', 'Ocorreu um erro ao atualizar o usuário: ' . $e->getMessage());
         }
     }
+
 
     public function destroy($id)
     {

@@ -18,9 +18,9 @@
     <form method="POST" action="{{ route('login') }}" class="login-form">
         @csrf
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" name="email" class="form-control teste" value="{{ old('email') }}" required autofocus>
-            @error('email')
+            <label for="email">Username:</label>
+            <input type="text" name="username" class="form-control teste" value="{{ old('username') }}" required autofocus>
+            @error('username')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>

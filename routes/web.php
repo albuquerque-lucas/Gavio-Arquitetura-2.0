@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 
 Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
+Route::get('/quem-somos', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
 
 // Rotas de Autenticação
 Route::get('login', [AuthenticationController::class, 'showLoginForm'])->name('login');

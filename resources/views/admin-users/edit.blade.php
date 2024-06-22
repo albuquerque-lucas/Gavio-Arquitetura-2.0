@@ -1,9 +1,5 @@
 @extends('admin-layout')
 
-{{-- @section('extra-css')
-@vite('resources/scss/admin/user-edit.scss')
-@endsection --}}
-
 @section('content')
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -57,6 +53,9 @@
                 <h5 class="text-white">Descrição:</h5>
                 <p class="text-white">{{ $user->description }}</p>
 
+                <h5 class="text-white">Admin:</h5>
+                <p class="text-white">{{ $user->ownership ? 'Sim' : 'Não' }}</p>
+
                 @if ($user->cover_path)
                     <h5 class="text-white">Imagem de Perfil:</h5>
                     <img src="{{ $user->cover_path }}" alt="{{ $user->name }} Cover" width="150">
@@ -104,6 +103,14 @@
                     <div class="mb-3">
                         <label for="description" class="form-label text-white">Descrição</label>
                         <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $user->description) }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ownership" class="form-label text-white">Ownership</label>
+                        <select class="form-control" id="ownership" name="ownership" required>
+                            <option value="1" {{ old('ownership', $user->ownership) == 1 ? 'selected' : '' }}>Yes</option>
+                            <option value="0" {{ old('ownership', $user->ownership) == 0 ? 'selected' : '' }}>No</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Atualizar Usuário</button>
