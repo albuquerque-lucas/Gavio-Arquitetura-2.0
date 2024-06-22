@@ -31,7 +31,7 @@
                             <a class="nav-link" href="{{ route('public.projects', 1) }}">Projetos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contato</a>
+                            <a class="nav-link" href="{{ route('public.contact.us') }}">Contato</a>
                         </li>
                     </ul>
                     <span class="navbar-text d-none d-lg-inline">
@@ -57,6 +57,8 @@
                 <p>2021 - Todos os direitos reservados.</p>
             </div>
         </div>
+
+        @if(!request()->routeIs('public.contact.us'))
         <div class="footer-content">
             <strong>Entre em contato conosco!</strong>
             @if(!empty($message))
@@ -76,8 +78,7 @@
                 <button type='submit' name='submit' class='btn'>Enviar</button>
             </form>
         </div>
-
-
+        @endif
     </footer>
 </body>
 </html>

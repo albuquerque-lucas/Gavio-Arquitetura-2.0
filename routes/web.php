@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\PublicAppController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 
@@ -13,6 +14,8 @@ Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.ho
 Route::get('/quem-somos', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
 Route::get('/projetos/{categoryId}', [PublicAppController::class, 'renderProjectsPage'])->name('public.projects');
 Route::get('/projeto/{id}', [PublicAppController::class, 'showProject'])->name('public.project.show');
+Route::get('/contato', [PublicAppController::class, 'renderContactPage'])->name('public.contact.us');
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
 // Rotas de Autenticação

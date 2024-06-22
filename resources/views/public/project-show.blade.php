@@ -20,7 +20,7 @@
                 <h1 class="text-dark">{{ $project->title }}</h1>
             </div>
         </div>
-        <div class="row mb-4 info-row">
+        <div class="row m-5 info-row">
             <div class="col-md-6 info-cell technicals">
                 <h3>Ficha Técnica</h3>
                 <p><strong>Data:</strong> {{ $project->date }}</p>
