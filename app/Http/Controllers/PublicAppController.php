@@ -28,7 +28,7 @@ class PublicAppController extends Controller
     public function renderProjectsPage($categoryId = 1)
     {
         $title = 'Projetos | Gávio Arquitetura e Interiores';
-        $projects = Project::where('category_id', $categoryId)->paginate();
+        $projects = Project::where('category_id', $categoryId)->orderBy('id', 'desc')->paginate();
         $projectsList = $projects->toArray();
         $links = $projectsList['links'];
         $categories = Category::all();

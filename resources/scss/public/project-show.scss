@@ -1,5 +1,8 @@
 .project-show-container img {
     cursor: pointer;
+}
+
+.cover-image-container {
     box-shadow: 2px 2px 5px #333;
 }
 
@@ -36,8 +39,9 @@
 
 .img-container {
     overflow: hidden;
-    box-shadow: 2px 2px 5px #333;
+    // box-shadow: 1px 1px 3px #333;
 }
+
 
 .img-container img {
     transition: transform 0.3s ease;
@@ -45,6 +49,10 @@
 
 .img-container:hover img {
     transform: scale(1.1);
+}
+
+.project-img-list-item {
+    box-shadow: 2px 2px 5px #333;
 }
 
 @media (max-width: 768px) {
