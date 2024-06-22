@@ -18,10 +18,10 @@
         @if ($projects->hasPages())
             <div class="links-btn-container" style="height: 4rem">
                 @foreach ($links as $link)
-                <a href="{{ $link['url'] }}" class="btn mx-2 navlink {{ $link['active'] ? 'active' : '' }}">
-                    {!! $link['label'] !!}
-                </a>
-            @endforeach
+                    <a href="{{ $link['url'] }}" class="btn mx-2 navlink {{ $link['active'] ? 'active' : '' }}">
+                        {!! $link['label'] !!}
+                    </a>
+                @endforeach
             </div>
         @endif
 
@@ -35,7 +35,7 @@
                         <div class="card-body transparent-bg">
                             <h5 class="card-title">{{ $project->title }}</h5>
                             <p class="card-text">{{ Str::limit($project->description, 100) }}</p>
-                            <a href="#" class="btn">Ver mais</a>
+                            <a href="{{ route('public.project.show', $project->id) }}" class="btn">Ver mais</a>
                         </div>
                     </div>
                 </div>
