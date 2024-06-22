@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Project extends Model
 {
@@ -47,5 +48,10 @@ class Project extends Model
         } else {
             return asset('storage/projects/cover/no-image.jpg');
         }
+    }
+
+    public function getDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
     }
 }
