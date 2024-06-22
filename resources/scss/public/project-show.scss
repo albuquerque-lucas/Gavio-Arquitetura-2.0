@@ -1,5 +1,6 @@
 .project-show-container img {
     cursor: pointer;
+    box-shadow: 2px 2px 5px #333;
 }
 
 .info-cell {
@@ -15,6 +16,7 @@
         background-color: #333;
         color: white!important;
         padding: 0.25rem;
+        box-shadow: 1px 1px 3px #333;
     }
 }
 
@@ -27,13 +29,14 @@
 
 .cover-image {
     width: 100%;
-    max-width: 500px; /* Ajuste conforme necessário */
+    max-width: 600px;
     height: auto;
     object-fit: cover;
 }
 
 .img-container {
     overflow: hidden;
+    box-shadow: 2px 2px 5px #333;
 }
 
 .img-container img {

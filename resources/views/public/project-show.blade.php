@@ -23,10 +23,10 @@
         <div class="row mb-4 info-row">
             <div class="col-md-6 info-cell technicals">
                 <h3>Ficha Técnica</h3>
-                <p><strong>Data:</strong> {{ $project->formattedDate }}</p>
+                <p><strong>Data:</strong> {{ $project->date }}</p>
                 <p><strong>Localização:</strong> {{ $project->location }}</p>
                 <p><strong>Categoria:</strong> {{ $project->category->name }}</p>
-                <p><strong>Status:</strong> {{ $project->status ? 'Ativo' : 'Inativo' }}</p>
+                {{-- <p><strong>Status:</strong> {{ $project->status ? 'Ativo' : 'Inativo' }}</p> --}}
             </div>
             <div class="col-md-6 info-cell">
                 <h3 class="text-dark">Descrição</h3>
