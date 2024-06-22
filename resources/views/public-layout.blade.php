@@ -57,6 +57,8 @@
                 <p>2021 - Todos os direitos reservados.</p>
             </div>
         </div>
+
+        @if(!request()->routeIs('public.contact.us'))
         <div class="footer-content">
             <strong>Entre em contato conosco!</strong>
             @if(!empty($message))
@@ -76,8 +78,7 @@
                 <button type='submit' name='submit' class='btn'>Enviar</button>
             </form>
         </div>
-
-
+        @endif
     </footer>
 </body>
 </html>

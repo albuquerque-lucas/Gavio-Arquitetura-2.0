@@ -45,6 +45,7 @@ class PublicAppController extends Controller
 
     public function renderContactPage()
     {
-        return view('public.contact-us');
+        $title = 'Contate-nos | Gávio Arquitetura e Interiores';
+        return view('public.contact-us', compact('title'));
     }
 }
