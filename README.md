@@ -78,3 +78,25 @@ Para instalar e configurar o projeto localmente, siga os passos abaixo:
     ```bash
     npm run dev
 
+    ## Uso
+
+### Exibição de Projetos
+
+A aplicação permite visualizar uma lista de projetos de arquitetura com detalhes sobre cada um.
+
+### Carrossel de Imagens
+
+Exibe as imagens dos projetos em um carrossel interativo.
+
+### Formulário de Contato
+
+Permite aos usuários enviar mensagens através de um formulário de contato. As mensagens são enviadas por email de forma assíncrona utilizando filas.
+
+### Paginação
+
+A lista de projetos é paginada para facilitar a navegação.
+
+## Contribuição
+
+Se você deseja contribuir para este projeto, por favor, faça um fork do repositório, crie uma nova branch para sua feature ou correção de bug, faça suas alterações e envie um pull request.
+
