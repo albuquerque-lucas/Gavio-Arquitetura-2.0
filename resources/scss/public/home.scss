@@ -11,3 +11,17 @@
         }
     }
 }
+
+.carousel-caption {
+    position: absolute;
+    left: 0;
+    text-align: start;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.carousel-caption h5 {
+    color: #fff;
+    margin: 0;
+}
