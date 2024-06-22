@@ -4,6 +4,11 @@
 <section class="project-show-container">
     <div class="container mt-5">
         <div class="row mb-4">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <a href="{{ route('public.projects', $project->category->id) }}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+        <div class="row mb-4">
             <div class="col-12 d-flex justify-content-center">
                 <div class="cover-image-container">
                     <img src="{{ $project->coverUrl() }}" class="cover-image" alt="{{ $project->title }}" data-bs-toggle="modal" data-bs-target="#coverImageModal">
@@ -18,7 +23,7 @@
         <div class="row mb-4 info-row">
             <div class="col-md-6 info-cell technicals">
                 <h3>Ficha Técnica</h3>
-                <p><strong>Data:</strong> {{ $project->date }}</p>
+                <p><strong>Data:</strong> {{ $project->formattedDate }}</p>
                 <p><strong>Localização:</strong> {{ $project->location }}</p>
                 <p><strong>Categoria:</strong> {{ $project->category->name }}</p>
                 <p><strong>Status:</strong> {{ $project->status ? 'Ativo' : 'Inativo' }}</p>
