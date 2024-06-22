@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Category;
 
 class PublicAppController extends Controller
 {
@@ -23,4 +24,17 @@ class PublicAppController extends Controller
 
         return view('public.institutional-page', compact('title', 'profiles'));
     }
+
+    public function renderProjectsPage($categoryId = 1)
+    {
+        $title = 'Projetos | Gávio Arquitetura e Interiores';
+        $projects = Project::where('category_id', $categoryId)->paginate();
+        $projectsList = $projects->toArray();
+        $links = $projectsList['links'];
+        $categories = Category::all();
+
+        return view('public.projects-page', compact('title', 'projects', 'categories', 'categoryId', 'links'));
+    }
+
+
 }
