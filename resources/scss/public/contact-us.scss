@@ -1,0 +1,6 @@
+.contact-form-container textarea:focus,
+.contact-form-container input:not(:placeholder-shown),
+.contact-form-container textarea:not(:placeholder-shown) {
+    background-color: white;
+    color: black;
+}
