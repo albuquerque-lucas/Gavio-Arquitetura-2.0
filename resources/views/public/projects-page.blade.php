@@ -8,9 +8,9 @@
         </div>
 
         <div class="btn-group mb-4 category-btn-container" role="group" aria-label="Categorias">
-            @foreach ($categories as $category)
-                <a href="{{ route('public.projects', $category->id) }}" class="category-btns {{ $categoryId == $category->id ? 'active' : '' }}">
-                    {{ $category->name }}
+            @foreach ($categories as $categoryItem)
+                <a href="{{ route('public.projects', $categoryItem->slug) }}" class="category-btns {{ $category->id == $categoryItem->id ? 'active' : '' }}">
+                    {{ $categoryItem->name }}
                 </a>
             @endforeach
         </div>
