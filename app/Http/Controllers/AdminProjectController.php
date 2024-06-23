@@ -91,7 +91,7 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'nullable|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg',
                 'location' => 'nullable|string|max:255',
                 'category_id' => 'nullable|exists:categories,id',
                 'status' => 'nullable|boolean',
