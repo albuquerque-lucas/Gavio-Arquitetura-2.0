@@ -179,7 +179,7 @@ class AdminProjectController extends Controller
             $project = Project::findOrFail($id);
 
             $request->validate([
-                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg',
             ]);
 
             if ($request->hasFile('images')) {
