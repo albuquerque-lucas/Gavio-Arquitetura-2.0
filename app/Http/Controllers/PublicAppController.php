@@ -40,13 +40,12 @@ class PublicAppController extends Controller
     }
 
 
-    public function showProject($id)
+    public function showProject($slug)
     {
-        $project = Project::findOrFail($id);
-        $title = $project->title;
+        $project = Project::where('slug', $slug)->firstOrFail();
+        $title = "$project->title | Gávio Arquitetura e Interiores";
         return view('public.project-show', compact('project', 'title'));
     }
-
     public function renderContactPage()
     {
         $title = 'Contate-nos | Gávio Arquitetura e Interiores';

@@ -35,7 +35,7 @@
                         <div class="card-body transparent-bg">
                             <h5 class="card-title">{{ $project->title }}</h5>
                             <p class="card-text">{{ Str::limit($project->description, 100) }}</p>
-                            <a href="{{ route('public.project.show', $project->id) }}" class="btn">Ver mais</a>
+                            <a href="{{ route('public.project.show', $project->slug) }}" class="btn">Ver mais</a>
                         </div>
                     </div>
                 </div>
