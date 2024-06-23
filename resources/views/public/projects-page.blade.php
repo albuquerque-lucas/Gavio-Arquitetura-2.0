@@ -8,9 +8,9 @@
         </div>
 
         <div class="btn-group mb-4 category-btn-container" role="group" aria-label="Categorias">
-            @foreach ($categories as $category)
-                <a href="{{ route('public.projects', $category->id) }}" class="category-btns {{ $categoryId == $category->id ? 'active' : '' }}">
-                    {{ $category->name }}
+            @foreach ($categories as $categoryItem)
+                <a href="{{ route('public.projects', $categoryItem->slug) }}" class="category-btns {{ $category->id == $categoryItem->id ? 'active' : '' }}">
+                    {{ $categoryItem->name }}
                 </a>
             @endforeach
         </div>
@@ -35,7 +35,7 @@
                         <div class="card-body transparent-bg">
                             <h5 class="card-title">{{ $project->title }}</h5>
                             <p class="card-text">{{ Str::limit($project->description, 100) }}</p>
-                            <a href="{{ route('public.project.show', $project->id) }}" class="btn">Ver mais</a>
+                            <a href="{{ route('public.project.show', $project->slug) }}" class="btn">Ver mais</a>
                         </div>
                     </div>
                 </div>

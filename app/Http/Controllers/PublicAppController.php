@@ -25,24 +25,27 @@ class PublicAppController extends Controller
         return view('public.institutional-page', compact('title', 'profiles'));
     }
 
-    public function renderProjectsPage($categoryId = 1)
+    public function renderProjectsPage($slug = 'residencial')
     {
         $title = 'Projetos | Gávio Arquitetura e Interiores';
-        $projects = Project::where('category_id', $categoryId)->orderBy('id', 'desc')->paginate();
+
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        $projects = Project::where('category_id', $category->id)->orderBy('id', 'desc')->paginate();
         $projectsList = $projects->toArray();
         $links = $projectsList['links'];
         $categories = Category::all();
 
-        return view('public.projects-page', compact('title', 'projects', 'categories', 'categoryId', 'links'));
+        return view('public.projects-page', compact('title', 'projects', 'categories', 'category', 'links'));
     }
 
-    public function showProject($id)
+
+    public function showProject($slug)
     {
-        $project = Project::findOrFail($id);
-        $title = $project->title;
+        $project = Project::where('slug', $slug)->firstOrFail();
+        $title = "$project->title | Gávio Arquitetura e Interiores";
         return view('public.project-show', compact('project', 'title'));
     }
-
     public function renderContactPage()
     {
         $title = 'Contate-nos | Gávio Arquitetura e Interiores';

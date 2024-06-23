@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,6 +18,7 @@ class Project extends Model
         'category_id',
         'title',
         'description',
+        'slug',
         'date',
         'location',
         'status',
@@ -25,6 +27,17 @@ class Project extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($project) {
+            if (empty($project->slug)) {
+                $project->slug = Str::slug($project->title);
+            }
+        });
+    }
 
     public function cover(): HasOne
     {

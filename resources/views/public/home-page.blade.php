@@ -12,7 +12,7 @@
         <div class="carousel-inner">
             @foreach($projects as $index => $project)
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <a href="{{ route('public.project.show', $project->id) }}">
+                    <a href="{{ route('public.project.show', $project->slug) }}">
                         <img src="{{ $project->coverUrl() }}" class="d-block w-100" alt="{{ $project->title }}">
                         <div class="carousel-caption d-none d-md-block">
                             <h4>{{ $project->title }}</h4>
