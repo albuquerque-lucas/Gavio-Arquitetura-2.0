@@ -52,7 +52,16 @@ class AdminProjectController extends Controller
 
             if ($request->hasFile('cover')) {
                 $file = $request->file('cover');
-                $imagePath = $file->store('projects/cover', 'public');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $path = public_path('storage/projects/cover/' . $filename);
+
+                // Carregar a imagem sem alterar suas dimensões
+                $img = Image::make($file->getRealPath());
+
+                // Salvar a imagem com compressão para reduzir o tamanho do arquivo
+                $img->save($path, 75); // Ajuste a qualidade conforme necessário, valores menores reduzem mais o tamanho
+
+                $imagePath = 'projects/cover/' . $filename;
                 Cover::create([
                     'path' => '/storage/' . $imagePath,
                     'file_name' => $file->getClientOriginalName(),
@@ -117,7 +126,7 @@ class AdminProjectController extends Controller
                 }
 
                 $file = $request->file('cover');
-                $imagePath = $file->store('projects/covers', 'public');
+                $imagePath = $file->store('projects/cover', 'public');
                 Cover::create([
                     'path' => '/storage/' . $imagePath,
                     'file_name' => $file->getClientOriginalName(),
