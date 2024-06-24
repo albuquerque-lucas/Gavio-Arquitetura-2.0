@@ -31,7 +31,7 @@ class PublicAppController extends Controller
 
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        $projects = Project::where('category_id', $category->id)->orderBy('id', 'desc')->paginate();
+        $projects = Project::where('category_id', $category->id)->orderBy('order', 'desc')->paginate();
         $projectsList = $projects->toArray();
         $links = $projectsList['links'];
         $categories = Category::all();
