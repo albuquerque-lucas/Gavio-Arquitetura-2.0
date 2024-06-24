@@ -1,7 +1,7 @@
 @extends('admin-layout')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-5 project-list-page">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="text-white my-3">Projetos</h1>
             <div>
