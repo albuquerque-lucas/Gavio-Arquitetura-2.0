@@ -19,12 +19,24 @@ class AdminProjectController extends Controller
 {
     use ProcessesImages;
 
-    public function index()
+    public function index(Request $request)
     {
-        $projectsResult = Project::orderBy('id', 'desc')->paginate();
+        $search = $request->input('search');
+        $order = $request->input('order', 'desc'); // Default to descending order
+
+        $projectsQuery = Project::query();
+
+        if ($search) {
+            $projectsQuery->where('title', 'LIKE', "%{$search}%");
+        }
+
+        $projectsQuery->orderBy('id', $order);
+
+        $projectsResult = $projectsQuery->paginate();
         $projectsResultList = $projectsResult->toArray();
         $links = $projectsResultList['links'];
         $projects = $projectsResult->items();
+
         return view('admin-projects.project-list', compact('projects', 'links'));
     }
 

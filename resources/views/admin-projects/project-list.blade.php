@@ -1,15 +1,20 @@
 @extends('admin-layout')
 
-{{-- @section('extra-css')
-    @vite('resources/scss/admin/project-list.scss')
-@endsection --}}
-
 @section('content')
     <div class="container mt-5">
-        <div>
+        <div class="d-flex justify-content-between align-items-center">
             <h1 class="text-white my-3">Projetos</h1>
-            <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary my-3">Novo Projeto</a>
-            <button id="deleteSelected" class="btn btn-danger my-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+            <div>
+                <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
+                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto">
+                    <select name="order" class="form-select d-inline w-auto">
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
+                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
+                <button id="deleteSelected" class="btn btn-danger ml-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+            </div>
         </div>
 
         @if (session('success'))
@@ -97,7 +102,6 @@
             const selectAll = document.getElementById('selectAll');
             const checkboxes = document.querySelectorAll('.project-checkbox');
             const deleteSelectedButton = document.getElementById('deleteSelected');
-            const bulkDeleteForm = document.getElementById('bulk-delete-form');
             const selectedProjectsInput = document.getElementById('selected_projects');
             let selectedProjects = [];
 
