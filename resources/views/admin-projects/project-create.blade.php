@@ -1,12 +1,7 @@
 @extends('admin-layout')
 
-
-{{-- @section('extra-css')
-    @vite('resources/scss/admin/project-create.scss')
-@endsection --}}
-
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div>
             <h1 class="text-white my-3">Novo Projeto</h1>
             <button onclick="window.location.href='{{ route('admin.projetos.index') }}'" class="btn btn-secondary my-3">Voltar</button>
@@ -55,7 +50,7 @@
                 <label for="category_id" class="form-label text-white">Categoria</label>
                 <select class="form-control" id="category_id" name="category_id" required>
                     @foreach ($categories as $category)
-                        <option value={{ $category->id }}>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -65,6 +60,14 @@
                     <option value="1">Ativo</option>
                     <option value="0">Inativo</option>
                 </select>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label text-white">Descrição</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="year" class="form-label text-white">Ano</label>
+                <input type="number" class="form-control" id="year" name="year" min="1900" max="{{ date('Y') }}">
             </div>
             <button type="submit" class="btn btn-primary">Criar Projeto</button>
             <button type="button" class="btn btn-secondary" onclick="document.getElementById('projectForm').reset();">Limpar</button>

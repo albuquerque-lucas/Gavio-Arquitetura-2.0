@@ -22,9 +22,9 @@ class AdminProjectController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $order = $request->input('order', 'desc');
-        $sortBy = $request->input('sort_by', 'id');
-        $categoryId = $request->input('category_id');
+        $order = $request->input('order', 'desc'); // Default to descending order
+        $sortBy = $request->input('sort_by', 'id'); // Default to sort by ID
+        $categoryId = $request->input('category_id'); // Category filter
 
         $projectsQuery = Project::query();
 
@@ -38,14 +38,11 @@ class AdminProjectController extends Controller
 
         $projectsQuery->orderBy($sortBy, $order);
 
-        $projectsResult = $projectsQuery->paginate();
-        $projectsResultList = $projectsResult->toArray();
-        $links = $projectsResultList['links'];
-        $projects = $projectsResult->items();
+        $projects = $projectsQuery->paginate();
 
         $categories = Category::all(); // Fetch categories for the filter
 
-        return view('admin-projects.project-list', compact('projects', 'links', 'categories'));
+        return view('admin-projects.project-list', compact('projects', 'categories'));
     }
 
     public function create()

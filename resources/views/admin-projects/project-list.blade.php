@@ -6,28 +6,29 @@
             <h1 class="text-white my-3">Projetos</h1>
             <div>
                 <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
-                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto">
+                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto btn-spacing">
 
-                    <select name="category_id" class="form-select d-inline w-auto">
+                    <select name="category_id" class="form-select d-inline w-auto btn-spacing">
                         <option value="">Todos</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
 
-                    <select name="sort_by" class="form-select d-inline w-auto">
+                    <select name="sort_by" class="form-select d-inline w-auto btn-spacing">
                         <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
                         <option value="order" {{ request('sort_by') == 'order' ? 'selected' : '' }}>Ordem</option>
                     </select>
 
-                    <select name="order" class="form-select d-inline w-auto">
+                    <select name="order" class="form-select d-inline w-auto btn-spacing">
                         <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
                         <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
                     </select>
 
-                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <button type="submit" class="btn btn-primary btn-spacing">Filtrar</button>
                 </form>
-                <button id="deleteSelected" class="btn btn-danger ml-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+                <button id="deleteSelected" class="btn btn-danger btn-spacing" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+                <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary btn-spacing">Novo Projeto</a>
             </div>
         </div>
 
@@ -46,11 +47,7 @@
         @endif
 
         <div class="my-5 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
-            @foreach ($links as $link)
-                <a href="{{ $link['url'] }}" class="btn btn-secondary mx-2 navlink {{ $link['active'] ? 'active' : '' }}">
-                    {!! $link['label'] !!}
-                </a>
-            @endforeach
+            {{ $projects->appends(request()->query())->links('pagination::bootstrap-4') }}
         </div>
 
         <table class="table table-dark table-hover">
@@ -106,10 +103,10 @@
                             </form>
                         </td>
                         <td>
-                            <a href="{{ route('admin.projetos.edit', $project->id) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('admin.projetos.edit', $project->id) }}" class="btn btn-primary btn-sm btn-spacing">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger btn-sm delete-button" data-project-id="{{ $project->id }}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                            <button class="btn btn-danger btn-sm btn-spacing delete-button" data-project-id="{{ $project->id }}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
