@@ -7,12 +7,18 @@ use App\Models\Project;
 use App\Models\ProjectImage;
 use App\Models\Cover;
 use App\Models\Category;
+use App\ProcessesImages;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Exception;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class AdminProjectController extends Controller
 {
+    use ProcessesImages;
+
     public function index()
     {
         $projectsResult = Project::orderBy('id', 'desc')->paginate();
@@ -33,7 +39,7 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
                 'location' => 'required|string|max:255',
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'required|boolean',
@@ -52,7 +58,13 @@ class AdminProjectController extends Controller
 
             if ($request->hasFile('cover')) {
                 $file = $request->file('cover');
-                $imagePath = $file->store('projects/cover', 'public');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $path = public_path('storage/projects/cover/' . $filename);
+
+                $this->processImage($file, $path);
+
+                $imagePath = 'projects/cover/' . $filename;
+
                 Cover::create([
                     'path' => '/storage/' . $imagePath,
                     'file_name' => $file->getClientOriginalName(),
@@ -112,12 +124,18 @@ class AdminProjectController extends Controller
 
             if ($request->hasFile('cover')) {
                 if ($project->cover) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->url));
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
                     $project->cover->delete();
                 }
 
                 $file = $request->file('cover');
-                $imagePath = $file->store('projects/covers', 'public');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $path = public_path('storage/projects/cover/' . $filename);
+
+                $this->processImage($file, $path);
+
+                $imagePath = 'projects/cover/' . $filename;
+
                 Cover::create([
                     'path' => '/storage/' . $imagePath,
                     'file_name' => $file->getClientOriginalName(),
@@ -140,7 +158,44 @@ class AdminProjectController extends Controller
         }
     }
 
+    public function addImage(Request $request, $id)
+    {
+        try {
+            $project = Project::findOrFail($id);
 
+            $request->validate([
+                'images.*' => 'required|image|mimes:jpeg,png,jpg',
+            ]);
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+                    $path = public_path('storage/projects/images/' . $filename);
+
+                    $this->processImage($file, $path);
+
+                    $imagePath = 'projects/images/' . $filename;
+
+                    ProjectImage::create([
+                        'path' => '/storage/' . $imagePath,
+                        'file_name' => $file->getClientOriginalName(),
+                        'project_id' => $project->id,
+                    ]);
+                }
+            }
+
+            return redirect()->route('admin.projetos.edit', $project->id)->with('success', 'Imagens adicionadas com sucesso!');
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Ocorreu um erro ao adicionar as imagens: ' . $e->getMessage());
+        }
+    }
 
     public function destroy($id)
     {
@@ -148,8 +203,13 @@ class AdminProjectController extends Controller
             $project = Project::findOrFail($id);
 
             if ($project->cover) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->url));
+                Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
                 $project->cover->delete();
+            }
+
+            foreach ($project->images as $image) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
+                $image->delete();
             }
 
             $project->delete();
@@ -170,40 +230,6 @@ class AdminProjectController extends Controller
             return redirect()->route('admin.projetos.index')->with('success', 'Status do projeto atualizado com sucesso!');
         } catch (Exception $e) {
             return redirect()->route('admin.projetos.index')->with('error', 'Erro ao atualizar o status do projeto: ' . $e->getMessage());
-        }
-    }
-
-    public function addImage(Request $request, $id)
-    {
-        try {
-            $project = Project::findOrFail($id);
-
-            $request->validate([
-                'images.*' => 'required|image|mimes:jpeg,png,jpg',
-            ]);
-
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $file) {
-                    $imagePath = $file->store('projects/images', 'public');
-
-                    ProjectImage::create([
-                        'path' => '/storage/' . $imagePath,
-                        'file_name' => $file->getClientOriginalName(),
-                        'project_id' => $project->id,
-                    ]);
-                }
-            }
-
-            return redirect()->route('admin.projetos.edit', $project->id)->with('success', 'Imagens adicionadas com sucesso!');
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Ocorreu um erro ao adicionar as imagens: ' . $e->getMessage());
         }
     }
 
