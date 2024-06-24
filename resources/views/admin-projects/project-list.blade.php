@@ -1,12 +1,12 @@
 @extends('admin-layout')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-5 project-list-page">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="text-white my-3">Projetos</h1>
             <div>
                 <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
-                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto">
+                    <input type="text" name="search" placeholder="Pesquisar por nome..." value="{{ request('search') }}" class="form-control d-inline w-auto">
 
                     <select name="category_id" class="form-select d-inline w-auto">
                         <option value="">Todos</option>
