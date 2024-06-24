@@ -13,7 +13,6 @@ trait ProcessesImages
         $manager = new ImageManager(new Driver());
         $img = $manager->read($file);
         $img->resize(1024, 768);
-        // Verificar a extensão do arquivo e converter para JPG se for PNG
         if ($file->getClientOriginalExtension() === 'png') {
             $encoded = $img->toJpeg(65);
             $encoded->save($path, 90);

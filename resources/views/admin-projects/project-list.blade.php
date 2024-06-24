@@ -9,6 +9,7 @@
         <div>
             <h1 class="text-white my-3">Projetos</h1>
             <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary my-3">Novo Projeto</a>
+            <button id="deleteSelected" class="btn btn-danger my-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
         </div>
 
         @if (session('success'))
@@ -32,9 +33,11 @@
                 </a>
             @endforeach
         </div>
+
         <table class="table table-dark table-hover">
             <thead>
                 <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll"></th>
                     <th scope="col">#</th>
                     <th scope="col">Título</th>
                     <th scope="col">Capa</th>
@@ -46,7 +49,8 @@
             </thead>
             <tbody>
                 @foreach ($projects as $project)
-                    <tr style="cursor: pointer;">
+                    <tr>
+                        <td><input type="checkbox" name="selected_projects[]" value="{{ $project->id }}" class="project-checkbox"></td>
                         <th scope="row">{{ $project->id }}</th>
                         <td>{{ $project->title ?? 'Título não encontrado' }}</td>
                         <td>
@@ -59,6 +63,7 @@
                         <td>{{ $project->location ?? 'Localização não encontrada' }}</td>
                         <td>{{ $project->category->name ?? 'Categoria não encontrada' }}</td>
                         <td>
+                            <!-- Formulário de atualização de status separado -->
                             <form action="{{ route('admin.projetos.toggleCarousel', $project->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PATCH')
@@ -85,4 +90,47 @@
         </table>
     </div>
     @include('components.confirm-delete-modal')
+    @include('components.confirm-bulk-delete-project-modal')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.project-checkbox');
+            const deleteSelectedButton = document.getElementById('deleteSelected');
+            const bulkDeleteForm = document.getElementById('bulk-delete-form');
+            const selectedProjectsInput = document.getElementById('selected_projects');
+            let selectedProjects = [];
+
+            selectAll.addEventListener('change', function () {
+                selectedProjects = [];
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectAll.checked;
+                    if (selectAll.checked) {
+                        selectedProjects.push(checkbox.value);
+                    }
+                });
+                toggleDeleteButton();
+            });
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    if (checkbox.checked) {
+                        selectedProjects.push(checkbox.value);
+                    } else {
+                        selectedProjects = selectedProjects.filter(id => id !== checkbox.value);
+                    }
+                    toggleDeleteButton();
+                });
+            });
+
+            function toggleDeleteButton() {
+                const anyChecked = selectedProjects.length > 0;
+                deleteSelectedButton.disabled = !anyChecked;
+            }
+
+            deleteSelectedButton.addEventListener('click', function () {
+                selectedProjectsInput.value = JSON.stringify(selectedProjects);
+            });
+        });
+    </script>
 @endsection
