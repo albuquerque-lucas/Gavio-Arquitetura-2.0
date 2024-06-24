@@ -1,14 +1,34 @@
 @extends('admin-layout')
 
-{{-- @section('extra-css')
-    @vite('resources/scss/admin/project-list.scss')
-@endsection --}}
-
 @section('content')
     <div class="container mt-5">
-        <div>
+        <div class="d-flex justify-content-between align-items-center">
             <h1 class="text-white my-3">Projetos</h1>
-            <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary my-3">Novo Projeto</a>
+            <div>
+                <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
+                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto">
+
+                    <select name="category_id" class="form-select d-inline w-auto">
+                        <option value="">Todos</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <select name="sort_by" class="form-select d-inline w-auto">
+                        <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
+                        <option value="order" {{ request('sort_by') == 'order' ? 'selected' : '' }}>Ordem</option>
+                    </select>
+
+                    <select name="order" class="form-select d-inline w-auto">
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
+                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
+                <button id="deleteSelected" class="btn btn-danger ml-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+            </div>
         </div>
 
         @if (session('success'))
@@ -32,21 +52,25 @@
                 </a>
             @endforeach
         </div>
+
         <table class="table table-dark table-hover">
             <thead>
                 <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll"></th>
                     <th scope="col">#</th>
                     <th scope="col">Título</th>
                     <th scope="col">Capa</th>
                     <th scope="col">Localização</th>
                     <th scope="col">Categoria</th>
+                    <th scope="col">Ordem</th>
                     <th scope="col">Status</th>
                     <th scope="col">Editar / Excluir</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($projects as $project)
-                    <tr style="cursor: pointer;">
+                    <tr>
+                        <td><input type="checkbox" name="selected_projects[]" value="{{ $project->id }}" class="project-checkbox"></td>
                         <th scope="row">{{ $project->id }}</th>
                         <td>{{ $project->title ?? 'Título não encontrado' }}</td>
                         <td>
@@ -58,6 +82,16 @@
                         </td>
                         <td>{{ $project->location ?? 'Localização não encontrada' }}</td>
                         <td>{{ $project->category->name ?? 'Categoria não encontrada' }}</td>
+                        <td>
+                            <form action="{{ route('admin.projetos.updateOrder', $project->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <input type="number" name="order" value="{{ $project->order }}" class="form-control d-inline w-auto">
+                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </form>
+                        </td>
                         <td>
                             <form action="{{ route('admin.projetos.toggleCarousel', $project->id) }}" method="POST" class="d-inline">
                                 @csrf
@@ -85,4 +119,46 @@
         </table>
     </div>
     @include('components.confirm-delete-modal')
+    @include('components.confirm-bulk-delete-project-modal')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.project-checkbox');
+            const deleteSelectedButton = document.getElementById('deleteSelected');
+            const selectedProjectsInput = document.getElementById('selected_projects');
+            let selectedProjects = [];
+
+            selectAll.addEventListener('change', function () {
+                selectedProjects = [];
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectAll.checked;
+                    if (selectAll.checked) {
+                        selectedProjects.push(checkbox.value);
+                    }
+                });
+                toggleDeleteButton();
+            });
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    if (checkbox.checked) {
+                        selectedProjects.push(checkbox.value);
+                    } else {
+                        selectedProjects = selectedProjects.filter(id => id !== checkbox.value);
+                    }
+                    toggleDeleteButton();
+                });
+            });
+
+            function toggleDeleteButton() {
+                const anyChecked = selectedProjects.length > 0;
+                deleteSelectedButton.disabled = !anyChecked;
+            }
+
+            deleteSelectedButton.addEventListener('click', function () {
+                selectedProjectsInput.value = JSON.stringify(selectedProjects);
+            });
+        });
+    </script>
 @endsection

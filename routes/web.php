@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     ]);
 
     // Rotas para Projetos
+    Route::delete('/admin/projetos/bulk-delete', [AdminProjectController::class, 'bulkDelete'])->name('admin.projetos.bulkDelete');
     Route::resource('/admin/projetos', AdminProjectController::class)->names([
         'index' => 'admin.projetos.index',
         'create' => 'admin.projetos.create',
@@ -52,14 +53,10 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'admin.projetos.destroy',
     ]);
 
-    Route::patch('/admin/projetos/{id}/toggleCarousel', [AdminProjectController::class, 'toggleCarousel'])
-        ->name('admin.projetos.toggleCarousel');
-
-    Route::post('/admin/projetos/{id}/add-image', [AdminProjectController::class, 'addImage'])
-        ->name('admin.projetos.addImage');
-
-    Route::delete('/admin/projetos/{projectId}/delete-image/{imageId}', [AdminProjectController::class, 'deleteImage'])
-        ->name('admin.projetos.deleteImage');
+    Route::patch('/admin/projetos/{id}/order', [AdminProjectController::class, 'updateOrder'])->name('admin.projetos.updateOrder');
+    Route::patch('/admin/projetos/{id}/toggleCarousel', [AdminProjectController::class, 'toggleCarousel'])->name('admin.projetos.toggleCarousel');
+    Route::post('/admin/projetos/{id}/add-image', [AdminProjectController::class, 'addImage'])->name('admin.projetos.addImage');
+    Route::delete('/admin/projetos/{projectId}/delete-image/{imageId}', [AdminProjectController::class, 'deleteImage'])->name('admin.projetos.deleteImage');
 
     // Rotas para Categorias
     Route::resource('/admin/categories', AdminCategoryController::class)->names([

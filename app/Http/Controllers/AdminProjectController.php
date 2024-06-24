@@ -19,13 +19,33 @@ class AdminProjectController extends Controller
 {
     use ProcessesImages;
 
-    public function index()
+    public function index(Request $request)
     {
-        $projectsResult = Project::orderBy('id', 'desc')->paginate();
+        $search = $request->input('search');
+        $order = $request->input('order', 'desc');
+        $sortBy = $request->input('sort_by', 'id');
+        $categoryId = $request->input('category_id');
+
+        $projectsQuery = Project::query();
+
+        if ($search) {
+            $projectsQuery->where('title', 'LIKE', "%{$search}%");
+        }
+
+        if ($categoryId) {
+            $projectsQuery->where('category_id', $categoryId);
+        }
+
+        $projectsQuery->orderBy($sortBy, $order);
+
+        $projectsResult = $projectsQuery->paginate();
         $projectsResultList = $projectsResult->toArray();
         $links = $projectsResultList['links'];
         $projects = $projectsResult->items();
-        return view('admin-projects.project-list', compact('projects', 'links'));
+
+        $categories = Category::all(); // Fetch categories for the filter
+
+        return view('admin-projects.project-list', compact('projects', 'links', 'categories'));
     }
 
     public function create()
@@ -44,8 +64,10 @@ class AdminProjectController extends Controller
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'required|boolean',
                 'description' => 'nullable|string',
-                'date' => 'nullable|date',
+                'year' => 'nullable|integer',
             ]);
+
+            $maxOrder = Project::where('category_id', $request->category_id)->max('order');
 
             $project = Project::create([
                 'title' => $request->title,
@@ -53,15 +75,19 @@ class AdminProjectController extends Controller
                 'category_id' => $request->category_id,
                 'status' => (bool)$request->status,
                 'description' => $request->description,
-                'date' => $request->date,
+                'year' => $request->year,
+                'order' => $maxOrder + 1, // Define a ordem relativa à categoria
             ]);
 
             if ($request->hasFile('cover')) {
+                $manager = new ImageManager(new Driver());
                 $file = $request->file('cover');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $path = public_path('storage/projects/cover/' . $filename);
 
-                $this->processImage($file, $path);
+                $img = $manager->read($file);
+                $img->resize(1024, 768);
+                $img->save($path, 60);
 
                 $imagePath = 'projects/cover/' . $filename;
 
@@ -247,4 +273,50 @@ class AdminProjectController extends Controller
             return redirect()->route('admin.projetos.edit', $project->id)->with('error', 'Ocorreu um erro ao excluir a imagem: ' . $e->getMessage());
         }
     }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = json_decode($request->input('selected_projects', '[]'));
+
+        if (empty($ids)) {
+            return redirect()->route('admin.projetos.index')->with('error', 'Nenhum projeto foi selecionado para exclusão.');
+        }
+
+        \DB::transaction(function () use ($ids) {
+            Project::whereIn('id', $ids)->each(function ($project) {
+                if ($project->cover) {
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
+                    $project->cover->delete();
+                }
+
+                foreach ($project->images as $image) {
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
+                    $image->delete();
+                }
+
+                $project->delete();
+            });
+        });
+
+        return redirect()->route('admin.projetos.index')->with('success', 'Projetos selecionados foram excluídos com sucesso!');
+    }
+
+    public function updateOrder(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+        $newOrder = $request->input('order');
+
+        $otherProject = Project::where('category_id', $project->category_id)
+            ->where('order', $newOrder)
+            ->first();
+
+        if ($otherProject) {
+            $otherProject->update(['order' => $project->order]);
+        }
+
+        $project->update(['order' => $newOrder]);
+
+        return redirect()->route('admin.projetos.index')->with('success', 'Ordem do projeto atualizada com sucesso!');
+    }
+
 }
