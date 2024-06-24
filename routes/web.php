@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'admin.projetos.destroy',
     ]);
 
+    Route::patch('/admin/projetos/{id}/order', [AdminProjectController::class, 'updateOrder'])->name('admin.projetos.updateOrder');
     Route::patch('/admin/projetos/{id}/toggleCarousel', [AdminProjectController::class, 'toggleCarousel'])->name('admin.projetos.toggleCarousel');
     Route::post('/admin/projetos/{id}/add-image', [AdminProjectController::class, 'addImage'])->name('admin.projetos.addImage');
     Route::delete('/admin/projetos/{projectId}/delete-image/{imageId}', [AdminProjectController::class, 'deleteImage'])->name('admin.projetos.deleteImage');

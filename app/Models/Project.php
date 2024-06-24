@@ -19,9 +19,10 @@ class Project extends Model
         'title',
         'description',
         'slug',
-        'date',
+        'year',
         'location',
         'status',
+        'order',
     ];
 
     protected $casts = [
@@ -61,10 +62,5 @@ class Project extends Model
         } else {
             return asset('storage/projects/cover/no-image.jpg');
         }
-    }
-
-    public function getDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y');
     }
 }

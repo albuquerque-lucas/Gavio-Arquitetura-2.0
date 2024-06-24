@@ -64,7 +64,7 @@
                 <p class="text-white">{{ $project->description }}</p>
 
                 <h5 class="text-white">Data:</h5>
-                <p class="text-white">{{ $project->date }}</p>
+                <p class="text-white">{{ $project->year }}</p>
 
                 @if ($project->cover)
                     <h5 class="text-white">Capa:</h5>
@@ -157,7 +157,7 @@
 
                     <div class="mb-3">
                         <label for="date" class="form-label text-white">Data</label>
-                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date', $project->date) }}">
+                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date', $project->year) }}">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Atualizar Projeto</button>

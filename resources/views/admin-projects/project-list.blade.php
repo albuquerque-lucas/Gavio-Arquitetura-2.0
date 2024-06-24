@@ -7,10 +7,24 @@
             <div>
                 <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
                     <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto">
+
+                    <select name="category_id" class="form-select d-inline w-auto">
+                        <option value="">Todos</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <select name="sort_by" class="form-select d-inline w-auto">
+                        <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
+                        <option value="order" {{ request('sort_by') == 'order' ? 'selected' : '' }}>Ordem</option>
+                    </select>
+
                     <select name="order" class="form-select d-inline w-auto">
                         <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
                         <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
                     </select>
+
                     <button type="submit" class="btn btn-primary">Filtrar</button>
                 </form>
                 <button id="deleteSelected" class="btn btn-danger ml-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
@@ -48,6 +62,7 @@
                     <th scope="col">Capa</th>
                     <th scope="col">Localização</th>
                     <th scope="col">Categoria</th>
+                    <th scope="col">Ordem</th>
                     <th scope="col">Status</th>
                     <th scope="col">Editar / Excluir</th>
                 </tr>
@@ -68,7 +83,16 @@
                         <td>{{ $project->location ?? 'Localização não encontrada' }}</td>
                         <td>{{ $project->category->name ?? 'Categoria não encontrada' }}</td>
                         <td>
-                            <!-- Formulário de atualização de status separado -->
+                            <form action="{{ route('admin.projetos.updateOrder', $project->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <input type="number" name="order" value="{{ $project->order }}" class="form-control d-inline w-auto">
+                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
                             <form action="{{ route('admin.projetos.toggleCarousel', $project->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PATCH')

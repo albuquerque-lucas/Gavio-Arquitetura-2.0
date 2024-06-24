@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('location')->nullable();
-            $table->date('date')->nullable();
+            $table->integer('year')->nullable();
             $table->boolean('status')->default(false);
 
             $table->timestamps();
