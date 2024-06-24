@@ -8,8 +8,11 @@ use App\Models\ProjectImage;
 use App\Models\Cover;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Exception;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class AdminProjectController extends Controller
 {
@@ -33,7 +36,7 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
                 'location' => 'required|string|max:255',
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'required|boolean',
@@ -51,17 +54,17 @@ class AdminProjectController extends Controller
             ]);
 
             if ($request->hasFile('cover')) {
+                $manager = new ImageManager(new Driver());
                 $file = $request->file('cover');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $path = public_path('storage/projects/cover/' . $filename);
 
-                // Carregar a imagem sem alterar suas dimensões
-                $img = Image::make($file->getRealPath());
-
-                // Salvar a imagem com compressão para reduzir o tamanho do arquivo
-                $img->save($path, 75); // Ajuste a qualidade conforme necessário, valores menores reduzem mais o tamanho
+                $img = $manager->read($file);
+                $img->resize(1024, 768);
+                $img->save($path, 60);
 
                 $imagePath = 'projects/cover/' . $filename;
+
                 Cover::create([
                     'path' => '/storage/' . $imagePath,
                     'file_name' => $file->getClientOriginalName(),
@@ -71,6 +74,7 @@ class AdminProjectController extends Controller
 
             return redirect()->route('admin.projetos.index')->with('success', 'Projeto criado com sucesso!');
         } catch (ValidationException $e) {
+            // Log::error('Validation Exception: ' . $e->getMessage(), ['errors' => $e->errors()]);
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
@@ -157,7 +161,7 @@ class AdminProjectController extends Controller
             $project = Project::findOrFail($id);
 
             if ($project->cover) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->url));
+                Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
                 $project->cover->delete();
             }
 
