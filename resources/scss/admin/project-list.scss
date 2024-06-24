@@ -23,3 +23,26 @@
     background-color: #007bff!important;
     font-weight: 700;
 }
+
+
+.btn-spacing {
+    margin-right: 0.5rem;
+}
+
+.pagination .page-item .page-link {
+    color: #ffffff; /* Cor do texto */
+    background-color: #6c757d; /* Cinza */
+    border: 1px solid #6c757d; /* Borda */
+    margin: 0 0.25rem; /* Margem entre os links */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0056b3; /* Cinza mais escuro */
+    border-color: #0056b3; /* Borda do item ativo */
+}
+
+.navlink.active {
+    border: none;
+    background-color: #6c757d !important; /* Cinza */
+    font-weight: 700;
+}
