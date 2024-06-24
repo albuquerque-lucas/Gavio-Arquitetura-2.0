@@ -28,6 +28,7 @@
                     <button type="submit" class="btn btn-primary">Filtrar</button>
                 </form>
                 <button id="deleteSelected" class="btn btn-danger ml-3" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+                <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary ml-3">Novo Projeto</a>
             </div>
         </div>
 
