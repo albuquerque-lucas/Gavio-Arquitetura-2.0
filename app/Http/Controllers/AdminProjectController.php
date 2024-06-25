@@ -56,7 +56,7 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:25240',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:50000',
                 'location' => 'required|string|max:255',
                 'area' => 'required|integer',
                 'category_id' => 'required|exists:categories,id',
@@ -128,7 +128,7 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'nullable|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:25240',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:50000',
                 'location' => 'nullable|string|max:255',
                 'area' => 'nullable|integer',
                 'category_id' => 'nullable|exists:categories,id',
@@ -191,7 +191,7 @@ class AdminProjectController extends Controller
             $project = Project::findOrFail($id);
 
             $request->validate([
-                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:25240',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:50000',
             ]);
 
             if ($request->hasFile('images')) {
