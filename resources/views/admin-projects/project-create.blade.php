@@ -47,6 +47,10 @@
                 <input type="text" class="form-control" id="location" name="location" required>
             </div>
             <div class="mb-3">
+                <label for="area" class="form-label text-white">Área (m²)</label>
+                <input type="number" class="form-control" id="area" name="area" required>
+            </div>
+            <div class="mb-3">
                 <label for="category_id" class="form-label text-white">Categoria</label>
                 <select class="form-control" id="category_id" name="category_id" required>
                     @foreach ($categories as $category)

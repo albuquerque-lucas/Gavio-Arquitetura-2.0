@@ -53,6 +53,9 @@
                 <h5 class="text-white">Categoria:</h5>
                 <p class="text-white">{{ $project->category->name ?? 'Categoria não encontrada' }}</p>
 
+                <h5 class="text-white">Área:</h5>
+                <p class="text-white">{{ $project->area }} m²</p>
+
                 <h5 class="text-white">Status:</h5>
                 <p class="text-white">{{ $project->status ? 'Ativo' : 'Inativo' }}</p>
 
@@ -125,6 +128,11 @@
                     <div class="mb-3">
                         <label for="location" class="form-label text-white">Localização</label>
                         <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $project->location) }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="area" class="form-label text-white">Área (m²)</label>
+                        <input type="number" class="form-control" id="area" name="area" value="{{ old('area', $project->area) }}" required>
                     </div>
 
                     <div class="mb-3">

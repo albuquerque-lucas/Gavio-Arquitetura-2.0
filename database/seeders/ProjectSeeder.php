@@ -22,6 +22,7 @@ class ProjectSeeder extends Seeder
                     'category_id' => $category->id,
                     'title' => "Projeto $i",
                     'description' => "Descrição $i",
+                    'area' => "20$i",
                     'year' => 2020,
                     'location' => "Rua Teste $i Número 237, 33",
                     'order' => $order,
