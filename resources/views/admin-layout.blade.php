@@ -30,13 +30,16 @@
                             <x-nav-item route="admin.users.index" text="Usuários" />
                         </ul>
                         <div class="d-flex align-items-center">
-                            <span class="navbar-text text-white mx-5">
+                            <span class="navbar-text text-white mx-5 btn btn-secondary">
                                 <span class='mx-1'>
-                                    User:
+                                    <i class="fa-regular fa-user"></i>
                                 </span>
-                                <strong>
-                                    {{ Auth::user()->name }}
-                                </strong>
+                                    <a
+                                    href="{{route('admin.users.edit', Auth::user()->id)}}"
+                                    class="text-decoration-none"
+                                    >
+                                        {{ Auth::user()->name }}
+                                    </a>
                             </span>
                             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf

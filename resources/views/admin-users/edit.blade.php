@@ -47,6 +47,9 @@
                 <h5 class="text-white">Nome:</h5>
                 <p class="text-white">{{ $user->name }}</p>
 
+                <h5 class="text-white">Username:</h5>
+                <p class="text-white">{{ $user->username }}</p>
+
                 <h5 class="text-white">Email:</h5>
                 <p class="text-white">{{ $user->email }}</p>
 
@@ -72,6 +75,11 @@
                     <div class="mb-3">
                         <label for="name" class="form-label text-white">Nome</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label text-white">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}" required>
                     </div>
 
                     <div class="mb-3">
