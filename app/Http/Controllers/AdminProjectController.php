@@ -58,6 +58,7 @@ class AdminProjectController extends Controller
                 'title' => 'required|string|max:255',
                 'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:25240',
                 'location' => 'required|string|max:255',
+                'area' => 'required|integer',
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'required|boolean',
                 'description' => 'nullable|string',
@@ -69,6 +70,7 @@ class AdminProjectController extends Controller
             $project = Project::create([
                 'title' => $request->title,
                 'location' => $request->location,
+                'area' => $request->area,
                 'category_id' => $request->category_id,
                 'status' => (bool)$request->status,
                 'description' => $request->description,
@@ -126,8 +128,9 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'nullable|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:25240',
                 'location' => 'nullable|string|max:255',
+                'area' => 'nullable|integer',
                 'category_id' => 'nullable|exists:categories,id',
                 'status' => 'nullable|boolean',
                 'description' => 'nullable|string',
@@ -139,6 +142,7 @@ class AdminProjectController extends Controller
             $project->update(array_filter([
                 'title' => $request->title,
                 'location' => $request->location,
+                'area' => $request->area,
                 'category_id' => $request->category_id,
                 'status' => (bool)$request->status,
                 'description' => $request->description,
@@ -187,7 +191,7 @@ class AdminProjectController extends Controller
             $project = Project::findOrFail($id);
 
             $request->validate([
-                'images.*' => 'required|image|mimes:jpeg,png,jpg',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:25240',
             ]);
 
             if ($request->hasFile('images')) {

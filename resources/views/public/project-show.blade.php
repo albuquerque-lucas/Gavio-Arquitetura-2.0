@@ -26,8 +26,10 @@
                 <p><strong>Data:</strong> {{ $project->date }}</p>
                 <p><strong>Localização:</strong> {{ $project->location }}</p>
                 <p><strong>Categoria:</strong> {{ $project->category->name }}</p>
+                <p><strong>Área:</strong> {{ $project->area }} m²</p>
                 {{-- <p><strong>Status:</strong> {{ $project->status ? 'Ativo' : 'Inativo' }}</p> --}}
             </div>
+
             <div class="col-md-6 info-cell">
                 <h3 class="text-dark">Descrição</h3>
                 <p>{{ $project->description }}</p>

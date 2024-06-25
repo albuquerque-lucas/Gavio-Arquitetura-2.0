@@ -9,7 +9,6 @@
     @vite('resources/scss/public-app.scss')
     @vite('resources/js/app.js')
     @vite('resources/js/public-app.js')
-    @yield('extra-css')
     <link rel="icon" href="{{ asset('public/storage/logo/gavioarquitetura-icone-02.png') }}" type="image/png">
 </head>
 <body class='body'>

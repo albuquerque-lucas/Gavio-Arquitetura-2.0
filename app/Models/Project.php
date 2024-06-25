@@ -18,6 +18,7 @@ class Project extends Model
         'category_id',
         'title',
         'description',
+        'area',
         'slug',
         'year',
         'location',

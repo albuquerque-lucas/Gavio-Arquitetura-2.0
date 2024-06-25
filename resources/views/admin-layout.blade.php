@@ -8,7 +8,7 @@
     <title>Gavio Arquitetura | Admin | Projetos</title>
     @vite('resources/scss/app.scss')
     @vite('resources/js/app.js')
-    @yield('extra-css')
+    <link rel="icon" href="{{ asset('public/storage/logo/gavioarquitetura-icone-02.png') }}" type="image/png">
 </head>
 
 <body class='bg-dark'>

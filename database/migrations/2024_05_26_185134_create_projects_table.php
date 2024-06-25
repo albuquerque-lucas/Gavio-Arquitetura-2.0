@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->integer('area')->nullable();
             $table->string('location')->nullable();
             $table->integer('year')->nullable();
             $table->boolean('status')->default(false);
