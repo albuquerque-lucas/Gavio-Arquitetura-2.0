@@ -1,9 +1,5 @@
 @extends('admin-layout')
 
-{{-- @section('extra-css')
-@vite('resources/scss/admin/project-edit.scss')
-@endsection --}}
-
 @section('content')
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -157,7 +153,7 @@
 
                     <div class="mb-3">
                         <label for="date" class="form-label text-white">Data</label>
-                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date', $project->year) }}">
+                        <input type="text" class="form-control" id="date" name="date" value="{{ old('date', $project->year) }}">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Atualizar Projeto</button>
