@@ -105,7 +105,7 @@ class AdminUserController extends Controller
 
             $user->save();
 
-            return redirect()->route('admin.users.index')->with('success', 'Usuário atualizado com sucesso!');
+            return redirect()->route('admin.users.edit', $user->id)->with('success', 'Usuário atualizado com sucesso!');
         } catch (ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)

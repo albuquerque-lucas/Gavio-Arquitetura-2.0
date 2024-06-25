@@ -58,7 +58,7 @@
 
                 @if ($user->cover_path)
                     <h5 class="text-white">Imagem de Perfil:</h5>
-                    <img src="{{ $user->cover_path }}" alt="{{ $user->name }} Cover" width="150">
+                    <img src="{{ $user->cover_path }}" alt="{{ $user->name }} Cover" width="150" data-bs-toggle="modal" data-bs-target="#coverImageModal">
                 @endif
             </div>
         </div>
@@ -119,4 +119,20 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for cover image -->
+@if ($user->cover_path)
+    <div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img src="{{ $user->cover_path }}" class="img-fluid w-100" style="height: auto;" alt="{{ $user->name }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 @endsection
