@@ -56,7 +56,7 @@ class AdminProjectController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:25240',
                 'location' => 'required|string|max:255',
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'required|boolean',
