@@ -67,7 +67,7 @@
 
                 @if ($project->cover)
                     <h5 class="text-white">Capa:</h5>
-                    <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="150">
+                    <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="150" data-bs-toggle="modal" data-bs-target="#coverImageModal">
                 @endif
             </div>
 
@@ -89,13 +89,27 @@
                     @foreach ($project->images as $image)
                         <div class="col-md-3 mb-3">
                             <div class="card">
-                                <img src="{{ asset($image->path) }}" class="card-img-top" alt="{{ $image->file_name }}">
+                                <img src="{{ asset($image->path) }}" class="card-img-top" alt="{{ $image->file_name }}" data-bs-toggle="modal" data-bs-target="#projectImageModal-{{ $image->id }}">
                                 <div class="card-body">
                                     <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Excluir</button>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for project images -->
+                        <div class="modal fade" id="projectImageModal-{{ $image->id }}" tabindex="-1" aria-labelledby="projectImageModalLabel-{{ $image->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <img src="{{ asset($image->path) }}" class="img-fluid" alt="{{ $image->file_name }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -166,6 +180,20 @@
 
                     <button type="submit" class="btn btn-primary">Atualizar Projeto</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for cover image -->
+<div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="{{ $project->coverUrl() }}" class="img-fluid" alt="{{ $project->title }}">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
