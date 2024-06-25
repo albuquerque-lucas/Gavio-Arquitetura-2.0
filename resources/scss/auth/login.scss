@@ -1,29 +1,27 @@
-
 .image-box {
     padding: 1rem;
     position: absolute;
     left: 50%;
     top: 12%;
     transform: translateX(-50%);
-    img{
-        max-width: 100px;
 
+    img {
+        max-width: 80px;
     }
 
     h2 {
-        font-size: 1rem;
-        margin-top: 1rem;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
         color: grey;
     }
 }
 
 .page-title {
-    color: white
+    color: white;
 }
 
 .login-form {
-    width: 45%;
-    height: 30rem;
+    width: 90%;
     max-width: 600px;
     position: absolute;
     left: 50%;
@@ -40,7 +38,8 @@
         outline: none;
         border: none;
         border-bottom: 2px solid rgb(56, 54, 54);
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         border-radius: 0;
         color: white;
 
@@ -52,7 +51,7 @@
     }
 
     .form-check {
-        margin: 2rem 0;
+        margin: 1rem 0;
         display: flex;
         align-items: center;
 
@@ -67,6 +66,31 @@
     }
 
     button {
-        width: 50%;
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 768px) {
+    .image-box img {
+        max-width: 100px;
+    }
+
+    .image-box h2 {
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    .login-form {
+        width: 45%;
+        height: 30rem;
+
+        input {
+            width: 600px;
+        }
+
+        button {
+            width: 50%;
+        }
     }
 }

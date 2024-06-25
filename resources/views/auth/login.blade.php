@@ -1,9 +1,5 @@
 @extends('admin-layout')
 
-{{-- @section('extra-css')
-    @vite('resources/scss/auth/login.scss')
-@endsection --}}
-
 @section('content')
 <div class="container">
     <div class="text-center mb-4 image-box">
