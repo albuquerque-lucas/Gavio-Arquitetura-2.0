@@ -28,7 +28,7 @@
                     <button type="submit" class="btn btn-secondary btn-spacing">Filtrar</button>
                 </form>
                 <button id="deleteSelected" class="btn btn-danger btn-spacing" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
-                <a href="{{ route('admin.projetos.create') }}" class="btn btn-secondary btn-spacing">Novo Projeto</a>
+                <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary btn-spacing">Novo Projeto</a>
             </div>
         </div>
 
