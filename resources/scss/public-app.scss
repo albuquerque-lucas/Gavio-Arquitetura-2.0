@@ -13,6 +13,10 @@
 
 .header {
     background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, .5) 25%, rgba(0, 0, 0, .5) 75%, transparent 95%);
+
+    .navbar-toggler {
+        color: white;
+    }
     ul {
         li {
             border-bottom: 2px solid transparent;
@@ -38,7 +42,7 @@
 }
 
 .logo-image-primary {
-    max-width: 85px;
+    max-width: 83px;
 }
 
 .logo-image-secondary {
@@ -124,5 +128,19 @@
     .main-footer {
         flex-direction: row;
         margin: 4rem 0;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .header {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .logo-image-primary {
+        max-width: 65px;
+    }
+
+    .logo-image-secondary {
+        max-width: 90px;
     }
 }

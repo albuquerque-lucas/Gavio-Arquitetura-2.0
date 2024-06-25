@@ -131,7 +131,7 @@ class AdminProjectController extends Controller
                 'category_id' => 'nullable|exists:categories,id',
                 'status' => 'nullable|boolean',
                 'description' => 'nullable|string',
-                'date' => 'nullable|date',
+                'year' => 'nullable|integer',
             ]);
 
             $project = Project::findOrFail($id);
@@ -142,7 +142,7 @@ class AdminProjectController extends Controller
                 'category_id' => $request->category_id,
                 'status' => (bool)$request->status,
                 'description' => $request->description,
-                'date' => $request->date,
+                'year' => $request->date,
             ]));
 
             if ($request->hasFile('cover')) {

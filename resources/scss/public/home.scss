@@ -1,27 +1,92 @@
 .carousel_section {
-    margin-top: 4rem;
-    width: 100vw;
-    // box-shadow: 1px 1px 5px#333;
-    background-color: rgba($color: #000000, $alpha: 0.5);
+    margin-top: 2rem;
+    width: 93vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .carousel {
+        width: 100vw;
+    }
+
     .carousel-item {
-        width: 100%;
+        width: 93vw;
+        height: 24rem;
+        overflow: hidden;
+
         img {
-            max-height: 36rem;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
     }
+
+    .carousel-caption {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: start;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .carousel-caption h4 {
+        color: #fff;
+        margin: 0;
+    }
 }
 
-.carousel-caption {
-    position: absolute;
-    left: 0;
-    text-align: start;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 5px;
+.carousel-indicators {
+    justify-content: center;
+    bottom: 1rem;
 }
 
-.carousel-caption h5 {
-    color: #fff;
-    margin: 0;
+.carousel-control-prev,
+.carousel-control-next {
+    filter: invert(100%);
+}
+
+@media (min-width: 769px) {
+    .carousel_section {
+        margin-top: 4rem;
+    }
+
+    .carousel-item {
+        height: 36rem;
+    }
+
+    .carousel-caption {
+        font-size: 1.25rem;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 992px) {
+    .carousel_section {
+        width: 100vw;
+        max-width: 1360px;
+
+        .carousel {
+            width: 100vw;
+            max-width: 1360px;
+        }
+
+        .carousel-item {
+            width: 97vw;
+            max-width: 1360px;
+            height: 36rem;
+        }
+    }
+
+    .carousel-caption {
+        left: 0;
+        transform: translateX(0);
+    }
+}
+
+@media (min-width: 992px) {
+
 }
