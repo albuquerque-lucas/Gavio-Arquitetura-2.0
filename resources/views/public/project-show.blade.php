@@ -5,7 +5,7 @@
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center">
-                <a href="{{ route('public.projects', $project->category->slug) }}" class="btn btn-secondary">Voltar</a>
+                <a href="{{ route('public.projects', $project->category->slug) }}" class="btn btn-secondary go-back-link">Voltar</a>
             </div>
         </div>
         <div class="row mb-4">
@@ -30,10 +30,10 @@
                 {{-- <p><strong>Status:</strong> {{ $project->status ? 'Ativo' : 'Inativo' }}</p> --}}
             </div>
 
-            <div class="col-md-6 info-cell">
+            {{-- <div class="col-md-6 info-cell">
                 <h3 class="text-dark">Descrição</h3>
                 <p>{{ $project->description }}</p>
-            </div>
+            </div> --}}
         </div>
         <div class="row">
             @foreach ($project->images as $image)
