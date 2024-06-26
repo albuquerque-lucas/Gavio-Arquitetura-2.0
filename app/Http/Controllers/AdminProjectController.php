@@ -14,6 +14,8 @@ use Illuminate\Validation\ValidationException;
 use Exception;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Http\Requests\ProjectStoreFormRequest;
+use App\Http\Requests\ProjectUpdateFormRequest;
 
 class AdminProjectController extends Controller
 {
@@ -22,9 +24,9 @@ class AdminProjectController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $order = $request->input('order', 'desc'); // Default to descending order
-        $sortBy = $request->input('sort_by', 'id'); // Default to sort by ID
-        $categoryId = $request->input('category_id'); // Category filter
+        $order = $request->input('order', 'desc');
+        $sortBy = $request->input('sort_by', 'id');
+        $categoryId = $request->input('category_id');
 
         $projectsQuery = Project::query();
 
@@ -40,7 +42,7 @@ class AdminProjectController extends Controller
 
         $projects = $projectsQuery->paginate();
 
-        $categories = Category::all(); // Fetch categories for the filter
+        $categories = Category::all();
 
         return view('admin-projects.project-list', compact('projects', 'categories'));
     }
@@ -51,40 +53,31 @@ class AdminProjectController extends Controller
         return view('admin-projects.project-create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(ProjectStoreFormRequest $request)
     {
         try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:50000',
-                'location' => 'required|string|max:255',
-                'area' => 'required|integer',
-                'category_id' => 'required|exists:categories,id',
-                'status' => 'required|boolean',
-                'description' => 'nullable|string',
-                'year' => 'nullable|integer',
-            ]);
+            $validated = $request->validated();
 
             $maxOrder = Project::where('category_id', $request->category_id)->max('order');
 
             $project = Project::create([
-                'title' => $request->title,
-                'location' => $request->location,
-                'area' => $request->area,
-                'category_id' => $request->category_id,
-                'status' => (bool)$request->status,
-                'description' => $request->description,
-                'year' => $request->year,
-                'order' => $maxOrder + 1, // Define a ordem relativa à categoria
+                'title' => $validated['title'],
+                'location' => $validated['location'],
+                'area' => $validated['area'],
+                'category_id' => $validated['category_id'],
+                'status' => (bool)$validated['status'],
+                'description' => $validated['description'],
+                'year' => $validated['year'],
+                'order' => $maxOrder + 1,
             ]);
 
             if ($request->hasFile('cover')) {
-                $manager = new ImageManager(new Driver());
+                $manager = new ImageManager();
                 $file = $request->file('cover');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $path = public_path('storage/projects/cover/' . $filename);
 
-                $img = $manager->read($file);
+                $img = $manager->make($file->getRealPath());
                 $img->resize(1024, 768);
                 $img->save($path, 60);
 
@@ -98,11 +91,6 @@ class AdminProjectController extends Controller
             }
 
             return redirect()->route('admin.projetos.index')->with('success', 'Projeto criado com sucesso!');
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -123,31 +111,22 @@ class AdminProjectController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(ProjectUpdateFormRequest $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'title' => 'nullable|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:50000',
-                'location' => 'nullable|string|max:255',
-                'area' => 'nullable|integer',
-                'category_id' => 'nullable|exists:categories,id',
-                'status' => 'nullable|boolean',
-                'description' => 'nullable|string',
-                'year' => 'nullable|integer',
-            ]);
+            $validated = $request->validated();
 
             $project = Project::findOrFail($id);
 
-            $project->update(array_filter([
-                'title' => $request->title,
-                'location' => $request->location,
-                'area' => $request->area,
-                'category_id' => $request->category_id,
-                'status' => (bool)$request->status,
-                'description' => $request->description,
-                'year' => $request->date,
-            ]));
+            $project->update([
+                'title' => $validated['title'],
+                'location' => $validated['location'],
+                'area' => $validated['area'],
+                'category_id' => $validated['category_id'],
+                'status' => isset($validated['status']) ? (bool)$validated['status'] : $project->status,
+                'description' => $validated['description'],
+                'year' => $validated['year'],
+            ]);
 
             if ($request->hasFile('cover')) {
                 if ($project->cover) {
@@ -184,6 +163,7 @@ class AdminProjectController extends Controller
                 ->with('error', 'Ocorreu um erro ao atualizar o projeto: ' . $e->getMessage());
         }
     }
+
 
     public function addImage(Request $request, $id)
     {
