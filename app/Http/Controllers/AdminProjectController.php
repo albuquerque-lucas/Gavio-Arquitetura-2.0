@@ -15,6 +15,7 @@ use Exception;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\ProjectStoreFormRequest;
+use App\Http\Requests\ProjectUpdateFormRequest;
 
 class AdminProjectController extends Controller
 {
@@ -110,31 +111,22 @@ class AdminProjectController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(ProjectUpdateFormRequest $request, $id)
     {
         try {
-            $validated = $request->validate([
-                'title' => 'nullable|string|max:255',
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:50000',
-                'location' => 'nullable|string|max:255',
-                'area' => 'nullable|integer',
-                'category_id' => 'nullable|exists:categories,id',
-                'status' => 'nullable|boolean',
-                'description' => 'nullable|string|max:125',
-                'year' => 'nullable|integer',
-            ]);
+            $validated = $request->validated();
 
             $project = Project::findOrFail($id);
 
-            $project->update(array_filter([
-                'title' => $request->title,
-                'location' => $request->location,
-                'area' => $request->area,
-                'category_id' => $request->category_id,
-                'status' => (bool)$request->status,
-                'description' => $request->description,
-                'year' => $request->date,
-            ]));
+            $project->update([
+                'title' => $validated['title'],
+                'location' => $validated['location'],
+                'area' => $validated['area'],
+                'category_id' => $validated['category_id'],
+                'status' => isset($validated['status']) ? (bool)$validated['status'] : $project->status,
+                'description' => $validated['description'],
+                'year' => $validated['year'],
+            ]);
 
             if ($request->hasFile('cover')) {
                 if ($project->cover) {
@@ -171,6 +163,7 @@ class AdminProjectController extends Controller
                 ->with('error', 'Ocorreu um erro ao atualizar o projeto: ' . $e->getMessage());
         }
     }
+
 
     public function addImage(Request $request, $id)
     {
