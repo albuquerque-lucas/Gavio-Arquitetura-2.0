@@ -18,7 +18,7 @@ class ProjectStoreFormRequest extends FormRequest
             'title' => ['required', 'string', new MaxCharacterCount(255)],
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:50000',
             'location' => ['required', 'string', new MaxCharacterCount(255)],
-            'area' => 'required|integer',
+            'area' => 'nullable|integer',
             'category_id' => 'required|exists:categories,id',
             'status' => 'required|boolean',
             'description' => ['nullable', 'string', new MaxCharacterCount(125)],

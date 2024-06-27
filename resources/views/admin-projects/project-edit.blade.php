@@ -170,12 +170,13 @@
 
                     <div class="mb-3">
                         <label for="description" class="form-label text-white">Descrição</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $project->description) }}</textarea>
+                        <textarea class="form-control" id="description" name="description" rows="3" oninput="updateCharacterCountEdit()">{{ old('description', $project->description) }}</textarea>
+                        <small class="text-white" id="charCountEdit">{{ strlen(old('description', $project->description)) }} caracteres</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="date" class="form-label text-white">Data</label>
-                        <input type="text" class="form-control" id="date" name="date" value="{{ old('date', $project->year) }}">
+                        <label for="year" class="form-label text-white">Ano</label>
+                        <input type="text" class="form-control" id="year" name="year" value="{{ old('year', $project->year) }}">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Atualizar Projeto</button>
@@ -198,4 +199,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateCharacterCountEdit() {
+        const descriptionEdit = document.getElementById('description');
+        const charCountEdit = document.getElementById('charCountEdit');
+        charCountEdit.textContent = `${descriptionEdit.value.length} caracteres`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCharacterCountEdit();
+    });
+</script>
 @endsection

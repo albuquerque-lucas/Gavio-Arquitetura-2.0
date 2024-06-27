@@ -23,7 +23,7 @@
         <div class="row info-row">
             <div class="col-md-6 info-cell technicals">
                 <h3>Ficha Técnica</h3>
-                <p><strong>Data:</strong> {{ $project->date }}</p>
+                <p><strong>Data:</strong> {{ $project->year }}</p>
                 <p><strong>Localização:</strong> {{ $project->location }}</p>
                 <p><strong>Categoria:</strong> {{ $project->category->name }}</p>
                 <p><strong>Área:</strong> {{ $project->area }} m²</p>

@@ -48,7 +48,7 @@
             </div>
             <div class="mb-3">
                 <label for="area" class="form-label text-white">Área (m²)</label>
-                <input type="number" class="form-control" id="area" name="area" required>
+                <input type="number" class="form-control" id="area" name="area">
             </div>
             <div class="mb-3">
                 <label for="category_id" class="form-label text-white">Categoria</label>
@@ -61,20 +61,29 @@
             <div class="mb-3">
                 <label for="status" class="form-label text-white">Status</label>
                 <select class="form-control" id="status" name="status" required>
-                    <option value="1">Ativo</option>
                     <option value="0">Inativo</option>
+                    <option value="1">Ativo</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label text-white">Descrição</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3" oninput="updateCharacterCount()"></textarea>
+                <small class="text-white" id="charCount">0 caracteres</small>
             </div>
             <div class="mb-3">
                 <label for="year" class="form-label text-white">Ano</label>
                 <input type="number" class="form-control" id="year" name="year" min="1900" max="{{ date('Y') }}">
             </div>
             <button type="submit" class="btn btn-primary">Criar Projeto</button>
-            <button type="button" class="btn btn-secondary" onclick="document.getElementById('projectForm').reset();">Limpar</button>
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('projectForm').reset(); updateCharacterCount();">Limpar</button>
         </form>
     </div>
+
+    <script>
+        function updateCharacterCount() {
+            const description = document.getElementById('description');
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = `${description.value.length} caracteres`;
+        }
+    </script>
 @endsection
