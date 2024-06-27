@@ -72,14 +72,11 @@ class AdminProjectController extends Controller
             ]);
 
             if ($request->hasFile('cover')) {
-                $manager = new ImageManager();
                 $file = $request->file('cover');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $path = public_path('storage/projects/cover/' . $filename);
 
-                $img = $manager->make($file->getRealPath());
-                $img->resize(1024, 768);
-                $img->save($path, 60);
+                $this->processImage($file, $path);
 
                 $imagePath = 'projects/cover/' . $filename;
 
