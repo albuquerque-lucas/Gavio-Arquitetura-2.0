@@ -84,7 +84,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <input type="number" name="order" value="{{ $project->order }}" class="form-control d-inline w-auto">
-                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+                                <button type="submit" class="btn link-light p-0 m-0 align-baseline">
                                     <i class="fas fa-sync-alt"></i>
                                 </button>
                             </form>
@@ -93,7 +93,7 @@
                             <form action="{{ route('admin.projetos.toggleCarousel', $project->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+                                <button type="submit" class="btn link-light p-0 m-0 align-baseline">
                                     @if ($project->status)
                                         <i class="fa-solid fa-star"></i>
                                     @else

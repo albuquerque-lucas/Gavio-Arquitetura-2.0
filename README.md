@@ -10,6 +10,7 @@ Este projeto é uma aplicação web desenvolvida para exibir e gerenciar projeto
 - **Laravel**: Framework PHP utilizado para estruturar a aplicação, gerenciar rotas, controle de acesso, e mais.
 - **MySQL**: Banco de dados utilizado para armazenar as informações dos projetos e outras entidades relacionadas.
 - **Composer**: Gerenciador de dependências do PHP.
+- **Intervention/Image**: Pacote utilizado para tratamento e diminuição do tamanho de imagens, aprimorando a performance e evitando o carregamento com arquivos muito pesados.
 
 ### Frontend
 

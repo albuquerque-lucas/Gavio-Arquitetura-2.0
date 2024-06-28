@@ -73,17 +73,20 @@
 
             <div class="mt-4">
                 <h5 class="text-white">Adicionar Imagem</h5>
-                <form action="{{ route('admin.projetos.addImage', $project->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="imageUploadForm" action="{{ route('admin.projetos.addImage', $project->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="images" class="form-label text-white">Imagens</label>
                         <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Adicionar Imagens</button>
+                    <button type="submit" id="uploadButton" class="btn btn-primary">Adicionar Imagens</button>
+                    <progress id="uploadProgress" value="0" max="100" class="w-100 mt-3"></progress>
+                    <div id="uploadPercentage" class="text-white mt-1">0%</div>
                 </form>
             </div>
 
-            <div class="mt-4">
+
+            <div class="mt-4 project-images-list-container">
                 <h5 class="text-white">Imagens do Projeto</h5>
                 <div class="row">
                     @foreach ($project->images as $image)
@@ -91,10 +94,15 @@
                             <div class="card">
                                 <img src="{{ asset($image->path) }}" class="card-img-top" alt="{{ $image->file_name }}" data-bs-toggle="modal" data-bs-target="#projectImageModal-{{ $image->id }}">
                                 <div class="card-body">
-                                    <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST">
+                                    <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST" class="d-flex justify-content-between align-items-center">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="submit" class="btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <p class="text-white">
+                                            {{$image->file_name}}
+                                        </p>
                                     </form>
                                 </div>
                             </div>
@@ -211,4 +219,53 @@
         updateCharacterCountEdit();
     });
 </script>
+
+<script>
+    document.getElementById('imageUploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const xhr = new XMLHttpRequest();
+        const progressBar = document.getElementById('uploadProgress');
+        const progressPercentage = document.getElementById('uploadPercentage');
+        const uploadButton = document.getElementById('uploadButton');
+
+        xhr.open('POST', form.action, true);
+        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                progressBar.value = percentComplete;
+                progressPercentage.textContent = `${Math.round(percentComplete)}%`;
+            }
+        };
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                alert('Imagens carregadas com sucesso!');
+                progressBar.value = 0;
+                progressPercentage.textContent = '0%';
+                uploadButton.disabled = false;
+                form.reset();
+                window.location.reload();
+            } else {
+                alert('Erro ao carregar as imagens.');
+                uploadButton.disabled = false;
+            }
+        };
+
+        xhr.onerror = function() {
+            alert('Erro ao carregar as imagens.');
+            uploadButton.disabled = false;
+        };
+
+        uploadButton.disabled = true;
+
+        xhr.send(formData);
+    });
+</script>
+
+
 @endsection

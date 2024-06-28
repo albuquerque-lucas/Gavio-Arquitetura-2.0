@@ -1,0 +1,193 @@
+.navbar-text {
+  margin-right: 1rem;
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .d-flex.align-items-center {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+.project-list-page input::placeholder {
+  color: white;
+}
+.project-list-page select {
+  background-color: transparent !important;
+  color: white;
+  border: none;
+  border-bottom: 2px solid white;
+  border-radius: 0;
+  cursor: pointer;
+}
+.project-list-page select option {
+  color: black;
+}
+
+.btn-spacing {
+  margin-right: 0.5rem;
+}
+
+.pagination .page-item .page-link {
+  color: #ffffff; /* Cor do texto */
+  background-color: #6c757d; /* Cinza */
+  border: 1px solid #6c757d; /* Borda */
+  margin: 0 0.25rem; /* Margem entre os links */
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0056b3; /* Cinza mais escuro */
+  border-color: #0056b3; /* Borda do item ativo */
+}
+
+.navlink.active {
+  border: none;
+  background-color: #6c757d !important; /* Cinza */
+  font-weight: 700;
+}
+
+.form-control {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid rgb(56, 54, 54);
+  color: white;
+}
+
+.form-control:focus {
+  color: white;
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 2px solid white;
+}
+
+select.form-control {
+  cursor: pointer;
+}
+
+select.form-control option {
+  color: black;
+}
+
+.project-images-list-container .card {
+  background-color: transparent;
+  border: 1px solid #555;
+}
+
+.image-box {
+  padding: 1rem;
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  transform: translateX(-50%);
+}
+.image-box img {
+  max-width: 80px;
+}
+.image-box h2 {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  color: grey;
+}
+
+.page-title {
+  color: white;
+}
+
+.login-form {
+  width: 90%;
+  max-width: 600px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login-form input {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid rgb(56, 54, 54);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 0;
+  color: white;
+}
+.login-form input:focus {
+  background-color: transparent;
+  border-bottom: 2px solid white;
+  color: white;
+}
+.login-form .form-check {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+.login-form .form-check .form-check-input {
+  width: 1rem;
+  height: 1rem;
+}
+.login-form .form-check .form-check-label {
+  margin-left: 0.5rem;
+}
+.login-form button {
+  width: 100%;
+  max-width: 300px;
+}
+
+@media (min-width: 768px) {
+  .image-box img {
+    max-width: 100px;
+  }
+  .image-box h2 {
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  .login-form {
+    width: 45%;
+    height: 30rem;
+  }
+  .login-form input {
+    width: 600px;
+  }
+  .login-form button {
+    width: 50%;
+  }
+}
+.forgot-password-form {
+  display: flex;
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  padding: 1rem;
+}
+.forgot-password-form input {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid rgb(56, 54, 54);
+  width: 600px;
+  border-radius: 0;
+  color: white;
+  margin-bottom: 1rem;
+}
+.forgot-password-form input:focus {
+  background-color: transparent;
+  border-bottom: 2px solid white;
+  color: white;
+}
+
+/*# sourceMappingURL=app.css.map */

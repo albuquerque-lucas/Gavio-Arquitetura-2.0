@@ -1,10 +1,4 @@
 
-@import './public/home.scss';
-@import './public/institutional.scss';
-@import './public/projects.scss';
-@import './public/project-show.scss';
-@import './public/contact-us.scss';
-
 .body {
     background-image: url('/public/storage/pages/pagina-background.jpg');
     background-size: cover;
@@ -144,3 +138,11 @@
         max-width: 90px;
     }
 }
+
+
+@import './public/home.scss';
+@import './public/institutional.scss';
+@import './public/projects.scss';
+@import './public/project-show.scss';
+@import './public/contact-us.scss';
+
