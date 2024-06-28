@@ -232,7 +232,8 @@
 }
 
 .profile-img-wrapper {
-  width: 24rem;
+  width: 97%;
+  max-width: 24rem;
   height: 30rem;
   overflow: hidden;
   box-shadow: 1px 1px 5px #333;
