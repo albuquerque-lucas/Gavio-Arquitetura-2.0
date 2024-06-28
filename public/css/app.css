@@ -1,3 +1,17 @@
+.navbar-text {
+  margin-right: 1rem;
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .d-flex.align-items-center {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
 .project-list-page input::placeholder {
   color: white;
 }
@@ -56,6 +70,11 @@ select.form-control {
 
 select.form-control option {
   color: black;
+}
+
+.project-images-list-container .card {
+  background-color: transparent;
+  border: 1px solid #555;
 }
 
 .image-box {
@@ -169,21 +188,6 @@ select.form-control option {
   background-color: transparent;
   border-bottom: 2px solid white;
   color: white;
-}
-
-.navbar-text {
-  margin-right: 1rem;
-}
-
-@media (max-width: 992px) {
-  .navbar-collapse {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .d-flex.align-items-center {
-    width: 100%;
-    justify-content: space-between;
-  }
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -83,7 +83,7 @@
                 </form>
             </div>
 
-            <div class="mt-4">
+            <div class="mt-4 project-images-list-container">
                 <h5 class="text-white">Imagens do Projeto</h5>
                 <div class="row">
                     @foreach ($project->images as $image)
@@ -91,10 +91,15 @@
                             <div class="card">
                                 <img src="{{ asset($image->path) }}" class="card-img-top" alt="{{ $image->file_name }}" data-bs-toggle="modal" data-bs-target="#projectImageModal-{{ $image->id }}">
                                 <div class="card-body">
-                                    <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST">
+                                    <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST" class="d-flex justify-content-between align-items-center">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="submit" class="btn btn-dark">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <p class="text-white">
+                                            {{$image->file_name}}
+                                        </p>
                                     </form>
                                 </div>
                             </div>
