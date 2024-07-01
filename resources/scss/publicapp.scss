@@ -48,7 +48,6 @@
     margin: 20rem 0;
     display: flex;
     flex-direction: column-reverse;
-    // background-color: rgba($color: #000000, $alpha: 0.5);
     height: 20rem;
     width: 100%;
     position: relative;
@@ -59,7 +58,6 @@
         flex-direction: column;
         justify-content: center;
         padding: 1rem;
-        // background-color: lightcoral;
         width: 100%;
         text-align: center;
 
@@ -94,6 +92,10 @@
                 &:focus {
                     border-bottom: 1px solid white;
                 }
+
+                &::placeholder {
+                    color: #333;
+                }
             }
 
             textarea {
@@ -103,6 +105,9 @@
                 padding: 0.5rem;
                 overflow: auto;
                 resize: none;
+                &::placeholder {
+                    color: #333;
+                }
             }
 
             button {

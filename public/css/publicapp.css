@@ -82,6 +82,9 @@
 .main-footer .footer-content form input:focus {
   border-bottom: 1px solid white;
 }
+.main-footer .footer-content form input::placeholder {
+  color: #333;
+}
 .main-footer .footer-content form textarea {
   background-color: transparent;
   border: none;
@@ -89,6 +92,9 @@
   padding: 0.5rem;
   overflow: auto;
   resize: none;
+}
+.main-footer .footer-content form textarea::placeholder {
+  color: #333;
 }
 .main-footer .footer-content form button {
   background-color: #333;
