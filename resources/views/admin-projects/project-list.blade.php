@@ -6,7 +6,7 @@
             <h1 class="text-white my-3">Projetos</h1>
             <div>
                 <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
-                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto btn-spacing">
+                    <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto btn-spacing seach-input">
 
                     <select name="category_id" class="form-select d-inline w-auto btn-spacing">
                         <option value="">Todos</option>

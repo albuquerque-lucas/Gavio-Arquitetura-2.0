@@ -12,6 +12,10 @@
     justify-content: space-between;
   }
 }
+.project-list-page input {
+  background-color: transparent;
+  color: white;
+}
 .project-list-page input::placeholder {
   color: white;
 }
@@ -73,7 +77,7 @@ select.form-control option {
 }
 
 .project-images-list-container .card {
-  background-color: transparent;
+  background-color: transparent !important;
   border: 1px solid #555;
 }
 

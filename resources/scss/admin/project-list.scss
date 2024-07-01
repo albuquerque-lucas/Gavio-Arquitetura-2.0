@@ -1,5 +1,9 @@
 .project-list-page {
 
+    input {
+        background-color: transparent;
+        color: white;
+    }
     input::placeholder {
         color: white;
     }
