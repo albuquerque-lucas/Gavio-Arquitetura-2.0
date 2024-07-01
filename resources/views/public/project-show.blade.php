@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             @foreach ($project->images as $image)
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-2"> <!-- Reduzi a margem inferior -->
                     <div class="img-container project-img-list-item">
                         <img src="{{ asset($image->path) }}" class="img-fluid project-image" alt="{{ $image->file_name }}" data-bs-toggle="modal" data-bs-target="#projectImageModal-{{ $image->id }}">
                     </div>
