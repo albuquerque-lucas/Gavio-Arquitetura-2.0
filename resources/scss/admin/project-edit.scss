@@ -4,3 +4,22 @@
         border: 1px solid #555;
     }
 }
+
+.modal-dialog-centered.modal-lg {
+    max-width: 80%;
+}
+
+.modal-dialog-centered .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-content-popup {
+    background-color: rgba(85, 85, 85, 0.5)!important;
+}
+
+.modal-body img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
