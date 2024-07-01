@@ -21,7 +21,7 @@ class ProjectUpdateFormRequest extends FormRequest
             'area' => 'nullable|integer',
             'category_id' => 'nullable|exists:categories,id',
             'status' => 'nullable|boolean',
-            'description' => ['nullable', 'string', new MaxCharacterCount(125)],
+            'description' => ['nullable', 'string', new MaxCharacterCount(250)],
             'year' => 'nullable|integer',
         ];
     }

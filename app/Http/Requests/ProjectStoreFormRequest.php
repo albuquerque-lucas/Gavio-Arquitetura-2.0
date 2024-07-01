@@ -21,7 +21,7 @@ class ProjectStoreFormRequest extends FormRequest
             'area' => 'nullable|integer',
             'category_id' => 'required|exists:categories,id',
             'status' => 'required|boolean',
-            'description' => ['nullable', 'string', new MaxCharacterCount(125)],
+            'description' => ['nullable', 'string', new MaxCharacterCount(255)],
             'year' => 'nullable|integer',
         ];
     }
