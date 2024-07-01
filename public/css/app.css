@@ -79,6 +79,7 @@ select.form-control option {
 .project-images-list-container .card {
   background-color: transparent !important;
   border: 1px solid #555;
+  position: relative; /* Ensure the checkbox is positioned correctly */
 }
 
 .modal-dialog-centered.modal-lg {
@@ -98,6 +99,13 @@ select.form-control option {
   width: 100%;
   height: auto;
   object-fit: contain;
+}
+
+.position-absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px;
 }
 
 .image-box {

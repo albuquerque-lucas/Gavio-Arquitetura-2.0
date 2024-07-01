@@ -297,4 +297,9 @@ class AdminProjectController extends Controller
         return redirect()->route('admin.projetos.index')->with('success', 'Ordem do projeto atualizada com sucesso!');
     }
 
+    public function bulkDeleteImages()
+    {
+
+    }
+
 }

@@ -86,42 +86,55 @@
             </div>
 
             <div class="mt-4 project-images-list-container">
-                <h5 class="text-white">Imagens do Projeto</h5>
-                <div class="row">
-                    @foreach ($project->images as $image)
-                        <div class="col-md-3 mb-3">
-                            <div class="card">
-                                <img src="{{ asset($image->path) }}" class="card-img-top" alt="{{ $image->file_name }}" data-bs-toggle="modal" data-bs-target="#projectImageModal-{{ $image->id }}">
-                                <div class="card-body">
-                                    <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST" class="d-flex justify-content-between align-items-center">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-dark">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <p class="text-white">
-                                            {{$image->file_name}}
-                                        </p>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal for project images -->
-                        <div class="modal fade" id="projectImageModal-{{ $image->id }}" tabindex="-1" aria-labelledby="projectImageModalLabel-{{ $image->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content modal-content-popup">
-                                    <div class="modal-body">
-                                        <img src="{{ asset($image->path) }}" class="img-fluid" alt="{{ $image->file_name }}">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="text-white">Imagens do Projeto</h5>
+                    <div>
+                        <input type="checkbox" id="selectAll">
+                        <button id="deleteSelected" class="btn btn-danger btn-sm" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
+                    </div>
                 </div>
+                <form id="bulkDeleteForm" action="{{ route('admin.projetos.bulkDeleteImages', $project->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="row">
+                        @foreach ($project->images as $image)
+                            <div class="col-md-3 mb-3">
+                                <div class="card position-relative">
+                                    <img src="{{ asset($image->path) }}" class="card-img-top" alt="{{ $image->file_name }}" data-bs-toggle="modal" data-bs-target="#projectImageModal-{{ $image->id }}">
+                                    <div class="position-absolute top-0 end-0 mt-2 me-2">
+                                        <input type="checkbox" name="selected_images[]" value="{{ $image->id }}" class="image-checkbox">
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST" class="d-flex justify-content-between align-items-center">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-dark">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <p class="text-white">
+                                                {{$image->file_name}}
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal for project images -->
+                            <div class="modal fade" id="projectImageModal-{{ $image->id }}" tabindex="-1" aria-labelledby="projectImageModalLabel-{{ $image->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content modal-content-popup">
+                                        <div class="modal-body">
+                                            <img src="{{ asset($image->path) }}" class="img-fluid" alt="{{ $image->file_name }}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -216,53 +229,43 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         updateCharacterCountEdit();
-    });
-</script>
 
-<script>
-    document.getElementById('imageUploadForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.image-checkbox');
+        const deleteSelectedButton = document.getElementById('deleteSelected');
+        const bulkDeleteForm = document.getElementById('bulkDeleteForm');
+        let selectedImages = [];
 
-        const form = event.target;
-        const formData = new FormData(form);
-        const xhr = new XMLHttpRequest();
-        const progressBar = document.getElementById('uploadProgress');
-        const progressPercentage = document.getElementById('uploadPercentage');
-        const uploadButton = document.getElementById('uploadButton');
+        selectAll.addEventListener('change', function () {
+            selectedImages = [];
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+                if (selectAll.checked) {
+                    selectedImages.push(checkbox.value);
+                }
+            });
+            toggleDeleteButton();
+        });
 
-        xhr.open('POST', form.action, true);
-        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (checkbox.checked) {
+                    selectedImages.push(checkbox.value);
+                } else {
+                    selectedImages = selectedImages.filter(id => id !== checkbox.value);
+                }
+                toggleDeleteButton();
+            });
+        });
 
-        xhr.upload.onprogress = function(event) {
-            if (event.lengthComputable) {
-                const percentComplete = (event.loaded / event.total) * 100;
-                progressBar.value = percentComplete;
-                progressPercentage.textContent = `${Math.round(percentComplete)}%`;
-            }
-        };
+        function toggleDeleteButton() {
+            const anyChecked = selectedImages.length > 0;
+            deleteSelectedButton.disabled = !anyChecked;
+        }
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                alert('Imagens carregadas com sucesso!');
-                progressBar.value = 0;
-                progressPercentage.textContent = '0%';
-                uploadButton.disabled = false;
-                form.reset();
-                window.location.reload();
-            } else {
-                alert('Erro ao carregar as imagens.');
-                uploadButton.disabled = false;
-            }
-        };
-
-        xhr.onerror = function() {
-            alert('Erro ao carregar as imagens.');
-            uploadButton.disabled = false;
-        };
-
-        uploadButton.disabled = true;
-
-        xhr.send(formData);
+        deleteSelectedButton.addEventListener('click', function () {
+            bulkDeleteForm.submit();
+        });
     });
 </script>
 @endsection
