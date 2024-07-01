@@ -32,7 +32,7 @@
             <label class="form-check-label" for="remember">Lembrar-me</label>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <a href="{{ route('password.request') }}" class="btn btn-link">Esqueceu sua senha?</a>
+        {{-- <a href="{{ route('password.request') }}" class="btn btn-link">Esqueceu sua senha?</a> --}}
     </form>
 </div>
 @endsection
