@@ -24,19 +24,19 @@
 }
 
 .pagination .page-item .page-link {
-    color: #ffffff; /* Cor do texto */
-    background-color: #6c757d; /* Cinza */
-    border: 1px solid #6c757d; /* Borda */
-    margin: 0 0.25rem; /* Margem entre os links */
+    color: #ffffff;
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+    margin: 0 0.25rem;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #0056b3; /* Cinza mais escuro */
-    border-color: #0056b3; /* Borda do item ativo */
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
 
 .navlink.active {
     border: none;
-    background-color: #6c757d !important; /* Cinza */
+    background-color: #6c757d !important;
     font-weight: 700;
 }
