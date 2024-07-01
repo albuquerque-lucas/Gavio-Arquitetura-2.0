@@ -25,11 +25,11 @@
             @forelse ($projects as $project)
                 <div class="col-md-4 mb-4">
                     <a href="{{ route('public.project.show', $project->slug) }}" class="card-link">
-                        <div class="card h-100 project-card">
-                            <div class="img-container">
+                        <div class="card project-card">
+                            <div class="img-container-projects-page">
                                 <img src="{{ $project->coverUrl() }}" class="card-img-top" alt="{{ $project->title }}">
                             </div>
-                            <div class="card-body transparent-bg text-start">
+                            <div class="card-body card-body-projects-page transparent-bg text-start">
                                 <h5 class="card-title">{{ $project->title }}</h5>
                                 <p class="card-text">{{ Str::limit($project->description, 125) }}</p>
                             </div>
