@@ -31,7 +31,7 @@
                             </div>
                             <div class="card-body card-body-projects-page transparent-bg text-start">
                                 <h5 class="card-title">{{ $project->title }}</h5>
-                                <p class="card-text">{{ Str::limit($project->description, 125) }}</p>
+                                <p class="card-text">{{ $project->description }}</p>
                             </div>
                         </div>
                     </a>

@@ -331,7 +331,7 @@
 }
 
 .card-body-projects-page {
-  height: 7rem;
+  max-height: 15rem;
 }
 .card-body-projects-page a {
   background-color: #6B635F;
@@ -349,7 +349,9 @@
 }
 
 .img-container-projects-page img {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
@@ -357,7 +359,6 @@
   transform: scale(1.1);
 }
 
-/* Media queries for changes above 420px */
 @media (min-width: 420px) {
   .category-btn-container {
     flex-direction: row;
