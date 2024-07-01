@@ -154,7 +154,7 @@
 
                     <div class="mb-3">
                         <label for="area" class="form-label text-white">Área (m²)</label>
-                        <input type="number" class="form-control" id="area" name="area" value="{{ old('area', $project->area) }}" required>
+                        <input type="number" class="form-control" id="area" name="area" value="{{ old('area', $project->area) }}">
                     </div>
 
                     <div class="mb-3">
