@@ -297,9 +297,29 @@ class AdminProjectController extends Controller
         return redirect()->route('admin.projetos.index')->with('success', 'Ordem do projeto atualizada com sucesso!');
     }
 
-    public function bulkDeleteImages()
+    public function bulkDeleteImages(Request $request, $projectId)
     {
+        try {
+            $project = Project::findOrFail($projectId);
+            $imageIds = $request->input('selected_images', []);
 
+            if (empty($imageIds)) {
+                return redirect()->route('admin.projetos.edit', $project->id)->with('error', 'Nenhuma imagem foi selecionada para exclusão.');
+            }
+
+            \DB::transaction(function () use ($imageIds) {
+                foreach ($imageIds as $imageId) {
+                    $image = ProjectImage::findOrFail($imageId);
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
+                    $image->delete();
+                }
+            });
+
+            return redirect()->route('admin.projetos.edit', $projectId)->with('success', 'Imagens selecionadas foram excluídas com sucesso!');
+        } catch (Exception $e) {
+            return redirect()->route('admin.projetos.edit', $projectId)->with('error', 'Ocorreu um erro ao excluir as imagens: ' . $e->getMessage());
+        }
     }
+
 
 }
