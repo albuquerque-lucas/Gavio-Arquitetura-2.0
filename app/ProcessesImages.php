@@ -12,9 +12,6 @@ trait ProcessesImages
     {
         $manager = new ImageManager(new Driver());
         $img = $manager->read($file);
-        $img->resize(1024, 768, function ($constraint) {
-            $constraint->aspectRatio();
-        });
         if ($file->getClientOriginalExtension() === 'png') {
             $encoded = $img->toJpeg(65);
             $encoded->save($path, 90);

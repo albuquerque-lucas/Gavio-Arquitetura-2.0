@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('project_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Project::class);
+            $table->foreignIdFor(Project::class)->constrained()->onDelete('cascade');
             $table->string('path');
             $table->string('file_name');
             $table->timestamps();
