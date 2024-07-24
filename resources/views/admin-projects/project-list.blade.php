@@ -32,23 +32,28 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+    <div style="height:100px" class="mt-2">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    <div class="my-5 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
-        {{ $projects->appends(request()->query())->links('pagination::bootstrap-4') }}
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
     </div>
+
+    @if($hasPages)
+        <div class="mt-1 mb-2 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
+            {{ $projects->appends(request()->query())->links('pagination::bootstrap-4') }}
+        </div>
+    @endif
+
 
     <table class="table table-dark table-hover">
         <thead>
