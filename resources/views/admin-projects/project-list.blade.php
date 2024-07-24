@@ -50,7 +50,7 @@
 
     @if($hasPages)
         <div class="mt-1 mb-2 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
-            {{ $projects->appends(request()->query())->links('pagination::bootstrap-4') }}
+            {{ $projects->appends(request()->query())->links('pagination::bootstrap-5') }}
         </div>
     @endif
 

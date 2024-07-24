@@ -1,8 +1,6 @@
 // Default Laravel bootstrapper, installs axios
 import './bootstrap';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 // Added: Actual Bootstrap JavaScript dependency
 import 'bootstrap';
 
@@ -11,8 +9,6 @@ import '@popperjs/core';
 
 // Import the custom JavaScript for the delete confirmation modal
 import './deleteConfirmation';
-
-import '@fortawesome/fontawesome-free/js/all.js';
 
 
 import './projects/toggleCarousel';

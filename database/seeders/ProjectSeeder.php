@@ -87,6 +87,23 @@ class ProjectSeeder extends Seeder
             ],
         ];
 
+        $additionalProjectsCount = 60;
+        $categoryCount = 3;
+        $projectsPerCategory = $additionalProjectsCount / $categoryCount;
+
+        for ($i = 0; $i < $additionalProjectsCount; $i++) {
+            $category_id = ($i % $categoryCount) + 1;
+            Project::create([
+                'category_id' => $category_id,
+                'title' => "Projeto " . ($i + 1),
+                'description' => "Descrição do Projeto " . ($i + 1),
+                'area' => 200,
+                'year' => 2021,
+                'location' => "Localização do Projeto " . ($i + 1),
+                'order' => count($projects) + $i + 1
+            ]);
+}
+
         foreach ($projects as $index => $project) {
             Project::create(array_merge($project, ['order' => $index + 1]));
         }
