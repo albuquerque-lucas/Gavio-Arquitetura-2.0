@@ -47,7 +47,7 @@
         @yield('content')
     </main>
 
-    <footer class='main-footer container'>
+    <footer class='main-footer container w-100'>
         <div class="footer-content">
             <div class="footer-social-media">
                 <a href="https://wa.me/5532988660027?text=Ol%C3%A1%2C+tudo+bem%3F+Vim+pelo+contato+do+site%21+Poder%C3%ADamos+fazer+um+or%C3%A7amento%3F" target="_blank"><i class="fab fa-whatsapp"></i></a>
