@@ -18,7 +18,7 @@
         <div class="container container-fluid">
             <nav class="navbar navbar-expand-lg">
                 <a class="navbar-brand" href="{{ route('public.home') }}">
-                    <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="Gavio Arquitetura Logo" class="logo-image-primary">
+                    <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="Gavio Arquitetura Logo" class="logo-image-secondary">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,9 +35,6 @@
                             <a class="nav-link" href="{{ route('public.contact.us') }}">Contato</a>
                         </li>
                     </ul>
-                    <span class="navbar-text d-none d-lg-inline">
-                        <img src="{{ asset('storage/logo/gavioarquitetura-escrita-02.png') }}" alt="Gavio Arquitetura Escrita" class="logo-image-secondary">
-                    </span>
                 </div>
             </nav>
         </div>
