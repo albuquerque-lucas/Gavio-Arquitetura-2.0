@@ -164,7 +164,7 @@
   cursor: pointer;
 }
 .home_section_container .home-nav ul li:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 .home_section_container .home-nav ul li a {
   text-decoration: none;
