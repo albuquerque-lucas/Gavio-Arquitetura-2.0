@@ -33,7 +33,7 @@
                             </div>
                             <div class="card-body card-body-projects-page transparent-bg text-start">
                                 <h5 class="card-title">{{ $project->title }}</h5>
-                                <p class="card-text">{{ $project->description }}</p>
+                                <p class="card-text">{{ "$project->location, $project->year" }}</p>
                             </div>
                         </div>
                     </a>
