@@ -55,7 +55,9 @@
   flex-direction: column-reverse;
   height: 25rem;
   width: 100%;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .main-footer .footer-content {
   display: flex;
