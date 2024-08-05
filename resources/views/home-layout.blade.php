@@ -30,32 +30,10 @@
                 <p>2021 - Todos os direitos reservados.</p>
             </div>
         </div>
-
-        @if(!request()->routeIs('public.contact.us'))
-        <div class="footer-content">
-            <strong>Entre em contato conosco!</strong>
-            @if(!empty($message))
-                <div class="alert alert-success w-50 text-center">
-                    {{ $message }}
-                </div>
-            @endif
-            <form action="#" method="POST">
-                @csrf
-                <input type="text" name='name' placeholder='Seu nome'>
-
-                <input type="text" name='email' placeholder='Seu e-mail'>
-
-                <input type="text" name='subject' placeholder='Digite um assunto'>
-
-                <textarea name="message" id="message-text" placeholder='Mensagem'></textarea>
-                <button type='submit' name='submit' class='btn'>Enviar</button>
-            </form>
-        </div>
-        @endif
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/9aa910470c.js" crossorigin="anonymous"></script>
-    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
