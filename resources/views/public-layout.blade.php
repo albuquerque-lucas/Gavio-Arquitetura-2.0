@@ -18,7 +18,7 @@
         <div class="container container-fluid">
             <nav class="navbar navbar-expand-lg">
                 <a class="navbar-brand" href="{{ route('public.home') }}">
-                    <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="Gavio Arquitetura Logo" class="logo-image-primary">
+                    <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="Gavio Arquitetura Logo" class="logo-image-secondary">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('public.about.us') }}">Quem Somos</a>
+                            <a class="nav-link" href="{{ route('public.about.us') }}">Sobre</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('public.projects', 'residencial') }}">Projetos</a>
@@ -35,9 +35,6 @@
                             <a class="nav-link" href="{{ route('public.contact.us') }}">Contato</a>
                         </li>
                     </ul>
-                    <span class="navbar-text d-none d-lg-inline">
-                        <img src="{{ asset('storage/logo/gavioarquitetura-escrita-02.png') }}" alt="Gavio Arquitetura Escrita" class="logo-image-secondary">
-                    </span>
                 </div>
             </nav>
         </div>
@@ -47,7 +44,7 @@
         @yield('content')
     </main>
 
-    <footer class='main-footer container'>
+    <footer class='main-footer container w-100'>
         <div class="footer-content">
             <div class="footer-social-media">
                 <a href="https://wa.me/5532988660027?text=Ol%C3%A1%2C+tudo+bem%3F+Vim+pelo+contato+do+site%21+Poder%C3%ADamos+fazer+um+or%C3%A7amento%3F" target="_blank"><i class="fab fa-whatsapp"></i></a>

@@ -3,12 +3,14 @@
 @section('content')
 <section class='projects-container'>
     <div class="container mt-5">
-        <div class="btn-group mb-4 category-btn-container" role="group" aria-label="Categorias">
-            @foreach ($categories as $categoryItem)
-                <a href="{{ route('public.projects', $categoryItem->slug) }}" class="category-btns {{ $category->id == $categoryItem->id ? 'active' : '' }}">
-                    {{ $categoryItem->name }}
-                </a>
-            @endforeach
+        <div class="mb-4 category-select-container">
+            <select id="categorySelect" class="form-select" onchange="location = this.value;">
+                @foreach ($categories as $categoryItem)
+                    <option value="{{ route('public.projects', $categoryItem->slug) }}" {{ $category->id == $categoryItem->id ? 'selected' : '' }}>
+                        {{ $categoryItem->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         @if ($projects->hasPages())
@@ -21,17 +23,17 @@
             </div>
         @endif
 
-        <div class="row">
+        <div class="row project-list-container">
             @forelse ($projects as $project)
                 <div class="col-md-4 mb-4">
                     <a href="{{ route('public.project.show', $project->slug) }}" class="card-link">
-                        <div class="card project-card">
+                        <div class="project-card">
                             <div class="img-container-projects-page">
                                 <img src="{{ $project->coverUrl() }}" class="card-img-top" alt="{{ $project->title }}">
                             </div>
                             <div class="card-body card-body-projects-page transparent-bg text-start">
                                 <h5 class="card-title">{{ $project->title }}</h5>
-                                <p class="card-text">{{ $project->description }}</p>
+                                <p class="card-text">{{ "$project->location, $project->year" }}</p>
                             </div>
                         </div>
                     </a>
@@ -43,3 +45,11 @@
     </div>
 </section>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('categorySelect').addEventListener('change', function () {
+            window.location.href = this.value;
+        });
+    });
+</script>

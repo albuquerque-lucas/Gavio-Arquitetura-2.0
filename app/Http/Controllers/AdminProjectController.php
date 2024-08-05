@@ -44,8 +44,11 @@ class AdminProjectController extends Controller
 
         $categories = Category::all();
 
-        return view('admin-projects.project-list', compact('projects', 'categories'));
+        $hasPages = $projects->hasPages();
+
+        return view('admin-projects.project-list', compact('projects', 'categories', 'hasPages'));
     }
+
 
     public function create()
     {

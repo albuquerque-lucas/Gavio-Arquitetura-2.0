@@ -1,34 +1,48 @@
 
 .body {
-    background-image: url('/public/storage/pages/pagina-background.jpg');
-    // background-color: red;
+    background-image: url('/public/storage/pages/background-body-public.jpg');
     background-size: cover;
     background-attachment: fixed;
+    position: relative;
+    // background-position: center top -150px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 115%;
+        background: rgba(255, 255, 255, 0.6);
+        pointer-events: none;
+        z-index: -10;
+    }
 }
 
 .header {
-    background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, .5) 25%, rgba(0, 0, 0, .5) 75%, transparent 95%);
-
+    // background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, .5) 25%, rgba(0, 0, 0, .5) 75%, transparent 95%);
     .navbar-toggler {
-        color: white;
+        color: #2b3335;
     }
     ul {
+        border-top: 2px solid rgba($color: #2b3335, $alpha: 0.4);
+        width: 90%;
         li {
             border-bottom: 2px solid transparent;
             margin: 0 0.5rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             &:hover {
-                border-bottom: 2px solid #D1BDB0;
+                border-bottom: 2px solid #2b3335;
             }
             a {
-                color: white;
+                color: #2b3335;
                 &:hover {
-                    color: white;
+                    color: #2b3335;
                 }
 
                 &:focus {
-                    color: white;
+                    color: #2b3335;
                 }
             }
 
@@ -45,19 +59,15 @@
 }
 
 .main-footer {
-    margin: 20rem 0;
     display: flex;
     flex-direction: column-reverse;
-    height: 20rem;
+    height: 25rem;
     width: 100%;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
     .footer-content {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 1rem;
         width: 100%;
         text-align: center;
 
@@ -119,7 +129,7 @@
     }
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (min-width: 300px) {
     .main-footer {
         margin: 14rem 0;
     }
@@ -133,16 +143,9 @@
 }
 
 @media screen and (max-width: 991px) {
-    .header {
-        background: rgba(0, 0, 0, 0.5);
-    }
-
-    .logo-image-primary {
-        max-width: 65px;
-    }
 
     .logo-image-secondary {
-        max-width: 90px;
+        max-width: 135px;
     }
 }
 
