@@ -1,36 +1,29 @@
-@extends('public-layout')
+@extends('home-layout')
 
 @section('content')
-<section class='carousel_section container'>
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            @foreach($projects as $index => $project)
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}"
-                    aria-current="true" aria-label="Slide {{ $index + 1 }}"></button>
-            @endforeach
-        </div>
-        <div class="carousel-inner">
-            @foreach($projects as $index => $project)
-                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <a href="{{ route('public.project.show', $project->slug) }}">
-                        <img src="{{ $project->coverUrl() }}" class="d-block w-100" alt="{{ $project->title }}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h4>{{ $project->title }}</h4>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon test" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+<section class='home_section_container'>
+    <div class="d-flex home-item home-images">
+        <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="gavio-arquitetura-logo" class="home-logo">
+        <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="gavio-arquitetura-logo" class="home-logo">
     </div>
+    <nav class="home-item home-nav">
+        <ul>
+            <li>
+                <a href="{{ route('public.about.us') }}">
+                    Sobre
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('public.projects', 'residencial') }}">
+                    Projetos
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('public.contact.us') }}">
+                    Contato
+                </a>
+            </li>
+        </ul>
+    </nav>
 </section>
 @endsection

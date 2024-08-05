@@ -29,7 +29,7 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 Route::middleware('auth')->group(function () {
 
     Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
-    Route::get('/quem-somos', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
+    Route::get('/sobre', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
     Route::get('/projetos/{slug}', [PublicAppController::class, 'renderProjectsPage'])->name('public.projects');
     Route::get('/projeto/{slug}', [PublicAppController::class, 'showProject'])->name('public.project.show');
     Route::get('/contato', [PublicAppController::class, 'renderContactPage'])->name('public.contact.us');

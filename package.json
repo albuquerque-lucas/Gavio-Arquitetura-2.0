@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "sass-app": "sass resources/scss/app.scss public/css/app.css",
+        "sass-public": "sass resources/scss/publicapp.scss public/css/publicapp.css"
     },
     "devDependencies": {
         "axios": "^1.6.4",
