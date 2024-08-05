@@ -3,8 +3,12 @@
 @section('content')
 <section class='home_section_container'>
     <div class="d-flex home-item home-images">
-        <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="gavio-arquitetura-logo" class="home-logo">
-        <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="gavio-arquitetura-logo" class="home-logo">
+        <a href="{{ route('public.home') }}">
+            <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="gavio-arquitetura-logo" class="home-logo">
+        </a>
+        <a href="{{ route('public.home') }}">
+            <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="gavio-arquitetura-logo" class="home-logo">
+        </a>
     </div>
     <nav class="home-item home-nav">
         <ul>
