@@ -61,7 +61,7 @@
 .main-footer {
     display: flex;
     flex-direction: column-reverse;
-    height: 25rem;
+    // height: 25rem;
     width: 100%;
     position: relative;
     left: 50%;
@@ -131,11 +131,11 @@
     }
 }
 
-@media screen and (min-width: 300px) {
-    .main-footer {
-        margin: 14rem 0;
-    }
-}
+// @media screen and (min-width: 300px) {
+//     .main-footer {
+//         margin: 3rem 0;
+//     }
+// }
 
 @media screen and (min-width: 768px) {
     .main-footer {
