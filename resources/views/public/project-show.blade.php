@@ -8,13 +8,13 @@
                 <a href="{{ route('public.projects', $project->category->slug) }}" class="btn btn-secondary go-back-link">Voltar</a>
             </div>
         </div>
-        <div class="row mb-4">
+        {{-- <div class="row mb-4">
             <div class="col-12 d-flex justify-content-center">
                 <div class="cover-image-container">
                     <img src="{{ $project->coverUrl() }}" class="cover-image" alt="{{ $project->title }}" data-bs-toggle="modal" data-bs-target="#coverImageModal">
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row mb-4 text-center">
             <div class="col-12">
                 <h1 class="text-dark">{{ $project->title }}</h1>

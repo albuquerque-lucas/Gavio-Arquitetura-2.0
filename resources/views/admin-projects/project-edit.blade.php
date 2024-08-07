@@ -80,7 +80,7 @@
                         <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple required>
                     </div>
                     <button type="submit" id="uploadButton" class="btn btn-primary">Adicionar Imagens</button>
-                    <progress id="uploadProgress" value="0" max="100" class="w-100 mt-3"></progress>
+                    <progress id="uploadProgress" value="0" max="100" class="w-100 mt-3 progress-upload-bar"></progress>
                     <div id="uploadPercentage" class="text-white mt-1">0%</div>
                 </form>
             </div>

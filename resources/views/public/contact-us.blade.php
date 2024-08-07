@@ -42,7 +42,7 @@
                         <label for="message" class="form-label"></label>
                         <textarea class="form-control" id="message" name="message" rows="5" placeholder="Sua mensagem" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary w-50 align-self-center">Enviar</button>
+                    <button type="submit" class="btn btn-dark w-50 align-self-center">Enviar</button>
                 </form>
             </div>
         </div>
