@@ -4,6 +4,7 @@
   background-attachment: fixed;
   position: relative;
   min-height: 100vh;
+  background-position: center top -175px;
 }
 .body::before {
   content: "";
