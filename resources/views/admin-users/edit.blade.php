@@ -56,7 +56,7 @@
                 <h5 class="text-white">Descrição:</h5>
                 <p class="text-white">{{ $user->description }}</p>
 
-                <h5 class="text-white">Admin:</h5>
+                <h5 class="text-white">Exibe na pagina "sobre":</h5>
                 <p class="text-white">{{ $user->ownership ? 'Sim' : 'Não' }}</p>
 
                 @if ($user->cover_path)
