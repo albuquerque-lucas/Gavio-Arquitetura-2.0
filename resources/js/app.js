@@ -6,9 +6,6 @@ import 'bootstrap';
 
 // Added: Popper.js dependency for popover support in Bootstrap
 import '@popperjs/core';
-
-import Swal from 'sweetalert2';
-
 // Import the custom JavaScript for the delete confirmation modal
 import './deleteConfirmation';
 

@@ -59,9 +59,6 @@
                 <h5 class="text-white">Área:</h5>
                 <p class="text-white">{{ $project->area }} m²</p>
 
-                <h5 class="text-white">Status:</h5>
-                <p class="text-white">{{ $project->status ? 'Ativo' : 'Inativo' }}</p>
-
                 <h5 class="text-white">Descrição:</h5>
                 <p class="text-white">{{ $project->description }}</p>
 
@@ -190,16 +187,6 @@
                                     {{ $category->name }}
                                 </option>
                             @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <h5>
-                            <label for="status" class="form-label text-white">Status:</label>
-                        </h5>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="1" {{ old('status', $project->status) ? 'selected' : '' }}>Ativo</option>
-                            <option value="0" {{ !old('status', $project->status) ? 'selected' : '' }}>Inativo</option>
                         </select>
                     </div>
 

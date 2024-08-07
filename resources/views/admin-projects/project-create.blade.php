@@ -59,13 +59,6 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="status" class="form-label text-white">Status</label>
-                <select class="form-control" id="status" name="status" required>
-                    <option value="0">Inativo</option>
-                    <option value="1">Ativo</option>
-                </select>
-            </div>
-            <div class="mb-3">
                 <label for="description" class="form-label text-white">Descrição</label>
                 <textarea class="form-control" id="description" name="description" rows="3" oninput="updateCharacterCount()"></textarea>
                 <small class="text-white" id="charCount">0 caracteres</small>

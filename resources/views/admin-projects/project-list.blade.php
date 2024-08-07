@@ -65,7 +65,6 @@
                 <th scope="col">Localização</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Ordem</th>
-                <th scope="col">Status</th>
                 <th scope="col">Editar / Excluir</th>
             </tr>
         </thead>
@@ -91,19 +90,6 @@
                             <input type="number" name="order" value="{{ $project->order }}" class="form-control d-inline w-auto">
                             <button type="submit" class="btn link-light p-0 m-0 align-baseline">
                                 <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="{{ route('admin.projetos.toggleCarousel', $project->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn link-light p-0 m-0 align-baseline">
-                                @if ($project->status)
-                                    <i class="fa-solid fa-star"></i>
-                                @else
-                                    <i class="fa-regular fa-star"></i>
-                                @endif
                             </button>
                         </form>
                     </td>
