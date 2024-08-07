@@ -37,7 +37,7 @@
 
     <ul class="nav nav-tabs" id="projectTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="view-tab" data-bs-toggle="tab" href="#view" role="tab" aria-controls="view" aria-selected="true">Visualizar</a>
+            <a class="nav-link text-dark active" id="view-tab" data-bs-toggle="tab" href="#view" role="tab" aria-controls="view" aria-selected="true">Visualizar</a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="edit-tab" data-bs-toggle="tab" href="#edit" role="tab" aria-controls="edit" aria-selected="false">Editar</a>
@@ -148,12 +148,16 @@
                     @method('PATCH')
 
                     <div class="mb-3">
-                        <label for="title" class="form-label text-white">Título</label>
+                        <h5>
+                            <label for="title" class="form-label text-white">Título:</label>
+                        </h5>
                         <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $project->title) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="cover" class="form-label text-white">Capa</label>
+                        <h5>
+                            <label for="cover" class="form-label text-white">Capa:</label>
+                        </h5>
                         <input type="file" class="form-control" id="cover" name="cover" accept="image/*">
                         @if ($project->cover)
                             <div class="mt-2">
@@ -163,17 +167,23 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="location" class="form-label text-white">Localização</label>
+                        <h5>
+                            <label for="location" class="form-label text-white">Localização:</label>
+                        </h5>
                         <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $project->location) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="area" class="form-label text-white">Área (m²)</label>
+                        <h5>
+                            <label for="area" class="form-label text-white">Área (m²):</label>
+                        </h5>
                         <input type="number" class="form-control" id="area" name="area" value="{{ old('area', $project->area) }}">
                     </div>
 
                     <div class="mb-3">
-                        <label for="category_id" class="form-label text-white">Categoria</label>
+                        <h5>
+                            <label for="category_id" class="form-label text-white">Categoria:</label>
+                        </h5>
                         <select class="form-control" id="category_id" name="category_id" required>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" {{ $category->id == old('category_id', $project->category_id) ? 'selected' : '' }}>
@@ -184,7 +194,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="status" class="form-label text-white">Status</label>
+                        <h5>
+                            <label for="status" class="form-label text-white">Status:</label>
+                        </h5>
                         <select class="form-control" id="status" name="status" required>
                             <option value="1" {{ old('status', $project->status) ? 'selected' : '' }}>Ativo</option>
                             <option value="0" {{ !old('status', $project->status) ? 'selected' : '' }}>Inativo</option>
@@ -192,13 +204,17 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label text-white">Descrição</label>
+                        <h5>
+                            <label for="description" class="form-label text-white">Descrição:</label>
+                        </h5>
                         <textarea class="form-control" id="description" name="description" rows="3" oninput="updateCharacterCountEdit()">{{ old('description', $project->description) }}</textarea>
                         <small class="text-white" id="charCountEdit">{{ strlen(old('description', $project->description)) }} caracteres</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="year" class="form-label text-white">Ano</label>
+                        <h5>
+                            <label for="year" class="form-label text-white">Ano:</label>
+                        </h5>
                         <input type="text" class="form-control" id="year" name="year" value="{{ old('year', $project->year) }}">
                     </div>
 
@@ -223,7 +239,7 @@
     </div>
 </div>
 
-<script>
+{{-- <script>
     function updateCharacterCountEdit() {
         const descriptionEdit = document.getElementById('description');
         const charCountEdit = document.getElementById('charCountEdit');
@@ -278,7 +294,7 @@
     const uploadPercentage = document.getElementById('uploadPercentage');
 
     form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
 
         const formData = new FormData(form);
         const xhr = new XMLHttpRequest();
@@ -295,17 +311,14 @@
 
         xhr.onload = function() {
             if (xhr.status === 200) {
-                // Upload complete, reload the page
                 alert('Upload completo!');
-                window.location.reload(); // Recarrega a página
+                window.location.reload();
             } else {
-                // Handle error case
                 alert('Erro no upload, tente novamente.');
             }
         };
 
         xhr.onerror = function() {
-            // Handle error case
             alert('Erro no upload, tente novamente.');
         };
 
@@ -313,5 +326,5 @@
     });
 });
 
-</script>
+</script> --}}
 @endsection
