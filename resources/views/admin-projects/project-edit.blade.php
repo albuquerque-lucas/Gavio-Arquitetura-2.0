@@ -270,5 +270,48 @@
             bulkDeleteForm.submit();
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('imageUploadForm');
+    const uploadButton = document.getElementById('uploadButton');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const uploadPercentage = document.getElementById('uploadPercentage');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(form);
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('POST', form.action, true);
+
+        xhr.upload.addEventListener('progress', function(e) {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                uploadProgress.value = percentComplete;
+                uploadPercentage.textContent = `${Math.round(percentComplete)}%`;
+            }
+        });
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Upload complete, reload the page
+                alert('Upload completo!');
+                window.location.reload(); // Recarrega a página
+            } else {
+                // Handle error case
+                alert('Erro no upload, tente novamente.');
+            }
+        };
+
+        xhr.onerror = function() {
+            // Handle error case
+            alert('Erro no upload, tente novamente.');
+        };
+
+        xhr.send(formData);
+    });
+});
+
 </script>
 @endsection
