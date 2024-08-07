@@ -25,7 +25,7 @@
                 <a href="https://www.instagram.com/isagavio.arq/" target="_blank"><i class="fab fa-instagram"></i></a>
             </div>
             <div class="footer-address">
-                <p>Rua Ataliba de Barros, 182, São Mateus - Juiz de Fora (Rossi 360 Business, sala 407)</p>
+                <p>Rua Ataliba de Barros, 182, São Mateus - Juiz de Fora (Rossi 360 Business, sala 512)</p>
                 <p>2021 - Todos os direitos reservados.</p>
             </div>
         </div>
