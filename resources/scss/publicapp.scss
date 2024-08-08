@@ -4,9 +4,8 @@
     background-size: cover;
     background-attachment: fixed;
     position: relative;
-    min-height: 100vh;
-    background-position: center top -175px;
-
+    background-position: center top;
+    height: 100vh;
     &::before {
         content: '';
         position: absolute;
@@ -139,6 +138,12 @@
     .main-footer {
         flex-direction: row;
         // margin: 4rem 0;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .body {
+        background-position: center top -175px;
     }
 }
 

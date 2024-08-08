@@ -2,11 +2,11 @@
 
 @section('content')
 <section class='home_section_container fade-in'>
-    <div class="d-flex home-item home-images fade-in">
+    <div class="home-item home-images fade-in">
         <a href="{{ route('public.home') }}" class="icon-link">
             <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="gavio-arquitetura-logo" class="home-logo icon-logo fade-in">
         </a>
-        <a href="{{ route('public.home') }}">
+        <a href="{{ route('public.home') }}" class="icon-link">
             <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="gavio-arquitetura-logo" class="home-logo fade-in">
         </a>
     </div>
