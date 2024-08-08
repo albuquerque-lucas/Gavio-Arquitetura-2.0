@@ -3,7 +3,7 @@
 @section('content')
 <section class="project-show-container">
     <div class="container mt-5">
-        <div class="row mb-4">
+        <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center">
                 <a href="{{ route('public.projects', $project->category->slug) }}" class="btn btn-sm go-back-link">
                     <i class="fa-solid fa-arrow-left"></i>
