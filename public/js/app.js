@@ -1,16 +1,11 @@
-// Default Laravel bootstrapper, installs axios
-import './bootstrap';
+// // Default Laravel bootstrapper, installs axios
+// import './bootstrap';
+// // import 'bootstrap';
+// // import '@popperjs/core';
 
-// Added: Actual Bootstrap JavaScript dependency
-import 'bootstrap';
+// import './deleteConfirmation';
 
-// Added: Popper.js dependency for popover support in Bootstrap
-import '@popperjs/core';
-
-// Import the custom JavaScript for the delete confirmation modal
-import './deleteConfirmation';
-
-import './projects/toggleCarousel';
-import './projects/imageUploadProgress';
-import './projects/charCount';
-import './projects/bulkDelete';
+// import './projects/imageUploadProgress';
+// import './projects/charCount';
+// import './projects/bulkDelete';
+// import './projects/toggleCarousel';

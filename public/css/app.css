@@ -1,5 +1,3 @@
-@import url("https://fonts.bunny.net/css?family=Nunito");
-@import "@fortawesome/fontawesome-free/css/all.css";
 .navbar-text {
   margin-right: 1rem;
 }
@@ -108,6 +106,28 @@ select.form-control option {
   top: 0;
   right: 0;
   margin: 5px;
+}
+
+.progress-upload-bar {
+  height: 1rem;
+  border-radius: 0;
+  background-color: #019fcf;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset;
+}
+
+.progress-upload-bar::-webkit-progress-value {
+  background-color: #019fcf;
+  border-radius: 0;
+}
+
+.progress-upload-bar::-moz-progress-bar {
+  background-color: #019fcf;
+  border-radius: 0;
+}
+
+.progress-upload-bar::-ms-fill {
+  background-color: #019fcf;
+  border-radius: 0;
 }
 
 .image-box {

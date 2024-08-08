@@ -226,7 +226,7 @@
     </div>
 </div>
 
-{{-- <script>
+<script>
     function updateCharacterCountEdit() {
         const descriptionEdit = document.getElementById('description');
         const charCountEdit = document.getElementById('charCountEdit');
@@ -313,5 +313,5 @@
     });
 });
 
-</script> --}}
+</script>
 @endsection
