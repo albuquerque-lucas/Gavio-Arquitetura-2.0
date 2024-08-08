@@ -211,6 +211,7 @@
   }
   .home_section_container .home-images {
     flex-direction: row;
+    margin-bottom: 1.5rem;
   }
   .home_section_container .home-images .icon-link {
     margin: 0 1rem;
