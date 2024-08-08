@@ -88,6 +88,10 @@
     background-color: rgba($color: #fff, $alpha: 0.7);
 }
 
+.go-back-link {
+    background-color: #333!important;
+}
+
 @media (max-width: 768px) {
     .cover-image {
         max-width: 100%;
