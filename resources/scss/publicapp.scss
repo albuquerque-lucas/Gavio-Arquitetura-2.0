@@ -5,6 +5,7 @@
     background-attachment: fixed;
     position: relative;
     background-position: center top;
+    min-height: 100vh;
     &::before {
         content: '';
         position: absolute;
