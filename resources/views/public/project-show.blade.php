@@ -5,7 +5,9 @@
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center">
-                <a href="{{ route('public.projects', $project->category->slug) }}" class="btn btn-dark go-back-link">Voltar</a>
+                <a href="{{ route('public.projects', $project->category->slug) }}" class="btn btn-secondary btn-sm go-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
             </div>
         </div>
         {{-- <div class="row mb-4">
