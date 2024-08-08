@@ -24,13 +24,13 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('public.about.us') }}">Sobre</a>
+                            <a class="nav-link" href="{{ route('public.about.us') }}">sobre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('public.projects', 'residencial') }}">Projetos</a>
+                            <a class="nav-link" href="{{ route('public.projects', 'residencial') }}">projetos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('public.contact.us') }}">Contato</a>
+                            <a class="nav-link" href="{{ route('public.contact.us') }}">contato</a>
                         </li>
                     </ul>
                 </div>
