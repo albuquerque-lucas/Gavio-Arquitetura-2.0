@@ -227,91 +227,91 @@
 </div>
 
 <script>
-    function updateCharacterCountEdit() {
-        const descriptionEdit = document.getElementById('description');
-        const charCountEdit = document.getElementById('charCountEdit');
-        charCountEdit.textContent = `${descriptionEdit.value.length} caracteres`;
-    }
+    // function updateCharacterCountEdit() {
+    //     const descriptionEdit = document.getElementById('description');
+    //     const charCountEdit = document.getElementById('charCountEdit');
+    //     charCountEdit.textContent = `${descriptionEdit.value.length} caracteres`;
+    // }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCharacterCountEdit();
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     updateCharacterCountEdit();
 
-        const selectAll = document.getElementById('selectAll');
-        const checkboxes = document.querySelectorAll('.image-checkbox');
-        const deleteSelectedButton = document.getElementById('deleteSelected');
-        const bulkDeleteForm = document.getElementById('bulkDeleteForm');
-        let selectedImages = [];
+    //     const selectAll = document.getElementById('selectAll');
+    //     const checkboxes = document.querySelectorAll('.image-checkbox');
+    //     const deleteSelectedButton = document.getElementById('deleteSelected');
+    //     const bulkDeleteForm = document.getElementById('bulkDeleteForm');
+    //     let selectedImages = [];
 
-        selectAll.addEventListener('change', function () {
-            selectedImages = [];
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAll.checked;
-                if (selectAll.checked) {
-                    selectedImages.push(checkbox.value);
-                }
-            });
-            toggleDeleteButton();
-        });
+    //     selectAll.addEventListener('change', function () {
+    //         selectedImages = [];
+    //         checkboxes.forEach(checkbox => {
+    //             checkbox.checked = selectAll.checked;
+    //             if (selectAll.checked) {
+    //                 selectedImages.push(checkbox.value);
+    //             }
+    //         });
+    //         toggleDeleteButton();
+    //     });
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                if (checkbox.checked) {
-                    selectedImages.push(checkbox.value);
-                } else {
-                    selectedImages = selectedImages.filter(id => id !== checkbox.value);
-                }
-                toggleDeleteButton();
-            });
-        });
+    //     checkboxes.forEach(checkbox => {
+    //         checkbox.addEventListener('change', function () {
+    //             if (checkbox.checked) {
+    //                 selectedImages.push(checkbox.value);
+    //             } else {
+    //                 selectedImages = selectedImages.filter(id => id !== checkbox.value);
+    //             }
+    //             toggleDeleteButton();
+    //         });
+    //     });
 
-        function toggleDeleteButton() {
-            const anyChecked = selectedImages.length > 0;
-            deleteSelectedButton.disabled = !anyChecked;
-        }
+    //     function toggleDeleteButton() {
+    //         const anyChecked = selectedImages.length > 0;
+    //         deleteSelectedButton.disabled = !anyChecked;
+    //     }
 
-        deleteSelectedButton.addEventListener('click', function () {
-            bulkDeleteForm.submit();
-        });
-    });
+    //     deleteSelectedButton.addEventListener('click', function () {
+    //         bulkDeleteForm.submit();
+    //     });
+    // });
 
-    document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('imageUploadForm');
-    const uploadButton = document.getElementById('uploadButton');
-    const uploadProgress = document.getElementById('uploadProgress');
-    const uploadPercentage = document.getElementById('uploadPercentage');
+//     document.addEventListener('DOMContentLoaded', function() {
+//     const form = document.getElementById('imageUploadForm');
+//     const uploadButton = document.getElementById('uploadButton');
+//     const uploadProgress = document.getElementById('uploadProgress');
+//     const uploadPercentage = document.getElementById('uploadPercentage');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+//     form.addEventListener('submit', function(event) {
+//         event.preventDefault();
 
-        const formData = new FormData(form);
-        const xhr = new XMLHttpRequest();
+//         const formData = new FormData(form);
+//         const xhr = new XMLHttpRequest();
 
-        xhr.open('POST', form.action, true);
+//         xhr.open('POST', form.action, true);
 
-        xhr.upload.addEventListener('progress', function(e) {
-            if (e.lengthComputable) {
-                const percentComplete = (e.loaded / e.total) * 100;
-                uploadProgress.value = percentComplete;
-                uploadPercentage.textContent = `${Math.round(percentComplete)}%`;
-            }
-        });
+//         xhr.upload.addEventListener('progress', function(e) {
+//             if (e.lengthComputable) {
+//                 const percentComplete = (e.loaded / e.total) * 100;
+//                 uploadProgress.value = percentComplete;
+//                 uploadPercentage.textContent = `${Math.round(percentComplete)}%`;
+//             }
+//         });
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                alert('Upload completo!');
-                window.location.reload();
-            } else {
-                alert('Erro no upload, tente novamente.');
-            }
-        };
+//         xhr.onload = function() {
+//             if (xhr.status === 200) {
+//                 alert('Upload completo!');
+//                 window.location.reload();
+//             } else {
+//                 alert('Erro no upload, tente novamente.');
+//             }
+//         };
 
-        xhr.onerror = function() {
-            alert('Erro no upload, tente novamente.');
-        };
+//         xhr.onerror = function() {
+//             alert('Erro no upload, tente novamente.');
+//         };
 
-        xhr.send(formData);
-    });
-});
+//         xhr.send(formData);
+//     });
+// });
 
 </script>
 @endsection

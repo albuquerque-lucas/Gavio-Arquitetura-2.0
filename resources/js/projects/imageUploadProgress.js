@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
+        // Desabilitar o botão e mudar o texto para "Aguarde..."
+        uploadButton.disabled = true;
+        uploadButton.innerHTML = `Aguarde... <i class="fa-solid fa-spinner fa-spin"></i>`;
+
         const formData = new FormData(form);
         const xhr = new XMLHttpRequest();
 
@@ -38,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: 'Erro no upload',
                     text: 'Tente novamente.',
                 });
+                // Habilitar o botão e resetar o texto
+                uploadButton.disabled = false;
+                uploadButton.textContent = 'Adicionar Imagens';
             }
         };
 
@@ -47,6 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'Erro no upload',
                 text: 'Tente novamente.',
             });
+            // Habilitar o botão e resetar o texto
+            uploadButton.disabled = false;
+            uploadButton.textContent = 'Adicionar Imagens';
         };
 
         xhr.send(formData);

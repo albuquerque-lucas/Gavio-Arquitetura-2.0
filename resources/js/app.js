@@ -13,3 +13,5 @@ import './projects/toggleCarousel';
 import './projects/imageUploadProgress';
 import './projects/charCount';
 import './projects/bulkDelete';
+
+console.log('Arquivo app.js de resources');
