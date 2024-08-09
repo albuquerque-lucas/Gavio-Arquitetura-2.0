@@ -3028,7 +3028,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _projects_charCount__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./projects/charCount */ "./resources/js/projects/charCount.js");
 /* harmony import */ var _projects_charCount__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_projects_charCount__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _projects_bulkDelete__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./projects/bulkDelete */ "./resources/js/projects/bulkDelete.js");
-/* harmony import */ var _projects_bulkDelete__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_projects_bulkDelete__WEBPACK_IMPORTED_MODULE_6__);
 // Default Laravel bootstrapper, installs axios
 
 
@@ -3093,7 +3092,12 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!*********************************************!*\
   !*** ./resources/js/projects/bulkDelete.js ***!
   \*********************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 
 document.addEventListener('DOMContentLoaded', function () {
   var selectAll = document.getElementById('selectAll');
@@ -3101,6 +3105,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var deleteSelectedButton = document.getElementById('deleteSelected');
   var bulkDeleteForm = document.getElementById('bulkDeleteForm');
   var selectedImages = [];
+
+  // Manipulador para selecionar/desmarcar todos os checkboxes
   selectAll.addEventListener('change', function () {
     selectedImages = [];
     checkboxes.forEach(function (checkbox) {
@@ -3111,6 +3117,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     toggleDeleteButton();
   });
+
+  // Manipulador para cada checkbox individual
   checkboxes.forEach(function (checkbox) {
     checkbox.addEventListener('change', function () {
       if (checkbox.checked) {
@@ -3123,12 +3131,53 @@ document.addEventListener('DOMContentLoaded', function () {
       toggleDeleteButton();
     });
   });
+
+  // Função para habilitar/desabilitar o botão de deletar
   function toggleDeleteButton() {
     var anyChecked = selectedImages.length > 0;
     deleteSelectedButton.disabled = !anyChecked;
   }
-  deleteSelectedButton.addEventListener('click', function () {
-    bulkDeleteForm.submit();
+
+  // Manipulador para o botão de deletar selecionados
+  deleteSelectedButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Previne o envio padrão do formulário
+
+    // Desabilitar o botão e mudar o texto para "Excluindo..."
+    deleteSelectedButton.disabled = true;
+    deleteSelectedButton.innerHTML = 'Excluindo... <i class="fas fa-spinner fa-spin"></i>';
+    var formData = new FormData(bulkDeleteForm);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', bulkDeleteForm.action, true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+          icon: 'success',
+          title: 'Imagens excluídas!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(function () {
+          window.location.reload();
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+          icon: 'error',
+          title: 'Erro ao excluir imagens',
+          text: 'Tente novamente.'
+        });
+        deleteSelectedButton.disabled = false;
+        deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+      }
+    };
+    xhr.onerror = function () {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'error',
+        title: 'Erro no servidor',
+        text: 'Tente novamente.'
+      });
+      deleteSelectedButton.disabled = false;
+      deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+    };
+    xhr.send(formData);
   });
 });
 
