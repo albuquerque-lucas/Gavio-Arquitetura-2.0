@@ -278,10 +278,14 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Sim, excluir!',
-                cancelButtonText: 'Cancelar'
+                cancelButtonText: 'Cancelar',
+                customClass: {
+                    confirmButton: 'btn btn-primary mx-1',
+                    cancelButton: 'btn btn-secondary mx-1'
+                },
+                buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Desabilitar o botão e mudar o texto para "Excluindo..."
                     deleteSelectedButton.disabled = true;
                     deleteSelectedButton.innerHTML = 'Excluindo... <i class="fas fa-spinner fa-spin"></i>';
 
@@ -292,18 +296,42 @@
 
                     xhr.onload = function() {
                         if (xhr.status === 200) {
-                            Swal.fire('Excluído!', 'As imagens foram excluídas com sucesso.', 'success').then(() => {
+                            Swal.fire({
+                                title: 'Excluído!',
+                                text: 'As imagens foram excluídas com sucesso.',
+                                icon: 'success',
+                                customClass: {
+                                    confirmButton: 'btn btn-primary'
+                                },
+                                buttonsStyling: false
+                            }).then(() => {
                                 window.location.reload();
                             });
                         } else {
-                            Swal.fire('Erro!', 'Erro ao excluir imagens. Tente novamente.', 'error');
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Erro ao excluir imagens. Tente novamente.',
+                                icon: 'error',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                },
+                                buttonsStyling: false
+                            });
                             deleteSelectedButton.disabled = false;
                             deleteSelectedButton.innerHTML = 'Excluir Selecionados';
                         }
                     };
 
                     xhr.onerror = function() {
-                        Swal.fire('Erro!', 'Erro no servidor. Tente novamente.', 'error');
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: 'Erro no servidor. Tente novamente.',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                        });
                         deleteSelectedButton.disabled = false;
                         deleteSelectedButton.innerHTML = 'Excluir Selecionados';
                     };
@@ -342,18 +370,42 @@
 
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    Swal.fire('Sucesso!', 'Upload completo!', 'success').then(() => {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'Upload completo!',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    }).then(() => {
                         window.location.reload();
                     });
                 } else {
-                    Swal.fire('Erro!', 'Erro no upload, tente novamente.', 'error');
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: 'Erro no upload, tente novamente.',
+                        icon: 'error',
+                        customClass: {
+                            confirmButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                    });
                     uploadButton.disabled = false;
                     uploadButton.innerHTML = 'Adicionar Imagens';
                 }
             };
 
             xhr.onerror = function() {
-                Swal.fire('Erro!', 'Erro no upload, tente novamente.', 'error');
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Erro no upload, tente novamente.',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
                 uploadButton.disabled = false;
                 uploadButton.innerHTML = 'Adicionar Imagens';
             };
@@ -362,6 +414,7 @@
         });
     });
 </script>
+
 
 
 @endsection
