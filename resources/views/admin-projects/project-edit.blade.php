@@ -225,15 +225,14 @@
         </div>
     </div>
 </div>
-
 <script>
-    function updateCharacterCountEdit() {
-        const descriptionEdit = document.getElementById('description');
-        const charCountEdit = document.getElementById('charCountEdit');
-        charCountEdit.textContent = `${descriptionEdit.value.length} caracteres`;
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
+        function updateCharacterCountEdit() {
+            const descriptionEdit = document.getElementById('description');
+            const charCountEdit = document.getElementById('charCountEdit');
+            charCountEdit.textContent = `${descriptionEdit.value.length} caracteres`;
+        }
+
         updateCharacterCountEdit();
 
         const selectAll = document.getElementById('selectAll');
@@ -272,33 +271,46 @@
         deleteSelectedButton.addEventListener('click', function (event) {
             event.preventDefault();  // Previne o envio imediato do formulário
 
-            // Desabilitar o botão e mudar o texto para "Excluindo..."
-            deleteSelectedButton.disabled = true;
-            deleteSelectedButton.innerHTML = 'Excluindo... <i class="fas fa-spinner fa-spin"></i>';
+            // Mostrar um alerta de confirmação usando SweetAlert2
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: 'Você não poderá reverter isso!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Desabilitar o botão e mudar o texto para "Excluindo..."
+                    deleteSelectedButton.disabled = true;
+                    deleteSelectedButton.innerHTML = 'Excluindo... <i class="fas fa-spinner fa-spin"></i>';
 
-            const formData = new FormData(bulkDeleteForm);
-            const xhr = new XMLHttpRequest();
+                    const formData = new FormData(bulkDeleteForm);
+                    const xhr = new XMLHttpRequest();
 
-            xhr.open('POST', bulkDeleteForm.action, true);
+                    xhr.open('POST', bulkDeleteForm.action, true);
 
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    alert('Imagens excluídas com sucesso!');
-                    window.location.reload();
-                } else {
-                    alert('Erro ao excluir imagens. Tente novamente.');
-                    deleteSelectedButton.disabled = false;
-                    deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            Swal.fire('Excluído!', 'As imagens foram excluídas com sucesso.', 'success').then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire('Erro!', 'Erro ao excluir imagens. Tente novamente.', 'error');
+                            deleteSelectedButton.disabled = false;
+                            deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+                        }
+                    };
+
+                    xhr.onerror = function() {
+                        Swal.fire('Erro!', 'Erro no servidor. Tente novamente.', 'error');
+                        deleteSelectedButton.disabled = false;
+                        deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+                    };
+
+                    xhr.send(formData);
                 }
-            };
-
-            xhr.onerror = function() {
-                alert('Erro no servidor. Tente novamente.');
-                deleteSelectedButton.disabled = false;
-                deleteSelectedButton.innerHTML = 'Excluir Selecionados';
-            };
-
-            xhr.send(formData);
+            });
         });
     });
 
@@ -330,17 +342,18 @@
 
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    alert('Upload completo!');
-                    window.location.reload();
+                    Swal.fire('Sucesso!', 'Upload completo!', 'success').then(() => {
+                        window.location.reload();
+                    });
                 } else {
-                    alert('Erro no upload, tente novamente.');
+                    Swal.fire('Erro!', 'Erro no upload, tente novamente.', 'error');
                     uploadButton.disabled = false;
                     uploadButton.innerHTML = 'Adicionar Imagens';
                 }
             };
 
             xhr.onerror = function() {
-                alert('Erro no upload, tente novamente.');
+                Swal.fire('Erro!', 'Erro no upload, tente novamente.', 'error');
                 uploadButton.disabled = false;
                 uploadButton.innerHTML = 'Adicionar Imagens';
             };
@@ -349,5 +362,6 @@
         });
     });
 </script>
+
 
 @endsection
