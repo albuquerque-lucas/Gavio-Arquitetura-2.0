@@ -269,49 +269,85 @@
             deleteSelectedButton.disabled = !anyChecked;
         }
 
-        deleteSelectedButton.addEventListener('click', function () {
-            bulkDeleteForm.submit();
+        deleteSelectedButton.addEventListener('click', function (event) {
+            event.preventDefault();  // Previne o envio imediato do formulário
+
+            // Desabilitar o botão e mudar o texto para "Excluindo..."
+            deleteSelectedButton.disabled = true;
+            deleteSelectedButton.innerHTML = 'Excluindo... <i class="fas fa-spinner fa-spin"></i>';
+
+            const formData = new FormData(bulkDeleteForm);
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('POST', bulkDeleteForm.action, true);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert('Imagens excluídas com sucesso!');
+                    window.location.reload();
+                } else {
+                    alert('Erro ao excluir imagens. Tente novamente.');
+                    deleteSelectedButton.disabled = false;
+                    deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+                }
+            };
+
+            xhr.onerror = function() {
+                alert('Erro no servidor. Tente novamente.');
+                deleteSelectedButton.disabled = false;
+                deleteSelectedButton.innerHTML = 'Excluir Selecionados';
+            };
+
+            xhr.send(formData);
         });
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('imageUploadForm');
-    const uploadButton = document.getElementById('uploadButton');
-    const uploadProgress = document.getElementById('uploadProgress');
-    const uploadPercentage = document.getElementById('uploadPercentage');
+        const form = document.getElementById('imageUploadForm');
+        const uploadButton = document.getElementById('uploadButton');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadPercentage = document.getElementById('uploadPercentage');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        const formData = new FormData(form);
-        const xhr = new XMLHttpRequest();
+            // Desabilitar o botão e mudar o texto para "Aguarde..."
+            uploadButton.disabled = true;
+            uploadButton.innerHTML = 'Aguarde... <i class="fas fa-spinner fa-spin"></i>';
 
-        xhr.open('POST', form.action, true);
+            const formData = new FormData(form);
+            const xhr = new XMLHttpRequest();
 
-        xhr.upload.addEventListener('progress', function(e) {
-            if (e.lengthComputable) {
-                const percentComplete = (e.loaded / e.total) * 100;
-                uploadProgress.value = percentComplete;
-                uploadPercentage.textContent = `${Math.round(percentComplete)}%`;
-            }
-        });
+            xhr.open('POST', form.action, true);
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                alert('Upload completo!');
-                window.location.reload();
-            } else {
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    const percentComplete = (e.loaded / e.total) * 100;
+                    uploadProgress.value = percentComplete;
+                    uploadPercentage.textContent = `${Math.round(percentComplete)}%`;
+                }
+            });
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert('Upload completo!');
+                    window.location.reload();
+                } else {
+                    alert('Erro no upload, tente novamente.');
+                    uploadButton.disabled = false;
+                    uploadButton.innerHTML = 'Adicionar Imagens';
+                }
+            };
+
+            xhr.onerror = function() {
                 alert('Erro no upload, tente novamente.');
-            }
-        };
+                uploadButton.disabled = false;
+                uploadButton.innerHTML = 'Adicionar Imagens';
+            };
 
-        xhr.onerror = function() {
-            alert('Erro no upload, tente novamente.');
-        };
-
-        xhr.send(formData);
+            xhr.send(formData);
+        });
     });
-});
-
 </script>
+
 @endsection
