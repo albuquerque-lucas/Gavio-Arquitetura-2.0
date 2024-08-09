@@ -269,9 +269,8 @@
         }
 
         deleteSelectedButton.addEventListener('click', function (event) {
-            event.preventDefault();  // Previne o envio imediato do formulário
+            event.preventDefault();
 
-            // Mostrar um alerta de confirmação usando SweetAlert2
             Swal.fire({
                 title: 'Tem certeza?',
                 text: 'Você não poderá reverter isso!',
@@ -351,7 +350,6 @@
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Desabilitar o botão e mudar o texto para "Aguarde..."
             uploadButton.disabled = true;
             uploadButton.innerHTML = 'Aguarde... <i class="fas fa-spinner fa-spin"></i>';
 
