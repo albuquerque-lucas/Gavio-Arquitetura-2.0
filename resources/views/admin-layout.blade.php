@@ -29,7 +29,8 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <x-nav-item route="admin.projetos.index" text="Projetos" />
                             <x-nav-item route="admin.categories.index" text="Categorias" />
-                            <x-nav-item route="admin.users.index" text="Usuários" />
+                            <x-nav-item route="admin.users.index" text="Usuarios" />
+                            <x-nav-item route="admin.appearance.edit" text="Aparencia" />
                         </ul>
                         <div class="d-flex align-items-center">
                             <span class="navbar-text text-white mx-5 btn btn-secondary">

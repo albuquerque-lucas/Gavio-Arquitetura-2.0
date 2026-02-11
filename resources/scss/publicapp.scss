@@ -1,6 +1,6 @@
 
 .body {
-    background-image: url('/storage/pages/background-body-public.jpg');
+    background-image: var(--public-bg-image, url('/storage/pages/background-body-public.jpg'));
     background-size: cover;
     background-attachment: fixed;
     position: relative;
@@ -30,12 +30,14 @@
         li {
             border-bottom: 2px solid transparent;
             margin: 0 0.5rem;
-            letter-spacing: 2px;
+            letter-spacing: 1.4px;
             &:hover {
                 border-bottom: 2px solid #2b3335;
             }
             a {
                 color: #2b3335;
+                font-size: clamp(1.08rem, 1.05vw, 1.24rem);
+                line-height: 1.35;
                 &:hover {
                     color: #2b3335;
                 }
@@ -164,4 +166,3 @@
 @import './public/projects.scss';
 @import './public/project-show.scss';
 @import './public/contact-us.scss';
-

@@ -1,143 +1,169 @@
 @extends('admin-layout')
 
 @section('content')
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-white">Usuário: {{ $user->name }}</h1>
-        <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Voltar</a>
-    </div>
+<div class="container mt-5 user-profile-page">
+    <section class="userp-header">
+        <h1 class="userp-title">Perfil de Usuario</h1>
+        <a href="{{ route('admin.users.index') }}" class="userp-btn userp-btn-ghost">Voltar</a>
+    </section>
 
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="userp-alert userp-alert-success alert alert-dismissible fade show" role="alert">
+            <span>{{ session('success') }}</span>
+            <button type="button" class="userp-alert-close" data-bs-dismiss="alert" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
     @endif
 
     @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="userp-alert userp-alert-danger alert alert-dismissible fade show" role="alert">
+            <span>{{ session('error') }}</span>
+            <button type="button" class="userp-alert-close" data-bs-dismiss="alert" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
     @endif
 
     @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <ul>
+        <div class="userp-alert userp-alert-danger alert alert-dismissible fade show" role="alert">
+            <ul class="m-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="userp-alert-close" data-bs-dismiss="alert" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
     @endif
 
-    <ul class="nav nav-tabs" id="userTabs" role="tablist">
+    <section class="userp-hero">
+        @if($user->hasCoverPhoto())
+            <button type="button" class="userp-avatar-btn" data-bs-toggle="modal" data-bs-target="#coverImageModal" aria-label="Abrir imagem de perfil">
+                <img src="{{ $user->coverUrl() }}" alt="{{ $user->name }}" class="userp-avatar">
+            </button>
+        @else
+            <div class="userp-avatar userp-avatar-placeholder" aria-label="Iniciais do usuario">
+                <span>{{ $user->profileInitials() }}</span>
+            </div>
+        @endif
+
+        <div class="userp-hero-meta">
+            <h2>{{ $user->name }}</h2>
+            <p>@ {{ $user->username }}</p>
+            <div class="userp-badges">
+                <span class="userp-badge">{{ $user->email }}</span>
+                <span class="userp-badge {{ $user->ownership ? 'is-active' : '' }}">
+                    {{ $user->ownership ? 'Exibe no sobre' : 'Nao exibe no sobre' }}
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <ul class="nav nav-tabs userp-tabs" id="userTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="view-tab" data-bs-toggle="tab" href="#view" role="tab" aria-controls="view" aria-selected="true">Visualizar</a>
+            <button class="nav-link active" id="view-tab" data-bs-toggle="tab" data-bs-target="#view" type="button" role="tab" aria-controls="view" aria-selected="true">Visualizar</button>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="edit-tab" data-bs-toggle="tab" href="#edit" role="tab" aria-controls="edit" aria-selected="false">Editar</a>
+            <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false">Editar</button>
         </li>
     </ul>
 
-    <div class="tab-content" id="userTabsContent">
+    <div class="tab-content userp-tab-content" id="userTabsContent">
         <div class="tab-pane fade show active" id="view" role="tabpanel" aria-labelledby="view-tab">
-            <div class="mt-4">
-                <h5 class="text-white">Nome:</h5>
-                <p class="text-white">{{ $user->name }}</p>
+            <section class="userp-view-grid">
+                <article class="userp-info-card">
+                    <h5>Nome</h5>
+                    <p>{{ $user->name }}</p>
+                </article>
+                <article class="userp-info-card">
+                    <h5>Username</h5>
+                    <p>{{ $user->username }}</p>
+                </article>
+                <article class="userp-info-card">
+                    <h5>Email</h5>
+                    <p>{{ $user->email }}</p>
+                </article>
+                <article class="userp-info-card">
+                    <h5>Sobre</h5>
+                    <p>{{ $user->ownership ? 'Sim, aparece na pagina sobre.' : 'Nao aparece na pagina sobre.' }}</p>
+                </article>
+            </section>
 
-                <h5 class="text-white">Username:</h5>
-                <p class="text-white">{{ $user->username }}</p>
+            <section class="userp-description-card">
+                <h5>Descricao</h5>
+                <p>{{ $user->description ?: 'Sem descricao cadastrada.' }}</p>
+            </section>
 
-                <h5 class="text-white">Email:</h5>
-                <p class="text-white">{{ $user->email }}</p>
-
-                <h5 class="text-white">Descrição:</h5>
-                <p class="text-white">{{ $user->description }}</p>
-
-                <h5 class="text-white">Exibe na pagina "sobre":</h5>
-                <p class="text-white">{{ $user->ownership ? 'Sim' : 'Não' }}</p>
-
-                @if ($user->cover_path)
-                    <h5 class="text-white">Imagem de Perfil:</h5>
-                    <img src="{{ $user->cover_path }}" alt="{{ $user->name }} Cover" width="150" data-bs-toggle="modal" data-bs-target="#coverImageModal">
-                @endif
-            </div>
         </div>
 
         <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
-            <div class="mt-4">
-                <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+            <section class="userp-form-surface">
+                <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="userp-form-grid">
                     @csrf
                     @method('PATCH')
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label text-white">Nome</label>
+                    <div class="userp-field">
+                        <label for="name">Nome</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="username" class="form-label text-white">Username</label>
+                    <div class="userp-field">
+                        <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-white">Email</label>
+                    <div class="userp-field">
+                        <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label text-white">Senha</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                        <small class="text-muted">Deixe em branco se não deseja alterar a senha.</small>
+                    <div class="userp-field">
+                        <label for="cover_path">Foto de perfil</label>
+                        <input type="file" class="form-control" id="cover_path" name="cover_path" accept="image/*">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password_confirmation" class="form-label text-white">Confirmar Senha</label>
+                    <div class="userp-field">
+                        <label for="password">Senha</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                        <small>Deixe vazio para manter a senha atual.</small>
+                    </div>
+
+                    <div class="userp-field">
+                        <label for="password_confirmation">Confirmar senha</label>
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="cover_path" class="form-label text-white">Imagem de Perfil</label>
-                        <input type="file" class="form-control" id="cover_path" name="cover_path" accept="image/*">
-                        @if ($user->cover_path)
-                            <div class="mt-2">
-                                <img src="{{ $user->cover_path }}" alt="{{ $user->name }} Cover" width="150">
-                            </div>
-                        @endif
+                    <div class="userp-field userp-field-full">
+                        <label for="description">Descricao</label>
+                        <textarea class="form-control" id="description" name="description" rows="4">{{ old('description', $user->description) }}</textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label text-white">Descrição</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $user->description) }}</textarea>
+                    <div class="userp-field userp-field-full userp-check-field">
+                        <input type="checkbox" class="form-check-input" id="ownership" name="ownership" value="1" {{ old('ownership', $user->ownership) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="ownership">Exibir este usuario na pagina sobre</label>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="ownership" class="form-label text-white">Ownership</label>
-                        <select class="form-control" id="ownership" name="ownership" required>
-                            <option value="1" {{ old('ownership', $user->ownership) == 1 ? 'selected' : '' }}>Yes</option>
-                            <option value="0" {{ old('ownership', $user->ownership) == 0 ? 'selected' : '' }}>No</option>
-                        </select>
+                    <div class="userp-actions userp-field-full">
+                        <button type="submit" class="userp-btn userp-btn-primary">Salvar alteracoes</button>
+                        <button class="userp-btn userp-btn-ghost" type="button" data-bs-toggle="tab" data-bs-target="#view" aria-controls="view" aria-selected="true">Cancelar</button>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Atualizar Usuário</button>
                 </form>
-            </div>
+            </section>
         </div>
     </div>
 </div>
 
-<!-- Modal for cover image -->
-@if ($user->cover_path)
+@if($user->hasCoverPhoto())
     <div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md">
-            <div class="modal-content">
+            <div class="modal-content gavio-modal-content">
                 <div class="modal-body p-0">
-                    <img src="{{ $user->cover_path }}" class="img-fluid w-100" style="height: auto;" alt="{{ $user->name }}">
+                    <img src="{{ $user->coverUrl() }}" class="img-fluid w-100" style="height: auto;" alt="{{ $user->name }}">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="gavio-btn gavio-btn-ghost" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

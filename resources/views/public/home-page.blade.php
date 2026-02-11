@@ -3,12 +3,14 @@
 @section('content')
 <section class='home_section_container fade-in'>
     <div class="home-item home-images fade-in">
-        <a href="{{ route('public.home') }}" class="icon-link">
-            <img src="{{ asset('storage/logo/gavioarquitetura-icone-02.png') }}" alt="gavio-arquitetura-logo" class="home-logo icon-logo fade-in">
-        </a>
-        <a href="{{ route('public.home') }}" class="icon-link">
-            <img src="{{ asset('storage/logo/gavioarquitetura-escrita-01.png') }}" alt="gavio-arquitetura-logo" class="home-logo fade-in">
-        </a>
+        <div class="brand-lockup fade-in">
+            <a href="{{ route('public.home') }}" class="icon-link">
+                <img src="{{ $assets['brand_logo_icon_url'] }}" alt="gavio-arquitetura-logo" class="home-logo icon-logo fade-in">
+            </a>
+            <a href="{{ route('public.home') }}" class="icon-link written-link">
+                <img src="{{ $assets['brand_logo_written_url'] }}" alt="gavio-arquitetura-logo" class="home-logo written-logo fade-in">
+            </a>
+        </div>
     </div>
     <nav class="home-item home-nav fade-in">
         <ul>

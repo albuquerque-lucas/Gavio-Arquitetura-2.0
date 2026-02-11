@@ -43,4 +43,27 @@ class User extends Authenticatable
             return asset('storage/users/cover/no-image.jpg');
         }
     }
+
+    public function hasCoverPhoto(): bool
+    {
+        return !empty($this->cover_path);
+    }
+
+    public function profileInitials(): string
+    {
+        $name = trim((string) $this->name);
+        if ($name === '') {
+            return 'US';
+        }
+
+        $parts = preg_split('/\s+/', $name, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        if (count($parts) >= 2) {
+            $first = mb_substr($parts[0], 0, 1);
+            $second = mb_substr($parts[1], 0, 1);
+            return mb_strtoupper($first . $second);
+        }
+
+        $single = $parts[0] ?? $name;
+        return mb_strtoupper(mb_substr($single, 0, 2));
+    }
 }

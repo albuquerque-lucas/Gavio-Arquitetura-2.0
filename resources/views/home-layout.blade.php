@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/publicapp.css') }}">
     <link rel="icon" href="{{ asset('storage/logo/gavioarquitetura-icone-white.png') }}" type="image/png">
 </head>
-<body class='body'>
+<body class='body' style="--public-bg-image: url('{{ $assets['home_background_url'] }}');">
 
     <main class="">
         @yield('content')

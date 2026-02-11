@@ -17,8 +17,22 @@
     .home-images {
         // background-color: red;
         justify-content: center;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
+    }
+
+    .brand-lockup {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.1rem;
+        width: min(100%, 440px);
+    }
+
+    .icon-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .home-nav {
@@ -36,68 +50,95 @@
             li {
                 display: flex;
                 align-items: center;
-                border-top: 5px solid rgba($color: #495052, $alpha: 0.2);
+                border-top: 4px solid rgba($color: #495052, $alpha: 0.25);
                 width: 100%;
-                height: 3rem;
+                min-height: 3.35rem;
                 margin: 0.25rem 0;
                 cursor: pointer;
                 border-bottom: 2px solid transparent;
+                transition: background-color 220ms ease, transform 220ms ease, border-bottom-color 220ms ease;
                 &:hover {
-                    background-color: rgba(255, 255, 255, 0.6);
-                    border-bottom: 2px solid rgba($color: #2b3335, $alpha: 0.4);
+                    background-color: rgba(255, 255, 255, 0.52);
+                    border-bottom: 2px solid rgba($color: #2b3335, $alpha: 0.35);
+                    transform: translateX(6px);
                 }
                 a {
-                    font-size: 140%;
+                    font-size: clamp(0.95rem, 1.35vw, 1.35rem);
+                    letter-spacing: 0.01em;
                     width: 100%;
                     text-align: center;
                     text-decoration: none;
                     color: #2b3335;
+                    padding: 0.2rem 0;
                 }
             }
 
         }
     }
     .home-logo {
-        max-width: 200px;
+        display: block;
+        max-width: 100%;
     }
 
     .icon-logo {
-        width: 100px;
-        margin-bottom: 2rem;
+        width: clamp(84px, 11vw, 118px);
+        margin-bottom: 0;
+    }
+
+    .written-link {
+        flex: 1;
+        justify-content: flex-start;
+    }
+
+    .written-logo {
+        width: clamp(240px, 30vw, 360px);
     }
 }
 
 
 .fade-in {
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 900ms ease-in-out, transform 900ms ease-in-out;
+    transform: translateY(8px);
 }
 
 .fade-in.show {
     opacity: 1;
+    transform: translateY(0);
 }
 
+.home-nav ul li.fade-in:nth-child(1) {
+    transition-delay: 80ms;
+}
+
+.home-nav ul li.fade-in:nth-child(2) {
+    transition-delay: 160ms;
+}
+
+.home-nav ul li.fade-in:nth-child(3) {
+    transition-delay: 240ms;
+}
 
 @media (min-width: 997px) {
     .home_section_container {
         flex-direction: row;
-        padding: 0 10rem;
+        padding: 0 9rem;
         .home-item {
             justify-content: flex-start;
-            height: 30rem;
+            height: 27rem;
             width: 50%;
         }
 
         .home-images {
-            flex-direction: row;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.6rem;
             .icon-link {
-                margin: 0 1rem;
+                margin: 0;
             }
         }
 
         .home-nav {
             align-items: center;
+            margin-top: 1rem;
             ul {
                 padding: 0;
                 margin: 0;
@@ -108,11 +149,6 @@
                     }
                 }
             }
-        }
-
-        .icon-logo {
-            width: 90px;
-            margin-bottom: 0;
         }
     }
 

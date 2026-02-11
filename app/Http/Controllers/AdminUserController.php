@@ -26,17 +26,21 @@ class AdminUserController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:users,username',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
                 'cover_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'description' => 'nullable|string|max:255',
+                'ownership' => 'nullable|boolean',
             ]);
 
             $user = new User();
             $user->name = $validated['name'];
+            $user->username = $validated['username'];
             $user->email = $validated['email'];
             $user->password = Hash::make($validated['password']);
             $user->description = $validated['description'] ?? null;
+            $user->ownership = $request->boolean('ownership');
 
             if ($request->hasFile('cover_path')) {
                 $file = $request->file('cover_path');
@@ -75,6 +79,7 @@ class AdminUserController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:users,username,' . $id,
                 'email' => 'required|string|email|max:255|unique:users,email,' . $id,
                 'password' => 'nullable|string|min:8|confirmed',
                 'cover_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -86,6 +91,7 @@ class AdminUserController extends Controller
 
             $user = User::findOrFail($id);
             $user->name = $validated['name'];
+            $user->username = $validated['username'];
             $user->email = $validated['email'];
             if ($request->filled('password')) {
                 $user->password = Hash::make($validated['password']);

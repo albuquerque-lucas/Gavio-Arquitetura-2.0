@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminSiteAssetController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\PublicAppController;
 use App\Http\Controllers\ContactController;
@@ -73,4 +74,8 @@ Route::middleware('auth')->group(function () {
         'update' => 'admin.categories.update',
         'destroy' => 'admin.categories.destroy',
     ]);
+
+    // Rotas para Aparência (assets visuais do site)
+    Route::get('/admin/aparencia', [AdminSiteAssetController::class, 'edit'])->name('admin.appearance.edit');
+    Route::post('/admin/aparencia', [AdminSiteAssetController::class, 'update'])->name('admin.appearance.update');
 });

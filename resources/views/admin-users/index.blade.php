@@ -41,7 +41,7 @@
     </section>
 
     <section class="user-table-surface mt-4">
-        <div class="table-responsive">
+        <div class="user-table-wrap">
             <table class="table user-table">
                 <thead>
                     <tr>
