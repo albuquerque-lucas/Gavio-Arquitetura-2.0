@@ -2,109 +2,150 @@
 
 @section('content')
 <div class="container mt-5 project-list-page">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1 class="text-white my-3">Projetos</h1>
+    <section class="project-list-hero">
         <div>
-            <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="d-inline">
-                <input type="text" name="search" placeholder="Pesquisar por nome" value="{{ request('search') }}" class="form-control d-inline w-auto btn-spacing search-input">
+            <h1 class="project-list-title">Projetos</h1>
+            <p class="project-list-subtitle">Gerencie projetos, capas e ordenacao da vitrine.</p>
+        </div>
+        <div class="project-list-stats" aria-label="Resumo de projetos">
+            <span class="project-list-stat-label">Total</span>
+            <strong class="project-list-stat-value">{{ $projects->total() }}</strong>
+        </div>
+    </section>
 
-                <select name="category_id" class="form-select d-inline w-auto btn-spacing">
+    <section class="project-list-toolbar">
+        <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="project-filters">
+            <div class="project-field search-field">
+                <label for="search">Pesquisar</label>
+                <input id="search" type="text" name="search" placeholder="Nome do projeto" value="{{ request('search') }}" class="form-control">
+            </div>
+
+            <div class="project-field">
+                <label for="category_id">Categoria</label>
+                <select id="category_id" name="category_id" class="form-select">
                     <option value="">Todos</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
+            </div>
 
-                <select name="sort_by" class="form-select d-inline w-auto btn-spacing">
+            <div class="project-field compact-field">
+                <label for="sort_by">Ordenar por</label>
+                <select id="sort_by" name="sort_by" class="form-select">
                     <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
                     <option value="order" {{ request('sort_by') == 'order' ? 'selected' : '' }}>Ordem</option>
                 </select>
+            </div>
 
-                <select name="order" class="form-select d-inline w-auto btn-spacing">
+            <div class="project-field compact-field">
+                <label for="order">Direcao</label>
+                <select id="order" name="order" class="form-select">
                     <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
                     <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
                 </select>
+            </div>
 
-                <button type="submit" class="btn btn-secondary btn-spacing">Filtrar</button>
-            </form>
-            <button id="deleteSelected" class="btn btn-danger btn-spacing" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
-            <a href="{{ route('admin.projetos.create') }}" class="btn btn-primary btn-spacing">Novo Projeto</a>
-        </div>
-    </div>
+            <div class="project-actions-inline">
+                <button type="submit" class="project-btn project-btn-ghost">Filtrar</button>
+                <button id="deleteSelected" type="button" class="project-btn project-btn-danger" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir selecionados</button>
+                <a href="{{ route('admin.projetos.create') }}" class="project-btn project-btn-primary">Novo projeto</a>
+            </div>
+        </form>
+    </section>
 
-    <div style="height:100px" class="mt-2">
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+    <section class="project-messages" aria-live="polite">
+        @if (session('success'))
+            <div class="project-alert project-alert-success alert alert-dismissible fade show" role="alert">
+                <span>{{ session('success') }}</span>
+                <button type="button" class="project-alert-close" data-bs-dismiss="alert" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        @endif
 
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-    </div>
+        @if (session('error'))
+            <div class="project-alert project-alert-danger alert alert-dismissible fade show" role="alert">
+                <span>{{ session('error') }}</span>
+                <button type="button" class="project-alert-close" data-bs-dismiss="alert" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        @endif
+    </section>
 
     @if($hasPages)
-        <div class="mt-1 mb-2 text-white d-flex align-items-center justify-content-center" style="height: 4rem">
+        <div class="project-pagination-wrap">
             {{ $projects->appends(request()->query())->links('pagination::bootstrap-5') }}
         </div>
     @endif
 
-
-    <table class="table table-dark table-hover">
-        <thead>
-            <tr>
-                <th scope="col"><input type="checkbox" id="selectAll"></th>
-                <th scope="col">#</th>
-                <th scope="col">Título</th>
-                <th scope="col">Capa</th>
-                <th scope="col">Localização</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Ordem</th>
-                <th scope="col">Editar / Excluir</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($projects as $project)
-                <tr>
-                    <td><input type="checkbox" name="selected_projects[]" value="{{ $project->id }}" class="project-checkbox"></td>
-                    <th scope="row">{{ $project->id }}</th>
-                    <td>{{ $project->title ?? 'Título não encontrado' }}</td>
-                    <td>
-                        @if ($project->coverUrl())
-                            <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="100">
-                        @else
-                            Imagem não disponível
-                        @endif
-                    </td>
-                    <td>{{ $project->location ?? 'Localização não encontrada' }}</td>
-                    <td>{{ $project->category->name ?? 'Categoria não encontrada' }}</td>
-                    <td>
-                        <form action="{{ route('admin.projetos.updateOrder', $project->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('PATCH')
-                            <input type="number" name="order" value="{{ $project->order }}" class="form-control d-inline w-auto">
-                            <button type="submit" class="btn link-light p-0 m-0 align-baseline">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="{{ route('admin.projetos.edit', $project->id) }}" class="btn btn-primary btn-sm btn-spacing">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm btn-spacing delete-button" data-project-id="{{ $project->id }}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <section class="project-table-surface">
+        <div class="table-responsive">
+            <table class="table project-table">
+                <thead>
+                    <tr>
+                        <th scope="col"><input type="checkbox" id="selectAll"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Capa</th>
+                        <th scope="col">Localizacao</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Ordem</th>
+                        <th scope="col">Editar / Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($projects as $project)
+                        <tr>
+                            <td><input type="checkbox" name="selected_projects[]" value="{{ $project->id }}" class="project-checkbox"></td>
+                            <th scope="row">{{ $project->id }}</th>
+                            <td>{{ $project->title ?? 'Titulo nao encontrado' }}</td>
+                            <td>
+                                @if ($project->coverUrl())
+                                    <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" class="project-cover-thumb">
+                                @else
+                                    Imagem nao disponivel
+                                @endif
+                            </td>
+                            <td>{{ $project->location ?? 'Localizacao nao encontrada' }}</td>
+                            <td>{{ $project->category->name ?? 'Categoria nao encontrada' }}</td>
+                            <td>
+                                <form action="{{ route('admin.projetos.updateOrder', $project->id) }}" method="POST" class="project-order-form">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="number" name="order" value="{{ $project->order }}" class="form-control project-order-input">
+                                    <button type="submit" class="project-icon-btn" aria-label="Atualizar ordem">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <div class="project-row-actions">
+                                    <a href="{{ route('admin.projetos.edit', $project->id) }}" class="project-icon-btn" aria-label="Editar projeto">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="project-icon-btn project-icon-btn-danger delete-button" data-project-id="{{ $project->id }}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" aria-label="Excluir projeto">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8">
+                                <div class="project-empty-state">
+                                    <i class="fa-regular fa-folder-open"></i>
+                                    <p>Nenhum projeto encontrado com os filtros atuais.</p>
+                                    <a href="{{ route('admin.projetos.create') }}" class="project-btn project-btn-primary">Criar primeiro projeto</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
 
 @include('components.confirm-delete-modal', ['text' => 'Tem certeza que deseja excluir este projeto?'])

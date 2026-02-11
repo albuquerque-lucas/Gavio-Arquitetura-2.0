@@ -31,5 +31,14 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'ownership' => true,
         ]);
+
+        User::create([
+            'name' => 'Lucas Albuquerque',
+            'username' => 'lucaslpra',
+            'description' => 'Desenvolvedor focado em aplicacoes web, com experiencia em Laravel, frontend e melhoria continua de performance e experiencia do usuario.',
+            'email' => 'lucas@gmail.com',
+            'password' => Hash::make('123123123'),
+            'ownership' => true,
+        ]);
     }
 }
