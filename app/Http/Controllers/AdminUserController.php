@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-use Exception;
 
 class AdminUserController extends Controller
 {
@@ -51,36 +52,35 @@ class AdminUserController extends Controller
 
             $user->save();
 
-            return redirect()->route('admin.users.index')->with('success', 'Usuário criado com sucesso!');
+            return redirect()->route('admin.users.index')->with('success', 'Usuario criado com sucesso!');
         } catch (ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
-                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao criar o usuário: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao criar o usuario: ' . $e->getMessage());
         }
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
         try {
-            $user = User::findOrFail($id);
             return view('admin-users.edit', compact('user'));
         } catch (Exception $e) {
-            return redirect()->route('admin.users.index')->with('error', 'Usuário não encontrado.');
+            return redirect()->route('admin.users.index')->with('error', 'Usuario nao encontrado.');
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'username' => 'required|string|max:255|unique:users,username,' . $id,
-                'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+                'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
                 'password' => 'nullable|string|min:8|confirmed',
                 'cover_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'ownership' => 'nullable|boolean',
@@ -89,7 +89,6 @@ class AdminUserController extends Controller
 
             $validated['ownership'] = $request->boolean('ownership');
 
-            $user = User::findOrFail($id);
             $user->name = $validated['name'];
             $user->username = $validated['username'];
             $user->email = $validated['email'];
@@ -111,32 +110,30 @@ class AdminUserController extends Controller
 
             $user->save();
 
-            return redirect()->route('admin.users.edit', $user->id)->with('success', 'Usuário atualizado com sucesso!');
+            return redirect()->route('admin.users.edit', $user)->with('success', 'Usuario atualizado com sucesso!');
         } catch (ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
-                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao atualizar o usuário: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao atualizar o usuario: ' . $e->getMessage());
         }
     }
 
-
-    public function destroy($id)
+    public function destroy(User $user)
     {
         try {
-            $user = User::findOrFail($id);
             if ($user->cover_path) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $user->cover_path));
             }
             $user->delete();
 
-            return redirect()->route('admin.users.index')->with('success', 'Usuário excluído com sucesso!');
+            return redirect()->route('admin.users.index')->with('success', 'Usuario excluido com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.users.index')->with('error', 'Erro ao excluir o usuário: ' . $e->getMessage());
+            return redirect()->route('admin.users.index')->with('error', 'Erro ao excluir o usuario: ' . $e->getMessage());
         }
     }
 }

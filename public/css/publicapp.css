@@ -1,5 +1,5 @@
 .body {
-  background-image: var(--public-bg-image, url("/storage/pages/background-body-public.jpg"));
+  background-image: var(--public-bg-image, none), radial-gradient(140% 90% at 15% 15%, rgba(255, 255, 255, 0.95) 0%, rgba(236, 242, 247, 0.88) 58%, rgba(222, 231, 238, 0.82) 100%), linear-gradient(130deg, #eef4f8 0%, #dfe9f1 46%, #e8eef4 100%);
   background-size: cover;
   background-attachment: fixed;
   position: relative;
@@ -51,6 +51,18 @@
 
 .logo-image-secondary {
   max-width: 150px;
+}
+.logo-written-fallback {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.25rem 0.45rem;
+  color: #2b3335;
+  font-size: clamp(1.2rem, 1.8vw, 1.7rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
 }
 
 .main-footer {
@@ -187,9 +199,35 @@
 .home_section_container .home-logo {
   max-width: 200px;
 }
+.home_section_container .home-logo-fallback {
+  display: none;
+  text-decoration: none;
+  color: #2b3335;
+}
+.home_section_container .home-icon-fallback {
+  width: clamp(84px, 11vw, 118px);
+  aspect-ratio: 1/1;
+  border-radius: 999px;
+  background: #101821;
+  border: 1px solid #2b3335;
+  place-items: center;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
 .home_section_container .icon-logo {
   width: 100px;
   margin-bottom: 2rem;
+}
+.home_section_container .home-written-fallback {
+  align-items: center;
+  justify-content: flex-start;
+  width: clamp(240px, 30vw, 360px);
+  min-height: 52px;
+  font-size: clamp(1.42rem, 2.35vw, 2.15rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .fade-in {

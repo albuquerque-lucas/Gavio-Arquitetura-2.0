@@ -1,96 +1,133 @@
-.image-box {
-    padding: 1rem;
-    position: absolute;
-    left: 50%;
-    top: 12%;
-    transform: translateX(-50%);
-
-    img {
-        max-width: 80px;
-    }
-
-    h2 {
-        font-size: 0.875rem;
-        margin-top: 0.5rem;
-        color: grey;
-    }
+.login-page {
+    min-height: calc(100vh - 2rem);
+    display: grid;
+    place-items: center;
+    padding: 2.2rem 1rem;
 }
 
-.page-title {
-    color: white;
+.login-card {
+    width: min(100%, 560px);
+    border: 1px solid #2a3543;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #1d2631, #171f29);
+    box-shadow: 0 16px 34px rgba(8, 13, 20, 0.45);
+    padding: clamp(1.1rem, 2.2vw, 1.7rem);
 }
 
-.login-form {
-    width: 90%;
-    max-width: 600px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
+.login-brand {
+    display: grid;
+    justify-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1.1rem;
+}
+
+.login-brand-icon {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 1px solid #334153;
+    background: #101721;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.login-brand-image {
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
+}
+
+.login-brand-fallback {
+    display: none;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+}
+
+.login-title {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.3vw, 1.55rem);
+    color: #e9f1fa;
+    font-weight: 700;
+}
+
+.login-subtitle {
+    margin: 0;
+    color: #9fb0c4;
+    font-size: 0.94rem;
+}
+
+.login-alert {
+    border-radius: 10px;
+    margin-bottom: 0.9rem;
+}
+
+.login-admin-form {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.login-admin-form .form-group {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.login-admin-form label {
+    color: #d6e0ec;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.login-admin-form .form-control {
+    border: 1px solid #2f3b4b;
+    border-radius: 10px;
+    background-color: #111922;
+    color: #ebf1f8;
+    min-height: 44px;
+}
+
+.login-admin-form .form-control:focus {
+    background-color: #111922;
+    color: #ffffff;
+    border-color: #3f5e83;
+    box-shadow: 0 0 0 0.18rem rgba(58, 98, 150, 0.22);
+}
+
+.login-admin-form .form-check {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-
-    input {
-        background-color: transparent;
-        outline: none;
-        border: none;
-        border-bottom: 2px solid rgb(56, 54, 54);
-        width: 100%;
-        max-width: 600px;
-        border-radius: 0;
-        color: white;
-
-        &:focus {
-            background-color: transparent;
-            border-bottom: 2px solid white;
-            color: white;
-        }
-    }
-
-    .form-check {
-        margin: 1rem 0;
-        display: flex;
-        align-items: center;
-
-        .form-check-input {
-            width: 1rem;
-            height: 1rem;
-        }
-
-        .form-check-label {
-            margin-left: 0.5rem;
-        }
-    }
-
-    button {
-        width: 100%;
-        max-width: 300px;
-    }
+    gap: 0.5rem;
+    margin-top: 0.2rem;
 }
 
-@media (min-width: 768px) {
-    .image-box img {
-        max-width: 100px;
-    }
+.login-admin-form .form-check-input {
+    margin: 0;
+}
 
-    .image-box h2 {
-        font-size: 1rem;
-        margin-top: 1rem;
-    }
+.login-admin-form .form-check-label {
+    margin: 0;
+    color: #d6e0ec;
+}
 
-    .login-form {
-        width: 45%;
-        height: 30rem;
+.login-submit-btn {
+    width: 100%;
+    min-height: 44px;
+    border-radius: 10px;
+    border: 1px solid #2f7cf6;
+    background-color: #2f7cf6;
+    color: #ffffff;
+    font-weight: 600;
+    margin-top: 0.15rem;
+}
 
-        input {
-            width: 600px;
-        }
-
-        button {
-            width: 50%;
-        }
-    }
+.login-submit-btn:hover {
+    background-color: #1f68de;
+    border-color: #1f68de;
+    color: #ffffff;
 }

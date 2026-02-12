@@ -5,10 +5,22 @@
     <div class="home-item home-images fade-in">
         <div class="brand-lockup fade-in">
             <a href="{{ route('public.home') }}" class="icon-link">
-                <img src="{{ $assets['brand_logo_icon_url'] }}" alt="gavio-arquitetura-logo" class="home-logo icon-logo fade-in">
+                <img
+                    src="{{ $assets['brand_logo_icon_url'] }}"
+                    alt="gavio-arquitetura-logo"
+                    class="home-logo icon-logo fade-in"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+                >
+                <span class="home-logo-fallback home-icon-fallback fade-in" aria-hidden="true">GA</span>
             </a>
             <a href="{{ route('public.home') }}" class="icon-link written-link">
-                <img src="{{ $assets['brand_logo_written_url'] }}" alt="gavio-arquitetura-logo" class="home-logo written-logo fade-in">
+                <img
+                    src="{{ $assets['brand_logo_written_url'] }}"
+                    alt="gavio-arquitetura-logo"
+                    class="home-logo written-logo fade-in"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"
+                >
+                <span class="home-logo-fallback home-written-fallback fade-in" aria-hidden="true">Gavio Arquitetura</span>
             </a>
         </div>
     </div>

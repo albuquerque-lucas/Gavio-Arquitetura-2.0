@@ -1,6 +1,7 @@
 @extends('admin-layout')
 
 @section('content')
+@php($coverUrl = $project->coverUrl())
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-white">Projeto: {{ $project->title }}</h1>
@@ -65,15 +66,15 @@
                 <h5 class="text-white">Data:</h5>
                 <p class="text-white">{{ $project->year }}</p>
 
-                @if ($project->cover)
+                @if ($coverUrl)
                     <h5 class="text-white">Capa:</h5>
-                    <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="150" data-bs-toggle="modal" data-bs-target="#coverImageModal">
+                    <img src="{{ $coverUrl }}" alt="{{ $project->title }} Cover" width="150" data-bs-toggle="modal" data-bs-target="#coverImageModal">
                 @endif
             </div>
 
             <div class="mt-4">
                 <h5 class="text-white">Adicionar Imagem</h5>
-                <form id="imageUploadForm" action="{{ route('admin.projetos.addImage', $project->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="imageUploadForm" action="{{ route('admin.projetos.addImage', $project) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="images" class="form-label text-white">Imagens</label>
@@ -93,7 +94,7 @@
                         <button id="deleteSelected" class="btn btn-danger btn-sm" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir Selecionados</button>
                     </div>
                 </div>
-                <form id="bulkDeleteForm" action="{{ route('admin.projetos.bulkDeleteImages', $project->id) }}" method="POST">
+                <form id="bulkDeleteForm" action="{{ route('admin.projetos.bulkDeleteImages', $project) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="row">
@@ -105,7 +106,7 @@
                                         <input type="checkbox" name="selected_images[]" value="{{ $image->id }}" class="image-checkbox">
                                     </div>
                                     <div class="card-body">
-                                        <form action="{{ route('admin.projetos.deleteImage', ['projectId' => $project->id, 'imageId' => $image->id]) }}" method="POST" class="d-flex justify-content-between align-items-center">
+                                        <form action="{{ route('admin.projetos.deleteImage', ['project' => $project, 'imageId' => $image->id]) }}" method="POST" class="d-flex justify-content-between align-items-center">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-dark">
@@ -140,7 +141,7 @@
 
         <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
             <div class="mt-4">
-                <form action="{{ route('admin.projetos.update', $project->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.projetos.update', $project) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
 
@@ -156,9 +157,9 @@
                             <label for="cover" class="form-label text-white">Capa:</label>
                         </h5>
                         <input type="file" class="form-control" id="cover" name="cover" accept="image/*">
-                        @if ($project->cover)
+                        @if ($coverUrl)
                             <div class="mt-2">
-                                <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" width="150">
+                                <img src="{{ $coverUrl }}" alt="{{ $project->title }} Cover" width="150">
                             </div>
                         @endif
                     </div>
@@ -212,19 +213,21 @@
     </div>
 </div>
 
-<!-- Modal for cover image -->
-<div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-body">
-                <img src="{{ $project->coverUrl() }}" class="img-fluid" alt="{{ $project->title }}">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+@if ($coverUrl)
+    <!-- Modal for cover image -->
+    <div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="{{ $coverUrl }}" class="img-fluid" alt="{{ $project->title }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function updateCharacterCountEdit() {

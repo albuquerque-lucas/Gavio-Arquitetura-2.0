@@ -70,7 +70,7 @@
 
     .appearance-form-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(180px, 1fr));
+        grid-template-columns: repeat(4, minmax(170px, 1fr));
         gap: 1rem;
         align-items: start;
     }
@@ -78,6 +78,7 @@
     .appearance-field {
         display: grid;
         gap: 0.5rem;
+        grid-template-rows: auto auto minmax(2.8rem, auto) minmax(2.8rem, auto) 180px;
 
         label {
             font-size: 0.85rem;
@@ -89,11 +90,18 @@
         small {
             color: var(--appearance-muted);
             font-size: 0.78rem;
+            line-height: 1.35;
         }
 
         .appearance-file-name {
             color: #b7c5d6;
             word-break: break-all;
+        }
+
+        > small:first-of-type,
+        .appearance-file-name {
+            display: block;
+            min-height: 2.8rem;
         }
 
         .form-control {
@@ -165,9 +173,35 @@
         background-color: var(--appearance-primary-hover);
     }
 
+    .appearance-actions {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--appearance-border);
+        display: flex;
+        justify-content: center;
+    }
+
+    .appearance-btn-save-all {
+        min-width: min(340px, 100%);
+    }
+
+    @media (max-width: 1200px) {
+        .appearance-form-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
     @media (max-width: 992px) {
         .appearance-form-grid {
             grid-template-columns: 1fr;
+        }
+
+        .appearance-actions {
+            justify-content: stretch;
+        }
+
+        .appearance-btn-save-all {
+            width: 100%;
         }
     }
 }

@@ -69,7 +69,7 @@
                                         <i class="fa-solid fa-ellipsis"></i>
                                     </button>
                                     <div class="user-actions-menu" role="menu">
-                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="user-action-item" role="menuitem">
+                                        <a href="{{ route('admin.users.edit', $user) }}" class="user-action-item" role="menuitem">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                             <span>Editar</span>
                                         </a>
@@ -77,7 +77,7 @@
                                             type="button"
                                             class="user-action-item user-action-item-danger delete-button"
                                             role="menuitem"
-                                            data-user-id="{{ $user->id }}"
+                                            data-user-slug="{{ $user->slug }}"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteUserModal"
                                         >
@@ -145,7 +145,7 @@
         const deleteUserModal = document.getElementById('deleteUserModal');
         deleteUserModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            const userId = button.getAttribute('data-user-id');
+            const userId = button.getAttribute('data-user-slug');
             const form = deleteUserModal.querySelector('#delete-user-form');
             form.action = `/admin/users/${userId}`;
             closeAllMenus();

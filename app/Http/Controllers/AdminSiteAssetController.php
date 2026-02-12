@@ -24,13 +24,17 @@ class AdminSiteAssetController extends Controller
                 'home_background' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:30720',
                 'brand_logo_icon' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
                 'brand_logo_written' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+                'project_cover_fallback' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             ]);
 
             $uploads = [
                 'home_background' => ['directory' => 'site-assets/backgrounds', 'legacy_key' => null],
                 'brand_logo_icon' => ['directory' => 'site-assets/logos', 'legacy_key' => 'brand_logo_primary'],
                 'brand_logo_written' => ['directory' => 'site-assets/logos', 'legacy_key' => 'brand_logo_secondary'],
+                'project_cover_fallback' => ['directory' => 'site-assets/projects', 'legacy_key' => null],
             ];
+
+            $updatedCount = 0;
 
             foreach ($uploads as $key => $config) {
                 if (!$request->hasFile($key)) {
@@ -59,6 +63,12 @@ class AdminSiteAssetController extends Controller
                         'size' => $storedAsset['size'],
                     ]
                 );
+
+                $updatedCount++;
+            }
+
+            if ($updatedCount === 0) {
+                return redirect()->route('admin.appearance.edit')->with('success', 'Nenhum novo arquivo foi enviado.');
             }
 
             return redirect()->route('admin.appearance.edit')->with('success', 'Assets do site atualizados com sucesso!');

@@ -33,7 +33,7 @@ class AuthenticationController extends Controller
             }
 
             if (Auth::attempt($credentials)) {
-                return redirect()->intended(route('admin.projetos.index'));
+                return redirect()->intended(route('admin.home'));
             }
 
             return redirect()->back()->withErrors(['username' => 'Credenciais inválidas'])->withInput();
@@ -73,7 +73,7 @@ class AuthenticationController extends Controller
 
             Auth::login($user);
 
-            return redirect()->intended(route('admin.projetos.index'));
+            return redirect()->intended(route('admin.home'));
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Ocorreu um erro durante o registro.'])->withInput();
         }
@@ -146,3 +146,4 @@ class AuthenticationController extends Controller
         }
     }
 }
+

@@ -1,4 +1,4 @@
-@extends('public-layout')
+﻿@extends('public-layout')
 
 @section('content')
 <section class='projects-container'>
@@ -29,7 +29,12 @@
                     <a href="{{ route('public.project.show', $project->slug) }}" class="card-link">
                         <div class="project-card">
                             <div class="img-container-projects-page">
-                                <img src="{{ $project->coverUrl() }}" class="card-img-top" alt="{{ $project->title }}">
+                                @php($coverUrl = $project->coverUrl())
+                                @if ($coverUrl)
+                                    <img src="{{ $coverUrl }}" class="card-img-top" alt="{{ $project->title }}">
+                                @else
+                                    <div class="project-card-cover-fallback" aria-label="Sem capa"></div>
+                                @endif
                             </div>
                             <div class="card-body card-body-projects-page transparent-bg text-start">
                                 <h5 class="card-title">{{ $project->title }}</h5>
@@ -53,3 +58,4 @@
         });
     });
 </script>
+

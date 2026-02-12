@@ -26,20 +26,23 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 // Route::get('reset-password/{token}', [AuthenticationController::class, 'showResetPasswordForm'])->name('password.reset');
 // Route::post('reset-password', [AuthenticationController::class, 'resetPassword'])->name('password.update');
 
+// Rotas públicas
+Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
+Route::get('/sobre', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
+Route::get('/projetos/{slug}', [PublicAppController::class, 'renderProjectsPage'])->name('public.projects');
+Route::get('/projeto/{slug}', [PublicAppController::class, 'showProject'])->name('public.project.show');
+Route::get('/contato', [PublicAppController::class, 'renderContactPage'])->name('public.contact.us');
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+
 // Agrupar rotas protegidas pelo middleware 'auth'
 Route::middleware('auth')->group(function () {
-
-    Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
-    Route::get('/sobre', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
-    Route::get('/projetos/{slug}', [PublicAppController::class, 'renderProjectsPage'])->name('public.projects');
-    Route::get('/projeto/{slug}', [PublicAppController::class, 'showProject'])->name('public.project.show');
-    Route::get('/contato', [PublicAppController::class, 'renderContactPage'])->name('public.contact.us');
-    Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
-
+    Route::view('/admin', 'admin.home')->name('admin.home');
 
 
     // Rotas para Usuários
-    Route::resource('/admin/users', AdminUserController::class)->names([
+    Route::resource('/admin/users', AdminUserController::class)->scoped([
+        'user' => 'slug',
+    ])->names([
         'index' => 'admin.users.index',
         'create' => 'admin.users.create',
         'store' => 'admin.users.store',
@@ -50,7 +53,10 @@ Route::middleware('auth')->group(function () {
 
     // Rotas para Projetos
     Route::delete('/admin/projetos/bulk-delete', [AdminProjectController::class, 'bulkDelete'])->name('admin.projetos.bulkDelete');
-    Route::resource('/admin/projetos', AdminProjectController::class)->names([
+    Route::patch('/admin/projetos/reorder', [AdminProjectController::class, 'reorder'])->name('admin.projetos.reorder');
+    Route::resource('/admin/projetos', AdminProjectController::class)->scoped([
+        'projeto' => 'uuid',
+    ])->names([
         'index' => 'admin.projetos.index',
         'create' => 'admin.projetos.create',
         'store' => 'admin.projetos.store',
@@ -59,14 +65,16 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'admin.projetos.destroy',
     ]);
 
-    Route::patch('/admin/projetos/{id}/order', [AdminProjectController::class, 'updateOrder'])->name('admin.projetos.updateOrder');
-    Route::patch('/admin/projetos/{id}/toggleCarousel', [AdminProjectController::class, 'toggleCarousel'])->name('admin.projetos.toggleCarousel');
-    Route::post('/admin/projetos/{id}/add-image', [AdminProjectController::class, 'addImage'])->name('admin.projetos.addImage');
-    Route::delete('/admin/projetos/bulk-delete-images/{projectId}', [AdminProjectController::class, 'bulkDeleteImages'])->name('admin.projetos.bulkDeleteImages');
-    Route::delete('/admin/projetos/{projectId}/delete-image/{imageId}', [AdminProjectController::class, 'deleteImage'])->name('admin.projetos.deleteImage');
+    Route::patch('/admin/projetos/{project:uuid}/order', [AdminProjectController::class, 'updateOrder'])->name('admin.projetos.updateOrder');
+    Route::patch('/admin/projetos/{project:uuid}/toggleCarousel', [AdminProjectController::class, 'toggleCarousel'])->name('admin.projetos.toggleCarousel');
+    Route::post('/admin/projetos/{project:uuid}/add-image', [AdminProjectController::class, 'addImage'])->name('admin.projetos.addImage');
+    Route::delete('/admin/projetos/bulk-delete-images/{project:uuid}', [AdminProjectController::class, 'bulkDeleteImages'])->name('admin.projetos.bulkDeleteImages');
+    Route::delete('/admin/projetos/{project:uuid}/delete-image/{imageId}', [AdminProjectController::class, 'deleteImage'])->name('admin.projetos.deleteImage');
 
     // Rotas para Categorias
-    Route::resource('/admin/categories', AdminCategoryController::class)->names([
+    Route::resource('/admin/categories', AdminCategoryController::class)->scoped([
+        'category' => 'uuid',
+    ])->names([
         'index' => 'admin.categories.index',
         'create' => 'admin.categories.create',
         'store' => 'admin.categories.store',

@@ -75,6 +75,12 @@
         align-items: end;
     }
 
+    .project-filter-submit {
+        display: flex;
+        align-items: end;
+        justify-content: flex-start;
+    }
+
     .project-field {
         display: grid;
         gap: 0.4rem;
@@ -113,7 +119,15 @@
         display: flex;
         gap: 0.5rem;
         align-items: center;
+        justify-content: flex-end;
         flex-wrap: wrap;
+        margin-top: 0.9rem;
+        padding-top: 0.9rem;
+        border-top: 1px solid var(--project-border);
+    }
+
+    .project-btn-reorder {
+        box-shadow: 0 0 0 1px rgba(86, 152, 255, 0.35);
     }
 
     .project-btn {
@@ -227,6 +241,7 @@
         padding: 0.82rem 0.8rem;
         vertical-align: middle;
         background-color: transparent;
+        color: var(--project-text);
     }
 
     .project-table thead th {
@@ -241,6 +256,13 @@
         background-color: rgba(57, 77, 102, 0.24);
     }
 
+    .project-table tbody td,
+    .project-table tbody th,
+    .project-table .form-control,
+    .project-table .form-select {
+        color: var(--project-text);
+    }
+
     .project-cover-thumb {
         width: 96px;
         height: 64px;
@@ -249,34 +271,67 @@
         border: 1px solid var(--project-border);
     }
 
-    .project-order-form {
+    .project-cover-thumb-fallback {
+        display: inline-grid;
+        place-items: center;
+        background: #040404;
+        color: #ffffff;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+    }
+
+    .project-drag-handle {
+        border: 1px dashed #3d5169;
+        background-color: #162131;
+        color: #9ab0c8;
+        border-radius: 8px;
+        width: 34px;
+        height: 34px;
+        display: inline-grid;
+        place-items: center;
+        cursor: grab;
+        opacity: 0.55;
+        pointer-events: none;
+        transition: 170ms ease;
+    }
+
+    .project-table tbody.is-reordering .project-drag-handle {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .project-table tbody.is-reordering .project-drag-handle:hover {
+        color: #d9e6f5;
+        border-color: #5a7390;
+        background-color: #1f3045;
+    }
+
+    .project-row-ghost td,
+    .project-row-ghost th {
+        background-color: rgba(47, 124, 246, 0.14) !important;
+    }
+
+    .project-row-chosen td,
+    .project-row-chosen th {
+        background-color: rgba(47, 124, 246, 0.2) !important;
+    }
+
+    .project-actions {
+        position: relative;
+        overflow: visible !important;
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
     }
 
-    .project-order-input {
-        width: 84px;
-        text-align: center;
-        border: 1px solid var(--project-border);
-        border-radius: 8px;
-        background-color: #131b26;
-        color: var(--project-text);
-    }
-
-    .project-order-input:focus {
-        background-color: #131b26;
-        color: var(--project-text);
-        border-color: #41689e;
-        box-shadow: 0 0 0 0.14rem rgba(65, 104, 158, 0.25);
-    }
-
-    .project-row-actions {
+    .project-actions-menu-wrapper {
+        position: relative;
         display: inline-flex;
-        gap: 0.45rem;
+        align-items: center;
+        justify-content: center;
     }
 
-    .project-icon-btn {
+    .project-actions-trigger {
         border: 1px solid var(--project-border);
         background-color: #202b38;
         color: #e9f1fa;
@@ -285,23 +340,68 @@
         height: 34px;
         display: inline-grid;
         place-items: center;
-        text-decoration: none;
         cursor: pointer;
         transition: 170ms ease;
     }
 
-    .project-icon-btn:hover {
+    .project-actions-trigger:hover {
         background-color: #2d3c4e;
         color: #ffffff;
     }
 
-    .project-icon-btn-danger {
-        background-color: #4a2229;
-        border-color: #693039;
+    .project-actions-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        min-width: 154px;
+        background: #1a2431;
+        border: 1px solid var(--project-border);
+        border-radius: 10px;
+        padding: 0.35rem;
+        display: grid;
+        gap: 0.2rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-6px);
+        transition: 150ms ease;
+        z-index: 30;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
 
-    .project-icon-btn-danger:hover {
-        background-color: #6f2d38;
+    .project-actions-menu-wrapper.is-open .project-actions-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .project-action-item {
+        border: none;
+        background: transparent;
+        color: #e7eff9;
+        text-decoration: none;
+        border-radius: 8px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .project-action-item:hover {
+        background-color: #253345;
+        color: #ffffff;
+    }
+
+    .project-action-item-danger {
+        color: #ffb7c2;
+    }
+
+    .project-action-item-danger:hover {
+        background-color: #4a2229;
+        color: #ffd6dc;
     }
 
     .project-empty-state {
@@ -345,7 +445,7 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .project-actions-inline {
+        .project-filter-submit {
             grid-column: 1 / -1;
         }
     }
@@ -362,6 +462,10 @@
 
         .project-filters {
             grid-template-columns: 1fr;
+        }
+
+        .project-filter-submit button {
+            width: 100%;
         }
 
         .project-actions-inline {

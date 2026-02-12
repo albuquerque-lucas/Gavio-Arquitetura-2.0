@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mt-5 user-profile-page">
     <section class="userp-header">
-        <h1 class="userp-title">Perfil de Usuario</h1>
         <a href="{{ route('admin.users.index') }}" class="userp-btn userp-btn-ghost">Voltar</a>
     </section>
 
@@ -85,10 +84,6 @@
                     <h5>Email</h5>
                     <p>{{ $user->email }}</p>
                 </article>
-                <article class="userp-info-card">
-                    <h5>Sobre</h5>
-                    <p>{{ $user->ownership ? 'Sim, aparece na pagina sobre.' : 'Nao aparece na pagina sobre.' }}</p>
-                </article>
             </section>
 
             <section class="userp-description-card">
@@ -100,7 +95,7 @@
 
         <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
             <section class="userp-form-surface">
-                <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="userp-form-grid">
+                <form action="{{ route('admin.users.update', $user) }}" method="POST" enctype="multipart/form-data" class="userp-form-grid">
                     @csrf
                     @method('PATCH')
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
-use Illuminate\Validation\ValidationException;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AdminCategoryController extends Controller
 {
@@ -35,7 +35,7 @@ class AdminCategoryController extends Controller
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
-                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -43,24 +43,22 @@ class AdminCategoryController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
         try {
-            $category = Category::findOrFail($id);
             return view('admin-categories.edit', compact('category'));
         } catch (Exception $e) {
-            return redirect()->route('admin.categories.index')->with('error', 'Categoria não encontrada.');
+            return redirect()->route('admin.categories.index')->with('error', 'Categoria nao encontrada.');
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
             ]);
 
-            $category = Category::findOrFail($id);
             $category->update($validated);
 
             return redirect()->route('admin.categories.index')->with('success', 'Categoria atualizada com sucesso!');
@@ -68,7 +66,7 @@ class AdminCategoryController extends Controller
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
-                ->with('error', 'Erro de validação. Por favor, verifique os dados inseridos.');
+                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -76,14 +74,12 @@ class AdminCategoryController extends Controller
         }
     }
 
-
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         try {
-            $category = Category::findOrFail($id);
             $category->delete();
 
-            return redirect()->route('admin.categories.index')->with('success', 'Categoria excluída com sucesso!');
+            return redirect()->route('admin.categories.index')->with('success', 'Categoria excluida com sucesso!');
         } catch (Exception $e) {
             return redirect()->route('admin.categories.index')->with('error', 'Ocorreu um erro ao excluir a categoria: ' . $e->getMessage());
         }

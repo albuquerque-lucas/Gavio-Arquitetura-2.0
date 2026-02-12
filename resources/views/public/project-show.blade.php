@@ -1,6 +1,7 @@
 @extends('public-layout')
 
 @section('content')
+@php($coverUrl = $project->coverUrl())
 <section class="project-show-container">
     <div class="container mt-5">
         <div class="row">
@@ -61,18 +62,20 @@
         </div>
     </div>
 
-    <!-- Modal for cover image -->
-    <div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="{{ $project->coverUrl() }}" class="img-fluid" alt="{{ $project->title }}">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+    @if ($coverUrl)
+        <!-- Modal for cover image -->
+        <div class="modal fade" id="coverImageModal" tabindex="-1" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="{{ $coverUrl }}" class="img-fluid" alt="{{ $project->title }}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </section>
 @endsection

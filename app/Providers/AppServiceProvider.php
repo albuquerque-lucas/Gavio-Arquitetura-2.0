@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
                 'home_background_name' => null,
                 'brand_logo_icon_name' => null,
                 'brand_logo_written_name' => null,
+                'project_cover_fallback_url' => null,
+                'project_cover_fallback_name' => null,
             ];
 
             try {
@@ -43,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
                     'home_background',
                     'brand_logo_icon',
                     'brand_logo_written',
+                    'project_cover_fallback',
                     'brand_logo_primary',
                     'brand_logo_secondary',
                 ])->get()->keyBy('key');
@@ -50,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
                 $home = $rows->get('home_background');
                 $icon = $rows->get('brand_logo_icon') ?? $rows->get('brand_logo_primary');
                 $written = $rows->get('brand_logo_written') ?? $rows->get('brand_logo_secondary');
+                $projectCoverFallback = $rows->get('project_cover_fallback');
 
                 if ($home && !empty($home->path)) {
                     $assets['home_background_url'] = asset(ltrim($home->path, '/'));
@@ -62,6 +66,10 @@ class AppServiceProvider extends ServiceProvider
                 if ($written && !empty($written->path)) {
                     $assets['brand_logo_written_url'] = asset(ltrim($written->path, '/'));
                     $assets['brand_logo_written_name'] = $written->original_name;
+                }
+                if ($projectCoverFallback && !empty($projectCoverFallback->path)) {
+                    $assets['project_cover_fallback_url'] = asset(ltrim($projectCoverFallback->path, '/'));
+                    $assets['project_cover_fallback_name'] = $projectCoverFallback->original_name;
                 }
             } catch (Throwable $e) {
                 // Keep fallback assets when DB isn't ready.

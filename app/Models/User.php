@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'uuid',
+        'slug',
         'name',
         'username',
         'cover_path',
@@ -33,6 +36,50 @@ class User extends Authenticatable
             'password' => 'hashed',
             'ownership' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            if (empty($user->uuid)) {
+                $user->uuid = (string) Str::uuid();
+            }
+            $user->slug = $user->buildUniqueSlug();
+        });
+
+        static::updating(function (User $user) {
+            if ($user->isDirty('username')) {
+                $user->slug = $user->buildUniqueSlug();
+            }
+        });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    private function buildUniqueSlug(): string
+    {
+        $base = Str::slug((string) $this->username);
+        if ($base === '') {
+            $base = 'usuario';
+        }
+
+        $slug = $base;
+        $counter = 1;
+
+        while (
+            static::query()
+                ->where('slug', $slug)
+                ->when($this->id, fn ($query) => $query->where('id', '!=', $this->id))
+                ->exists()
+        ) {
+            $slug = $base . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 
     public function coverUrl(): string

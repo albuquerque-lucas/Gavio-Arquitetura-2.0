@@ -1,4 +1,4 @@
-@extends('admin-layout')
+﻿@extends('admin-layout')
 
 @section('content')
 <div class="container mt-5 project-list-page">
@@ -14,44 +14,51 @@
     </section>
 
     <section class="project-list-toolbar">
-        <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}" class="project-filters">
-            <div class="project-field search-field">
-                <label for="search">Pesquisar</label>
-                <input id="search" type="text" name="search" placeholder="Nome do projeto" value="{{ request('search') }}" class="form-control">
-            </div>
+        <form id="filterForm" method="GET" action="{{ route('admin.projetos.index') }}">
+            <div class="project-filters">
+                <div class="project-field search-field">
+                    <label for="search">Pesquisar</label>
+                    <input id="search" type="text" name="search" placeholder="Nome do projeto" value="{{ request('search') }}" class="form-control">
+                </div>
 
-            <div class="project-field">
-                <label for="category_id">Categoria</label>
-                <select id="category_id" name="category_id" class="form-select">
-                    <option value="">Todos</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="project-field">
+                    <label for="category_id">Categoria</label>
+                    <select id="category_id" name="category_id" class="form-select">
+                        <option value="">Todos</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="project-field compact-field">
-                <label for="sort_by">Ordenar por</label>
-                <select id="sort_by" name="sort_by" class="form-select">
-                    <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
-                    <option value="order" {{ request('sort_by') == 'order' ? 'selected' : '' }}>Ordem</option>
-                </select>
-            </div>
+                <div class="project-field compact-field">
+                    <label for="sort_by">Ordenar por</label>
+                    <select id="sort_by" name="sort_by" class="form-select">
+                        <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
+                        <option value="order" {{ request('sort_by') == 'order' ? 'selected' : '' }}>Ordem</option>
+                    </select>
+                </div>
 
-            <div class="project-field compact-field">
-                <label for="order">Direcao</label>
-                <select id="order" name="order" class="form-select">
-                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
-                    <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
-                </select>
-            </div>
+                <div class="project-field compact-field">
+                    <label for="order">Direcao</label>
+                    <select id="order" name="order" class="form-select">
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascendente</option>
+                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descendente</option>
+                    </select>
+                </div>
 
-            <div class="project-actions-inline">
-                <button type="submit" class="project-btn project-btn-ghost">Filtrar</button>
-                <button id="deleteSelected" type="button" class="project-btn project-btn-danger" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir selecionados</button>
-                <a href="{{ route('admin.projetos.create') }}" class="project-btn project-btn-primary">Novo projeto</a>
+                <div class="project-filter-submit">
+                    <button type="submit" class="project-btn project-btn-ghost">Filtrar</button>
+                </div>
             </div>
         </form>
+
+        <div class="project-actions-inline">
+            <button id="toggleReorderMode" type="button" class="project-btn project-btn-primary project-btn-reorder">Modo reordenar</button>
+            <button id="saveReorder" type="button" class="project-btn project-btn-primary" disabled hidden>Salvar ordem</button>
+            <button id="deleteSelected" type="button" class="project-btn project-btn-danger" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteConfirmationModal">Excluir selecionados</button>
+            <a href="{{ route('admin.projetos.create') }}" class="project-btn project-btn-primary">Novo projeto</a>
+        </div>
     </section>
 
     <section class="project-messages" aria-live="polite">
@@ -91,49 +98,62 @@
                         <th scope="col">Capa</th>
                         <th scope="col">Localizacao</th>
                         <th scope="col">Categoria</th>
-                        <th scope="col">Ordem</th>
-                        <th scope="col">Editar / Excluir</th>
+                        <th scope="col" class="actions-col">Acoes</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="projectsTableBody">
                     @forelse ($projects as $project)
-                        <tr>
-                            <td><input type="checkbox" name="selected_projects[]" value="{{ $project->id }}" class="project-checkbox"></td>
+                        <tr data-project-uuid="{{ $project->uuid }}">
+                            <td><input type="checkbox" name="selected_projects[]" value="{{ $project->uuid }}" class="project-checkbox"></td>
                             <th scope="row">{{ $project->id }}</th>
                             <td>{{ $project->title ?? 'Titulo nao encontrado' }}</td>
                             <td>
-                                @if ($project->coverUrl())
-                                    <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }} Cover" class="project-cover-thumb">
+                                @php($coverUrl = $project->coverUrl())
+                                @if ($coverUrl)
+                                    <img src="{{ $coverUrl }}" alt="{{ $project->title }} Cover" class="project-cover-thumb">
                                 @else
-                                    Imagem nao disponivel
+                                    <div class="project-cover-thumb project-cover-thumb-fallback" aria-label="Sem capa"></div>
                                 @endif
                             </td>
                             <td>{{ $project->location ?? 'Localizacao nao encontrada' }}</td>
                             <td>{{ $project->category->name ?? 'Categoria nao encontrada' }}</td>
-                            <td>
-                                <form action="{{ route('admin.projetos.updateOrder', $project->id) }}" method="POST" class="project-order-form">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="number" name="order" value="{{ $project->order }}" class="form-control project-order-input">
-                                    <button type="submit" class="project-icon-btn" aria-label="Atualizar ordem">
-                                        <i class="fas fa-sync-alt"></i>
+                            <td class="project-actions">
+                                <div class="project-actions-menu-wrapper">
+                                    <button
+                                        type="button"
+                                        class="project-actions-trigger"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        aria-label="Abrir menu de acoes"
+                                    >
+                                        <i class="fa-solid fa-ellipsis"></i>
                                     </button>
-                                </form>
-                            </td>
-                            <td>
-                                <div class="project-row-actions">
-                                    <a href="{{ route('admin.projetos.edit', $project->id) }}" class="project-icon-btn" aria-label="Editar projeto">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="project-icon-btn project-icon-btn-danger delete-button" data-project-id="{{ $project->id }}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" aria-label="Excluir projeto">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
+                                    <div class="project-actions-menu" role="menu">
+                                        <a href="{{ route('admin.projetos.edit', $project) }}" class="project-action-item" role="menuitem">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                            <span>Editar</span>
+                                        </a>
+                                        <button
+                                            type="button"
+                                            class="project-action-item project-action-item-danger delete-button"
+                                            role="menuitem"
+                                            data-project-uuid="{{ $project->uuid }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteConfirmationModal"
+                                        >
+                                            <i class="fa-regular fa-trash-can"></i>
+                                            <span>Excluir</span>
+                                        </button>
+                                    </div>
                                 </div>
+                                <button type="button" class="project-drag-handle" aria-label="Arrastar para reordenar" title="Arraste para reordenar">
+                                    <i class="fa-solid fa-grip-vertical"></i>
+                                </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8">
+                            <td colspan="7">
                                 <div class="project-empty-state">
                                     <i class="fa-regular fa-folder-open"></i>
                                     <p>Nenhum projeto encontrado com os filtros atuais.</p>
@@ -151,6 +171,7 @@
 @include('components.confirm-delete-modal', ['text' => 'Tem certeza que deseja excluir este projeto?'])
 @include('components.confirm-bulk-delete-project-modal')
 
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const selectAll = document.getElementById('selectAll');
@@ -190,16 +211,141 @@
             selectedProjectsInput.value = JSON.stringify(selectedProjects);
         });
 
+        const menuWrappers = document.querySelectorAll('.project-actions-menu-wrapper');
         const deleteButtons = document.querySelectorAll('.delete-button');
         const deleteForm = document.getElementById('delete-form');
+        const tableBody = document.getElementById('projectsTableBody');
+        const toggleReorderButton = document.getElementById('toggleReorderMode');
+        const saveReorderButton = document.getElementById('saveReorder');
+        let sortableInstance = null;
+        let hasReorderChanges = false;
+
+        function closeAllMenus() {
+            menuWrappers.forEach((wrapper) => {
+                wrapper.classList.remove('is-open');
+                const trigger = wrapper.querySelector('.project-actions-trigger');
+                if (trigger) {
+                    trigger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        menuWrappers.forEach((wrapper) => {
+            const trigger = wrapper.querySelector('.project-actions-trigger');
+            trigger.addEventListener('click', function (event) {
+                event.stopPropagation();
+                const willOpen = !wrapper.classList.contains('is-open');
+                closeAllMenus();
+
+                if (willOpen) {
+                    wrapper.classList.add('is-open');
+                    trigger.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        document.addEventListener('click', function () {
+            closeAllMenus();
+        });
 
         deleteButtons.forEach(button => {
             button.addEventListener('click', function () {
-                const projectId = button.getAttribute('data-project-id');
-                const deleteAction = "{{ route('admin.projetos.destroy', ':id') }}".replace(':id', projectId);
+                const projectId = button.getAttribute('data-project-uuid');
+                const deleteAction = "{{ route('admin.projetos.destroy', ':uuid') }}".replace(':uuid', projectId);
                 deleteForm.setAttribute('action', deleteAction);
+                closeAllMenus();
             });
         });
+
+        function setReorderMode(active) {
+            if (!tableBody || !toggleReorderButton || !saveReorderButton) {
+                return;
+            }
+
+            if (active) {
+                sortableInstance = new Sortable(tableBody, {
+                    animation: 160,
+                    handle: '.project-drag-handle',
+                    ghostClass: 'project-row-ghost',
+                    chosenClass: 'project-row-chosen',
+                    dragClass: 'project-row-dragging',
+                    onEnd: function () {
+                        hasReorderChanges = true;
+                        saveReorderButton.disabled = false;
+                    }
+                });
+
+                tableBody.classList.add('is-reordering');
+                toggleReorderButton.textContent = 'Cancelar reordenacao';
+                saveReorderButton.hidden = false;
+                saveReorderButton.disabled = true;
+                return;
+            }
+
+            if (sortableInstance) {
+                sortableInstance.destroy();
+                sortableInstance = null;
+            }
+
+            hasReorderChanges = false;
+            tableBody.classList.remove('is-reordering');
+            toggleReorderButton.textContent = 'Modo reordenar';
+            saveReorderButton.hidden = true;
+            saveReorderButton.disabled = true;
+        }
+
+        if (toggleReorderButton) {
+            toggleReorderButton.addEventListener('click', function () {
+                const willActivate = !tableBody.classList.contains('is-reordering');
+                setReorderMode(willActivate);
+            });
+        }
+
+        if (saveReorderButton) {
+            saveReorderButton.addEventListener('click', async function () {
+                if (!hasReorderChanges) {
+                    return;
+                }
+
+                const orderedProjects = Array.from(tableBody.querySelectorAll('tr[data-project-uuid]'))
+                    .map((row) => row.getAttribute('data-project-uuid'))
+                    .filter(Boolean);
+
+                if (!orderedProjects.length) {
+                    return;
+                }
+
+                saveReorderButton.disabled = true;
+                saveReorderButton.textContent = 'Salvando...';
+
+                try {
+                    const response = await fetch("{{ route('admin.projetos.reorder') }}", {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ordered_projects: orderedProjects
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Erro ao salvar ordem.');
+                    }
+
+                    window.location.reload();
+                } catch (error) {
+                    saveReorderButton.disabled = false;
+                    saveReorderButton.textContent = 'Salvar ordem';
+                    alert(error.message || 'Erro ao salvar ordem.');
+                }
+            });
+        }
     });
 </script>
 @endsection
+

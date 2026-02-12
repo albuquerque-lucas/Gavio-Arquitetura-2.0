@@ -1,22 +1,246 @@
-.form-control {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    border-bottom: 2px solid rgb(56, 54, 54);
-    color: white;
-}
+﻿.project-create-page {
+    --pc-surface: #171f29;
+    --pc-surface-soft: #1d2631;
+    --pc-text: #ebf1f8;
+    --pc-muted: #a1afbe;
+    --pc-border: #2a3543;
+    --pc-primary: #2f7cf6;
+    --pc-primary-hover: #1f68de;
+    --pc-danger: #b84756;
 
-.form-control:focus {
-    color: white;
-    background-color: transparent;
-    box-shadow: none;
-    border-bottom: 2px solid white;
-}
+    color: var(--pc-text);
 
-select.form-control {
-    cursor: pointer;
-}
+    .project-create-hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
 
-select.form-control option {
-    color: black;
+    .project-create-title {
+        margin: 0;
+        font-size: clamp(1.8rem, 3.2vw, 2.45rem);
+        font-weight: 700;
+    }
+
+    .project-create-subtitle {
+        margin: 0.35rem 0 0;
+        color: var(--pc-muted);
+        font-size: 0.95rem;
+    }
+
+    .project-create-messages {
+        min-height: 3.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .project-create-alert {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.8rem;
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 0.8rem 0.9rem;
+    }
+
+    .project-create-alert-success {
+        background-color: rgba(30, 122, 79, 0.2);
+        border-color: rgba(30, 122, 79, 0.8);
+        color: #cbf8df;
+    }
+
+    .project-create-alert-danger {
+        background-color: rgba(184, 71, 86, 0.18);
+        border-color: rgba(184, 71, 86, 0.76);
+        color: #ffd8dd;
+    }
+
+    .project-create-alert-close {
+        border: none;
+        background: transparent;
+        color: inherit;
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        display: inline-grid;
+        place-items: center;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .project-create-error-list {
+        margin: 0.45rem 0 0;
+        padding-left: 1.2rem;
+    }
+
+    .project-create-surface {
+        border: 1px solid var(--pc-border);
+        border-radius: 14px;
+        background: linear-gradient(180deg, var(--pc-surface-soft), var(--pc-surface));
+        padding: clamp(1rem, 2vw, 1.4rem);
+        box-shadow: 0 12px 34px rgba(5, 9, 14, 0.32);
+    }
+
+    .project-create-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.95rem;
+    }
+
+    .project-create-field {
+        display: grid;
+        gap: 0.42rem;
+    }
+
+    .project-create-field-inline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 0.75rem;
+    }
+
+    .project-create-field label {
+        color: var(--pc-muted);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .project-create-input {
+        border: 1px solid var(--pc-border);
+        border-radius: 10px;
+        background-color: #121923;
+        color: var(--pc-text);
+        min-height: 44px;
+        padding: 0.62rem 0.85rem;
+        box-shadow: none;
+    }
+
+    .project-create-input:focus {
+        border-color: #41689e;
+        box-shadow: 0 0 0 0.18rem rgba(65, 104, 158, 0.24);
+        background-color: #121923;
+        color: var(--pc-text);
+        outline: none;
+    }
+
+    .project-create-input::placeholder {
+        color: #7689a1;
+    }
+
+    .project-create-select {
+        cursor: pointer;
+    }
+
+    .project-create-select option {
+        color: #0f1520;
+    }
+
+    .project-create-textarea {
+        min-height: 180px;
+        resize: vertical;
+    }
+
+    .project-create-help {
+        color: var(--pc-muted);
+        font-size: 0.78rem;
+    }
+
+    .project-create-cover-preview {
+        margin-top: 0.15rem;
+        border: 1px solid var(--pc-border);
+        border-radius: 12px;
+        background: #121923;
+        height: 220px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+    }
+
+    .project-create-cover-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .project-create-field-full {
+        grid-column: 1 / -1;
+    }
+
+    .project-create-actions {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--pc-border);
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .project-create-btn {
+        border: 1px solid transparent;
+        border-radius: 10px;
+        min-height: 42px;
+        padding: 0.62rem 0.95rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        transition: 180ms ease;
+        cursor: pointer;
+    }
+
+    .project-create-btn-primary {
+        color: #ffffff;
+        background-color: var(--pc-primary);
+    }
+
+    .project-create-btn-primary:hover {
+        background-color: var(--pc-primary-hover);
+        color: #ffffff;
+    }
+
+    .project-create-btn-ghost {
+        color: var(--pc-text);
+        background-color: #2a3442;
+        border-color: #334153;
+    }
+
+    .project-create-btn-ghost:hover {
+        background-color: #344458;
+        color: var(--pc-text);
+    }
+
+    @media (max-width: 900px) {
+        .project-create-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .project-create-field-full {
+            grid-column: auto;
+        }
+
+        .project-create-field-inline {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .project-create-hero {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .project-create-btn {
+            width: 100%;
+        }
+
+        .project-create-actions {
+            justify-content: stretch;
+        }
+    }
 }

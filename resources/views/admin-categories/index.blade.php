@@ -64,7 +64,7 @@
                 </thead>
                 <tbody>
                     @forelse ($categories as $category)
-                        <tr class="category-row" data-category-id="{{ $category->id }}">
+                        <tr class="category-row" data-category-id="{{ $category->uuid }}">
                             <th scope="row">{{ $category->id }}</th>
                             <td>
                                 <span class="category-name" data-original-name="{{ $category->name }}">{{ $category->name }}</span>
@@ -91,7 +91,7 @@
                                                 type="button"
                                                 class="category-action-item category-action-item-danger delete-button"
                                                 role="menuitem"
-                                                data-category-id="{{ $category->id }}"
+                                                data-category-id="{{ $category->uuid }}"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#deleteCategoryModal"
                                             >
@@ -103,7 +103,7 @@
 
                                     <div class="category-edit-controls is-hidden">
                                         <button type="button" class="category-btn category-btn-ghost cancel-button">Cancelar</button>
-                                        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST" class="category-update-form">
+                                        <form action="{{ route('admin.categories.update', $category) }}" method="POST" class="category-update-form">
                                             @csrf
                                             @method('PATCH')
                                             <input type="hidden" name="name" class="category-input-name">
