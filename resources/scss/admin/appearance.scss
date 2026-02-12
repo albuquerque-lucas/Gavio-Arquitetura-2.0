@@ -78,7 +78,7 @@
     .appearance-field {
         display: grid;
         gap: 0.5rem;
-        grid-template-rows: auto auto minmax(2.8rem, auto) minmax(2.8rem, auto) 180px;
+        grid-template-rows: auto auto 3.4rem 5.2rem 180px;
 
         label {
             font-size: 0.85rem;
@@ -98,10 +98,18 @@
             word-break: break-all;
         }
 
-        > small:first-of-type,
-        .appearance-file-name {
+                > small:first-of-type {
             display: block;
-            min-height: 2.8rem;
+            min-height: 3.4rem;
+        }
+
+        .appearance-file-name {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 5.2rem;
+            max-height: 5.2rem;
         }
 
         .form-control {

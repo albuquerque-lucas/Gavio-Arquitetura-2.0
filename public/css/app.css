@@ -475,11 +475,12 @@ select.form-control option {
 .appearance-page .appearance-alert-close { border:none; background:transparent; color:inherit; width:30px; height:30px; border-radius:6px; display:inline-grid; place-items:center; cursor:pointer; }
 .appearance-page .appearance-form-surface { margin-top:.8rem; border:1px solid var(--appearance-border); border-radius:14px; background-color:var(--appearance-surface); padding:1rem; }
 .appearance-page .appearance-form-grid { display:grid; grid-template-columns:repeat(4,minmax(170px,1fr)); gap:1rem; align-items:start; }
-.appearance-page .appearance-field { display:grid; gap:.5rem; grid-template-rows:auto auto minmax(2.8rem,auto) minmax(2.8rem,auto) 180px; }
+.appearance-page .appearance-field { display:grid; gap:.5rem; grid-template-rows:auto auto 3.4rem 5.2rem 180px; }
 .appearance-page .appearance-field label { font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; color:var(--appearance-muted); }
 .appearance-page .appearance-field small { color:var(--appearance-muted); font-size:.78rem; line-height:1.35; }
 .appearance-page .appearance-field .appearance-file-name { color:#b7c5d6; word-break:break-all; }
-.appearance-page .appearance-field > small:first-of-type, .appearance-page .appearance-field .appearance-file-name { display:block; min-height:2.8rem; }
+.appearance-page .appearance-field > small:first-of-type { display:block; min-height:3.4rem; }
+.appearance-page .appearance-field .appearance-file-name { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; min-height:5.2rem; max-height:5.2rem; }
 .appearance-page .appearance-field .form-control { border:1px solid var(--appearance-border); border-radius:10px; background-color:#121923; color:var(--appearance-text); }
 .appearance-page .appearance-upload-form { align-content:start; }
 .appearance-page .appearance-preview { border:1px solid var(--appearance-border); border-radius:12px; overflow:hidden; background-color:#101722; height:180px; display:grid; place-items:center; }
