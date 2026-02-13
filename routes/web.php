@@ -14,7 +14,7 @@ use App\Mail\TestMail;
 
 
 
-// Rotas de Autenticação
+// Rotas de AutenticaÃ§Ã£o
 Route::get('login', [AuthenticationController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthenticationController::class, 'login']);
 // Route::get('register', [AuthenticationController::class, 'showRegistrationForm'])->name('register');
@@ -26,7 +26,7 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 // Route::get('reset-password/{token}', [AuthenticationController::class, 'showResetPasswordForm'])->name('password.reset');
 // Route::post('reset-password', [AuthenticationController::class, 'resetPassword'])->name('password.update');
 
-// Rotas públicas
+// Rotas pÃºblicas
 Route::get('/', [PublicAppController::class, 'renderHomePage'])->name('public.home');
 Route::get('/sobre', [PublicAppController::class, 'renderAboutUsPage'])->name('public.about.us');
 Route::get('/projetos/{slug}', [PublicAppController::class, 'renderProjectsPage'])->name('public.projects');
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/admin', 'admin.home')->name('admin.home');
 
 
-    // Rotas para Usuários
+    // Rotas para UsuÃ¡rios
     Route::resource('/admin/users', AdminUserController::class)->scoped([
         'user' => 'slug',
     ])->names([
@@ -64,8 +64,6 @@ Route::middleware('auth')->group(function () {
         'update' => 'admin.projetos.update',
         'destroy' => 'admin.projetos.destroy',
     ]);
-
-    Route::patch('/admin/projetos/{project:uuid}/order', [AdminProjectController::class, 'updateOrder'])->name('admin.projetos.updateOrder');
     Route::patch('/admin/projetos/{project:uuid}/toggleCarousel', [AdminProjectController::class, 'toggleCarousel'])->name('admin.projetos.toggleCarousel');
     Route::post('/admin/projetos/{project:uuid}/add-image', [AdminProjectController::class, 'addImage'])->name('admin.projetos.addImage');
     Route::delete('/admin/projetos/bulk-delete-images/{project:uuid}', [AdminProjectController::class, 'bulkDeleteImages'])->name('admin.projetos.bulkDeleteImages');
@@ -83,7 +81,7 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'admin.categories.destroy',
     ]);
 
-    // Rotas para Aparência (assets visuais do site)
+    // Rotas para AparÃªncia (assets visuais do site)
     Route::get('/admin/aparencia', [AdminSiteAssetController::class, 'edit'])->name('admin.appearance.edit');
     Route::post('/admin/aparencia', [AdminSiteAssetController::class, 'update'])->name('admin.appearance.update');
 });

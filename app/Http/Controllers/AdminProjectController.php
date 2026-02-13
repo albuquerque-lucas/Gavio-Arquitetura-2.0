@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Projects\AddProjectImagesAction;
+use App\Actions\Projects\BulkDeleteProjectImagesAction;
+use App\Actions\Projects\BulkDeleteProjectsAction;
+use App\Actions\Projects\CreateProjectAction;
+use App\Actions\Projects\DeleteProjectImageAction;
+use App\Actions\Projects\DeleteProjectAction;
+use App\Actions\Projects\ReorderProjectsAction;
+use App\Actions\Projects\ToggleProjectCarouselAction;
+use App\Actions\Projects\UpdateProjectAction;
 use App\Http\Requests\ProjectStoreFormRequest;
 use App\Http\Requests\ProjectUpdateFormRequest;
 use App\Models\Category;
-use App\Models\Cover;
 use App\Models\Project;
-use App\Models\ProjectImage;
-use App\ProcessesImages;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
+use RuntimeException;
 
 class AdminProjectController extends Controller
 {
-    use ProcessesImages;
-
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -35,8 +39,7 @@ class AdminProjectController extends Controller
             $projectsQuery->where('category_id', $categoryId);
         }
 
-        $projectsQuery->orderBy($sortBy, $order);
-        $projects = $projectsQuery->paginate();
+        $projects = $projectsQuery->orderBy($sortBy, $order)->paginate();
         $categories = Category::all();
         $hasPages = $projects->hasPages();
 
@@ -46,287 +49,174 @@ class AdminProjectController extends Controller
     public function create()
     {
         $categories = Category::all();
+
         return view('admin-projects.project-create', compact('categories'));
     }
 
-    public function store(ProjectStoreFormRequest $request)
+    public function store(ProjectStoreFormRequest $request, CreateProjectAction $createProject)
     {
         try {
-            $validated = $request->validated();
-            $maxOrder = Project::where('category_id', $request->category_id)->max('order');
-
-            $project = Project::create([
-                'title' => $validated['title'],
-                'location' => $validated['location'],
-                'area' => $validated['area'],
-                'category_id' => $validated['category_id'],
-                'status' => (bool) $validated['status'],
-                'description' => $validated['description'],
-                'year' => $validated['year'],
-                'order' => $maxOrder + 1,
-            ]);
-
-            if ($request->hasFile('cover')) {
-                $file = $request->file('cover');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $path = public_path('storage/projects/cover/' . $filename);
-                $this->processImage($file, $path);
-
-                $imagePath = 'projects/cover/' . $filename;
-
-                Cover::create([
-                    'path' => '/storage/' . $imagePath,
-                    'file_name' => $file->getClientOriginalName(),
-                    'project_id' => $project->id,
-                ]);
-            }
+            $createProject($request->validated(), $request->file('cover'));
 
             return redirect()->route('admin.projetos.index')->with('success', 'Projeto criado com sucesso!');
         } catch (Exception $e) {
+            report($e);
+
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao criar o projeto: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao criar o projeto. Tente novamente.');
         }
     }
 
     public function edit(Project $projeto)
     {
-        try {
-            $project = $projeto;
-            $categories = Category::all();
-            return view('admin-projects.project-edit', compact('project', 'categories'));
-        } catch (Exception $e) {
-            return redirect()->route('admin.projetos.index')->with('error', 'Ocorreu um erro ao tentar editar o projeto: ' . $e->getMessage());
-        }
+        $project = $projeto;
+        $categories = Category::all();
+
+        return view('admin-projects.project-edit', compact('project', 'categories'));
     }
 
-    public function update(ProjectUpdateFormRequest $request, Project $projeto)
+    public function update(ProjectUpdateFormRequest $request, Project $projeto, UpdateProjectAction $updateProject)
     {
         try {
-            $validated = $request->validated();
             $project = $projeto;
-
-            $project->update([
-                'title' => $validated['title'],
-                'location' => $validated['location'],
-                'area' => $validated['area'],
-                'category_id' => $validated['category_id'],
-                'status' => isset($validated['status']) ? (bool) $validated['status'] : $project->status,
-                'description' => $validated['description'],
-                'year' => $validated['year'],
-            ]);
-
-            if ($request->hasFile('cover')) {
-                if ($project->cover) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
-                    $project->cover->delete();
-                }
-
-                $file = $request->file('cover');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $path = public_path('storage/projects/cover/' . $filename);
-                $this->processImage($file, $path);
-
-                $imagePath = 'projects/cover/' . $filename;
-
-                Cover::create([
-                    'path' => '/storage/' . $imagePath,
-                    'file_name' => $file->getClientOriginalName(),
-                    'project_id' => $project->id,
-                ]);
-            }
+            $updateProject($project, $request->validated(), $request->file('cover'));
 
             return redirect()->route('admin.projetos.edit', $project)->with('success', 'Projeto atualizado com sucesso!');
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
+            report($e);
+
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao atualizar o projeto: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao atualizar o projeto. Tente novamente.');
         }
     }
 
-    public function addImage(Request $request, Project $project)
+    public function addImage(Request $request, Project $project, AddProjectImagesAction $addProjectImages)
     {
         try {
-            $request->validate([
+            $validated = $request->validate([
                 'images.*' => 'required|image|mimes:jpeg,png,jpg|max:50000',
             ]);
 
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $file) {
-                    $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-                    $path = public_path('storage/projects/images/' . $filename);
-                    $this->processImage($file, $path);
-
-                    $imagePath = 'projects/images/' . $filename;
-
-                    ProjectImage::create([
-                        'path' => '/storage/' . $imagePath,
-                        'file_name' => $file->getClientOriginalName(),
-                        'project_id' => $project->id,
-                    ]);
-                }
+            $files = $validated['images'] ?? [];
+            if (!empty($files)) {
+                $addProjectImages($project, $files);
             }
 
             return redirect()->route('admin.projetos.edit', $project)->with('success', 'Imagens adicionadas com sucesso!');
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
+            report($e);
+
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao adicionar as imagens: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao adicionar as imagens. Tente novamente.');
         }
     }
 
-    public function destroy(Project $projeto)
+    public function destroy(Project $projeto, DeleteProjectAction $deleteProject)
     {
         try {
             $project = $projeto;
-
-            if ($project->cover) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
-                $project->cover->delete();
-            }
-
-            foreach ($project->images as $image) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
-                $image->delete();
-            }
-
-            $project->delete();
+            $deleteProject($project);
 
             return redirect()->route('admin.projetos.index')->with('success', 'Projeto excluido com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.projetos.index')->with('error', 'Erro ao excluir o projeto: ' . $e->getMessage());
+            report($e);
+
+            return redirect()->route('admin.projetos.index')->with('error', 'Erro ao excluir o projeto. Tente novamente.');
         }
     }
 
-    public function toggleCarousel(Project $project)
+    public function toggleCarousel(Project $project, ToggleProjectCarouselAction $toggleProjectCarousel)
     {
         try {
-            $project->status = !$project->status;
-            $project->save();
+            $toggleProjectCarousel($project);
 
             return redirect()->route('admin.projetos.index')->with('success', 'Status do projeto atualizado com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.projetos.index')->with('error', 'Erro ao atualizar o status do projeto: ' . $e->getMessage());
+            report($e);
+
+            return redirect()->route('admin.projetos.index')->with('error', 'Erro ao atualizar o status do projeto. Tente novamente.');
         }
     }
 
-    public function deleteImage(Project $project, $imageId)
+    public function deleteImage(Project $project, int $imageId, DeleteProjectImageAction $deleteProjectImage)
     {
         try {
-            $image = ProjectImage::findOrFail($imageId);
-            Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
-            $image->delete();
+            $deleteProjectImage($project, $imageId);
 
             return redirect()->route('admin.projetos.edit', $project)->with('success', 'Imagem excluida com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.projetos.edit', $project)->with('error', 'Ocorreu um erro ao excluir a imagem: ' . $e->getMessage());
+            report($e);
+
+            return redirect()->route('admin.projetos.edit', $project)->with('error', 'Ocorreu um erro ao excluir a imagem. Tente novamente.');
         }
     }
 
-    public function bulkDelete(Request $request)
+    public function bulkDelete(Request $request, BulkDeleteProjectsAction $bulkDeleteProjects)
     {
-        $uuids = json_decode($request->input('selected_projects', '[]'));
+        $uuids = json_decode((string) $request->input('selected_projects', '[]'), true);
+        $uuids = is_array($uuids) ? $uuids : [];
 
         if (empty($uuids)) {
             return redirect()->route('admin.projetos.index')->with('error', 'Nenhum projeto foi selecionado para exclusao.');
         }
 
-        \DB::transaction(function () use ($uuids) {
-            Project::whereIn('uuid', $uuids)->each(function (Project $project) {
-                if ($project->cover) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $project->cover->path));
-                    $project->cover->delete();
-                }
+        try {
+            $bulkDeleteProjects($uuids);
 
-                foreach ($project->images as $image) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
-                    $image->delete();
-                }
+            return redirect()->route('admin.projetos.index')->with('success', 'Projetos selecionados foram excluidos com sucesso!');
+        } catch (Exception $e) {
+            report($e);
 
-                $project->delete();
-            });
-        });
-
-        return redirect()->route('admin.projetos.index')->with('success', 'Projetos selecionados foram excluidos com sucesso!');
-    }
-
-    public function updateOrder(Request $request, Project $project)
-    {
-        $newOrder = $request->input('order');
-
-        $otherProject = Project::where('category_id', $project->category_id)
-            ->where('order', $newOrder)
-            ->first();
-
-        if ($otherProject) {
-            $otherProject->update(['order' => $project->order]);
+            return redirect()->route('admin.projetos.index')->with('error', 'Erro ao excluir projetos selecionados. Tente novamente.');
         }
-
-        $project->update(['order' => $newOrder]);
-
-        return redirect()->route('admin.projetos.index')->with('success', 'Ordem do projeto atualizada com sucesso!');
     }
 
-    public function reorder(Request $request)
+    public function reorder(Request $request, ReorderProjectsAction $reorderProjects): JsonResponse
     {
         $validated = $request->validate([
             'ordered_projects' => 'required|array|min:1',
             'ordered_projects.*' => 'required|uuid',
         ]);
 
-        $orderedUuids = $validated['ordered_projects'];
-        $projects = Project::whereIn('uuid', $orderedUuids)->get()->keyBy('uuid');
+        try {
+            $reorderProjects($validated['ordered_projects']);
 
-        if ($projects->count() !== count($orderedUuids)) {
             return response()->json([
-                'message' => 'Falha ao ordenar projetos: lista invalida.',
+                'message' => 'Ordem dos projetos atualizada com sucesso!',
+            ]);
+        } catch (RuntimeException $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
             ], 422);
+        } catch (Exception $e) {
+            report($e);
+
+            return response()->json([
+                'message' => 'Erro ao atualizar ordem dos projetos. Tente novamente.',
+            ], 500);
         }
-
-        $baseOrder = (int) $projects->min('order');
-
-        \DB::transaction(function () use ($orderedUuids, $projects, $baseOrder) {
-            foreach ($orderedUuids as $index => $uuid) {
-                $project = $projects->get($uuid);
-                $project->update(['order' => $baseOrder + $index]);
-            }
-        });
-
-        return response()->json([
-            'message' => 'Ordem dos projetos atualizada com sucesso!',
-        ]);
     }
 
-    public function bulkDeleteImages(Request $request, Project $project)
+    public function bulkDeleteImages(Request $request, Project $project, BulkDeleteProjectImagesAction $bulkDeleteProjectImages)
     {
         try {
             $imageIds = $request->input('selected_images', []);
+            $imageIds = is_array($imageIds) ? $imageIds : [];
 
             if (empty($imageIds)) {
                 return redirect()->route('admin.projetos.edit', $project)->with('error', 'Nenhuma imagem foi selecionada para exclusao.');
             }
 
-            \DB::transaction(function () use ($imageIds) {
-                foreach ($imageIds as $imageId) {
-                    $image = ProjectImage::findOrFail($imageId);
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $image->path));
-                    $image->delete();
-                }
-            });
+            $bulkDeleteProjectImages($project, $imageIds);
 
             return redirect()->route('admin.projetos.edit', $project)->with('success', 'Imagens selecionadas foram excluidas com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.projetos.edit', $project)->with('error', 'Ocorreu um erro ao excluir as imagens: ' . $e->getMessage());
+            report($e);
+
+            return redirect()->route('admin.projetos.edit', $project)->with('error', 'Ocorreu um erro ao excluir as imagens. Tente novamente.');
         }
     }
 }

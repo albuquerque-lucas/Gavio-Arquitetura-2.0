@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Users\CreateUserAction;
+use App\Actions\Users\UpdateUserAction;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Services\UserCoverService;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 
 class AdminUserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('id', 'desc')->paginate();
+        $users = User::query()->orderByDesc('id')->paginate();
+
         return view('admin-users.index', compact('users'));
     }
 
@@ -22,118 +24,61 @@ class AdminUserController extends Controller
         return view('admin-users.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request, CreateUserAction $createUser)
     {
         try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'username' => 'required|string|max:255|unique:users,username',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8|confirmed',
-                'cover_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'description' => 'nullable|string|max:255',
-                'ownership' => 'nullable|boolean',
-            ]);
-
-            $user = new User();
-            $user->name = $validated['name'];
-            $user->username = $validated['username'];
-            $user->email = $validated['email'];
-            $user->password = Hash::make($validated['password']);
-            $user->description = $validated['description'] ?? null;
-            $user->ownership = $request->boolean('ownership');
-
-            if ($request->hasFile('cover_path')) {
-                $file = $request->file('cover_path');
-                $imagePath = $file->store('users/covers', 'public');
-                $user->cover_path = '/storage/' . $imagePath;
-                $user->cover_filename = $file->getClientOriginalName();
-            }
-
-            $user->save();
+            $createUser(
+                $request->validated(),
+                $request->boolean('ownership'),
+                $request->file('cover_path')
+            );
 
             return redirect()->route('admin.users.index')->with('success', 'Usuario criado com sucesso!');
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
+            report($e);
+
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao criar o usuario: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao criar o usuario. Tente novamente.');
         }
     }
 
     public function edit(User $user)
     {
-        try {
-            return view('admin-users.edit', compact('user'));
-        } catch (Exception $e) {
-            return redirect()->route('admin.users.index')->with('error', 'Usuario nao encontrado.');
-        }
+        return view('admin-users.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user, UpdateUserAction $updateUser)
     {
         try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-                'password' => 'nullable|string|min:8|confirmed',
-                'cover_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'ownership' => 'nullable|boolean',
-                'description' => 'nullable|string',
-            ]);
-
-            $validated['ownership'] = $request->boolean('ownership');
-
-            $user->name = $validated['name'];
-            $user->username = $validated['username'];
-            $user->email = $validated['email'];
-            if ($request->filled('password')) {
-                $user->password = Hash::make($validated['password']);
-            }
-            $user->description = $validated['description'] ?? null;
-            $user->ownership = $validated['ownership'];
-
-            if ($request->hasFile('cover_path')) {
-                if ($user->cover_path) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $user->cover_path));
-                }
-                $file = $request->file('cover_path');
-                $imagePath = $file->store('users/covers', 'public');
-                $user->cover_path = '/storage/' . $imagePath;
-                $user->cover_filename = $file->getClientOriginalName();
-            }
-
-            $user->save();
+            $updateUser(
+                $user,
+                $request->validated(),
+                $request->boolean('ownership'),
+                $request->file('cover_path')
+            );
 
             return redirect()->route('admin.users.edit', $user)->with('success', 'Usuario atualizado com sucesso!');
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erro de validacao. Por favor, verifique os dados inseridos.');
         } catch (Exception $e) {
+            report($e);
+
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao atualizar o usuario: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao atualizar o usuario. Tente novamente.');
         }
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user, UserCoverService $coverService)
     {
         try {
-            if ($user->cover_path) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $user->cover_path));
-            }
+            $coverService->delete($user);
             $user->delete();
 
             return redirect()->route('admin.users.index')->with('success', 'Usuario excluido com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.users.index')->with('error', 'Erro ao excluir o usuario: ' . $e->getMessage());
+            report($e);
+
+            return redirect()->route('admin.users.index')->with('error', 'Erro ao excluir o usuario. Tente novamente.');
         }
     }
 }
