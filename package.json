@@ -4,8 +4,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "sass-app": "sass resources/scss/app.scss public/css/app.css",
-        "sass-public": "sass resources/scss/publicapp.scss public/css/publicapp.css"
+        "sass-app": "sass --load-path=node_modules resources/scss/app.scss public/css/app.css",
+        "sass-public": "sass --load-path=node_modules resources/scss/publicapp.scss public/css/publicapp.css"
     },
     "devDependencies": {
         "axios": "^1.6.4",
