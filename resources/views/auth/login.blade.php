@@ -4,16 +4,16 @@
 <section class="login-page">
     <div class="login-card">
         <header class="login-brand">
-            <div class="login-brand-icon">
+            <div class="login-brand-icon login-brand-icon-image" id="login-brand-icon-wrapper">
                 <img
                     src="{{ $assets['brand_logo_icon_url'] ?? asset('favicon.ico') }}"
                     alt="Gavio Arquitetura Icone"
                     class="login-brand-image"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+                    onerror="this.style.display='none';this.parentElement.classList.remove('login-brand-icon-image');this.parentElement.classList.add('login-brand-icon-fallback');this.nextElementSibling.style.display='grid';"
                 >
                 <span class="login-brand-fallback" aria-hidden="true">GA</span>
             </div>
-            <h1 class="login-title">Gavio Arquitetura</h1>
+            <h1 class="login-title">Gávio Arquitetura</h1>
             <p class="login-subtitle">Area administrativa</p>
         </header>
 

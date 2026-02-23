@@ -22,19 +22,35 @@
 }
 
 .login-brand-icon {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    border: 1px solid #334153;
-    background: #101721;
     display: grid;
     place-items: center;
     overflow: hidden;
 }
 
+.login-brand-icon-image {
+    width: 188px;
+    height: 188px;
+    border: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(45, 66, 92, 0.45), rgba(16, 23, 33, 0.82));
+}
+
+.login-brand-icon-image .login-brand-image {
+    width: 68%;
+    height: 68%;
+}
+
+.login-brand-icon-fallback {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 1px solid #334153;
+    background: #101721;
+}
+
 .login-brand-image {
-    width: 72%;
-    height: 72%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
 }
 
