@@ -19,9 +19,10 @@ class ContactController extends Controller
 
         try {
             Mail::to(config('mail.to.address'))->queue(new ContactMail($details));
+
             return redirect()->back()->with('success', 'Email enviado com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Falha ao enviar email: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Falha ao enviar email: '.$e->getMessage());
         }
     }
 }

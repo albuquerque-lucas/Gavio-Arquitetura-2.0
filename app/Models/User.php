@@ -75,7 +75,7 @@ class User extends Authenticatable
                 ->when($this->id, fn ($query) => $query->where('id', '!=', $this->id))
                 ->exists()
         ) {
-            $slug = $base . '-' . $counter;
+            $slug = $base.'-'.$counter;
             $counter++;
         }
 
@@ -93,7 +93,7 @@ class User extends Authenticatable
 
     public function hasCoverPhoto(): bool
     {
-        return !empty($this->cover_path);
+        return ! empty($this->cover_path);
     }
 
     public function profileInitials(): string
@@ -107,10 +107,12 @@ class User extends Authenticatable
         if (count($parts) >= 2) {
             $first = mb_substr($parts[0], 0, 1);
             $second = mb_substr($parts[1], 0, 1);
-            return mb_strtoupper($first . $second);
+
+            return mb_strtoupper($first.$second);
         }
 
         $single = $parts[0] ?? $name;
+
         return mb_strtoupper(mb_substr($single, 0, 2));
     }
 }

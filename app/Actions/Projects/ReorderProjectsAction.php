@@ -9,7 +9,7 @@ use RuntimeException;
 class ReorderProjectsAction
 {
     /**
-     * @param array<int, string> $orderedUuids
+     * @param  array<int, string>  $orderedUuids
      */
     public function __invoke(array $orderedUuids): void
     {

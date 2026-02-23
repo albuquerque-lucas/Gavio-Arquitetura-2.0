@@ -8,7 +8,7 @@ class ToggleProjectCarouselAction
 {
     public function __invoke(Project $project): Project
     {
-        $project->status = !$project->status;
+        $project->status = ! $project->status;
         $project->save();
 
         return $project;

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class MaxCharacterCount implements ValidationRule
 {
     protected $max;
+
     protected $inputLength;
 
     public function __construct($max)

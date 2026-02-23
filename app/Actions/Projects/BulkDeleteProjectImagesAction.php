@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class BulkDeleteProjectImagesAction
 {
-    public function __construct(private readonly ProjectMediaService $mediaService)
-    {
-    }
+    public function __construct(private readonly ProjectMediaService $mediaService) {}
 
     /**
-     * @param array<int, int|string> $imageIds
+     * @param  array<int, int|string>  $imageIds
      */
     public function __invoke(Project $project, array $imageIds): int
     {

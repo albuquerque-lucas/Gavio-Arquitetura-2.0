@@ -6,8 +6,8 @@ use App\Actions\Projects\AddProjectImagesAction;
 use App\Actions\Projects\BulkDeleteProjectImagesAction;
 use App\Actions\Projects\BulkDeleteProjectsAction;
 use App\Actions\Projects\CreateProjectAction;
-use App\Actions\Projects\DeleteProjectImageAction;
 use App\Actions\Projects\DeleteProjectAction;
+use App\Actions\Projects\DeleteProjectImageAction;
 use App\Actions\Projects\ReorderProjectsAction;
 use App\Actions\Projects\ToggleProjectCarouselAction;
 use App\Actions\Projects\UpdateProjectAction;
@@ -100,7 +100,7 @@ class AdminProjectController extends Controller
             ]);
 
             $files = $validated['images'] ?? [];
-            if (!empty($files)) {
+            if (! empty($files)) {
                 $addProjectImages($project, $files);
             }
 

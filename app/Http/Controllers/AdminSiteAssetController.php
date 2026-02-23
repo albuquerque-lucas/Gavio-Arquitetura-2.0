@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiteAsset;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Exception;
 
 class AdminSiteAssetController extends Controller
 {
@@ -37,7 +37,7 @@ class AdminSiteAssetController extends Controller
             $updatedCount = 0;
 
             foreach ($uploads as $key => $config) {
-                if (!$request->hasFile($key)) {
+                if (! $request->hasFile($key)) {
                     continue;
                 }
 
@@ -57,7 +57,7 @@ class AdminSiteAssetController extends Controller
                 SiteAsset::updateOrCreate(
                     ['key' => $key],
                     [
-                        'path' => '/storage/' . $storedAsset['path'],
+                        'path' => '/storage/'.$storedAsset['path'],
                         'original_name' => $file->getClientOriginalName(),
                         'mime_type' => $storedAsset['mime_type'],
                         'size' => $storedAsset['size'],
@@ -73,7 +73,7 @@ class AdminSiteAssetController extends Controller
 
             return redirect()->route('admin.appearance.edit')->with('success', 'Assets do site atualizados com sucesso!');
         } catch (Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Erro ao atualizar assets: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Erro ao atualizar assets: '.$e->getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ class AdminSiteAssetController extends Controller
         $mime = strtolower((string) $file->getClientMimeType());
 
         if (str_contains($mime, 'svg')) {
-            $filename = $key . '_' . time() . '.svg';
+            $filename = $key.'_'.time().'.svg';
             $path = $file->storeAs($directory, $filename, 'public');
 
             return [
@@ -109,7 +109,7 @@ class AdminSiteAssetController extends Controller
         $maxWidth = $key === 'home_background' ? 2560 : 1200;
         $quality = $key === 'home_background' ? 76 : 82;
 
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(new Driver);
         $image = $manager->read($file->getRealPath());
 
         if (method_exists($image, 'scaleDown') && $image->width() > $maxWidth) {
@@ -117,8 +117,8 @@ class AdminSiteAssetController extends Controller
         }
 
         $encoded = $image->toWebp($quality);
-        $filename = $key . '_' . time() . '.webp';
-        $path = $directory . '/' . $filename;
+        $filename = $key.'_'.time().'.webp';
+        $path = $directory.'/'.$filename;
         $binary = (string) $encoded;
 
         Storage::disk('public')->put($path, $binary);

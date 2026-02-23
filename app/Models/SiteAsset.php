@@ -14,4 +14,3 @@ class SiteAsset extends Model
         'size',
     ];
 }
-

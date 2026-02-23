@@ -660,3 +660,27 @@ select.form-control option {
   .project-create-page .project-create-actions { justify-content:stretch; }
   .project-create-page .project-create-btn { width:100%; }
 }
+
+:root {
+  --admin-btn-primary-bg:#2f7cf6;
+  --admin-btn-primary-hover:#1f68de;
+  --admin-btn-neutral-bg:#2a3442;
+  --admin-btn-neutral-hover:#344458;
+  --admin-btn-danger-bg:#b84756;
+  --admin-btn-danger-hover:#a03745;
+  --admin-btn-text:#ebf1f8;
+  --admin-btn-border:#334153;
+}
+.admin-btn { border:1px solid var(--admin-btn-border); border-radius:10px; min-height:42px; padding:.62rem .95rem; font-size:.9rem; font-weight:600; line-height:1; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:.4rem; cursor:pointer; transition:180ms ease; }
+.admin-btn:disabled { opacity:.58; cursor:not-allowed; }
+.admin-btn-primary { background-color:var(--admin-btn-primary-bg); border-color:var(--admin-btn-primary-bg); color:#fff; }
+.admin-btn-primary:hover { background-color:var(--admin-btn-primary-hover); border-color:var(--admin-btn-primary-hover); color:#fff; }
+.admin-btn-neutral { background-color:var(--admin-btn-neutral-bg); border-color:var(--admin-btn-border); color:var(--admin-btn-text); }
+.admin-btn-neutral:hover { background-color:var(--admin-btn-neutral-hover); color:var(--admin-btn-text); }
+.admin-btn-danger { background-color:var(--admin-btn-danger-bg); border-color:var(--admin-btn-danger-bg); color:#fff; }
+.admin-btn-danger:hover { background-color:var(--admin-btn-danger-hover); border-color:var(--admin-btn-danger-hover); color:#fff; }
+.admin-btn-sm { min-height:36px; padding:.48rem .75rem; font-size:.82rem; }
+.admin-btn-icon { width:36px; min-width:36px; padding:0; }
+.admin-user-chip { display:inline-flex; align-items:center; border:1px solid var(--admin-btn-border); border-radius:10px; background-color:var(--admin-btn-neutral-bg); padding:.52rem .82rem; }
+.admin-user-chip a { color:#fff; }
+.admin-user-chip a:hover { color:#fff; opacity:.92; }

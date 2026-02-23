@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class BulkDeleteProjectsAction
 {
-    public function __construct(private readonly DeleteProjectAction $deleteProject)
-    {
-    }
+    public function __construct(private readonly DeleteProjectAction $deleteProject) {}
 
     /**
-     * @param array<int, string> $uuids
+     * @param  array<int, string>  $uuids
      */
     public function __invoke(array $uuids): int
     {

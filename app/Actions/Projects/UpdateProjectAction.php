@@ -8,9 +8,7 @@ use Illuminate\Http\UploadedFile;
 
 class UpdateProjectAction
 {
-    public function __construct(private readonly ProjectMediaService $mediaService)
-    {
-    }
+    public function __construct(private readonly ProjectMediaService $mediaService) {}
 
     public function __invoke(Project $project, array $validated, ?UploadedFile $coverFile = null): Project
     {

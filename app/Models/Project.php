@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use Throwable;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Throwable;
 
 class Project extends Model
 {
     use HasFactory;
+
     private static bool $fallbackCoverLoaded = false;
+
     private static ?string $fallbackCoverUrl = null;
 
     protected $fillable = [
@@ -70,7 +71,7 @@ class Project extends Model
             return asset($this->cover->path);
         }
 
-        if (!self::$fallbackCoverLoaded) {
+        if (! self::$fallbackCoverLoaded) {
             self::$fallbackCoverLoaded = true;
             self::$fallbackCoverUrl = $this->resolveFallbackCoverUrl();
         }
@@ -87,7 +88,7 @@ class Project extends Model
 
         $parts = preg_split('/\s+/', $text) ?: [];
         if (count($parts) >= 2) {
-            return Str::upper(Str::substr($parts[0], 0, 1) . Str::substr($parts[1], 0, 1));
+            return Str::upper(Str::substr($parts[0], 0, 1).Str::substr($parts[1], 0, 1));
         }
 
         return Str::upper(Str::substr($text, 0, 2));
@@ -101,7 +102,7 @@ class Project extends Model
     private function resolveFallbackCoverUrl(): ?string
     {
         try {
-            if (!Schema::hasTable('site_assets')) {
+            if (! Schema::hasTable('site_assets')) {
                 return null;
             }
 
@@ -109,7 +110,7 @@ class Project extends Model
                 ->where('key', 'project_cover_fallback')
                 ->first();
 
-            if (!$asset || empty($asset->path)) {
+            if (! $asset || empty($asset->path)) {
                 return null;
             }
 

@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Models\SiteAsset;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 use Throwable;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,8 +36,9 @@ class AppServiceProvider extends ServiceProvider
             ];
 
             try {
-                if (!Schema::hasTable('site_assets')) {
+                if (! Schema::hasTable('site_assets')) {
                     $view->with('assets', $assets);
+
                     return;
                 }
 
@@ -55,19 +56,19 @@ class AppServiceProvider extends ServiceProvider
                 $written = $rows->get('brand_logo_written') ?? $rows->get('brand_logo_secondary');
                 $projectCoverFallback = $rows->get('project_cover_fallback');
 
-                if ($home && !empty($home->path)) {
+                if ($home && ! empty($home->path)) {
                     $assets['home_background_url'] = asset(ltrim($home->path, '/'));
                     $assets['home_background_name'] = $home->original_name;
                 }
-                if ($icon && !empty($icon->path)) {
+                if ($icon && ! empty($icon->path)) {
                     $assets['brand_logo_icon_url'] = asset(ltrim($icon->path, '/'));
                     $assets['brand_logo_icon_name'] = $icon->original_name;
                 }
-                if ($written && !empty($written->path)) {
+                if ($written && ! empty($written->path)) {
                     $assets['brand_logo_written_url'] = asset(ltrim($written->path, '/'));
                     $assets['brand_logo_written_name'] = $written->original_name;
                 }
-                if ($projectCoverFallback && !empty($projectCoverFallback->path)) {
+                if ($projectCoverFallback && ! empty($projectCoverFallback->path)) {
                     $assets['project_cover_fallback_url'] = asset(ltrim($projectCoverFallback->path, '/'));
                     $assets['project_cover_fallback_name'] = $projectCoverFallback->original_name;
                 }

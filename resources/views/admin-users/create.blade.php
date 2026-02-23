@@ -37,7 +37,7 @@
             <input type="checkbox" class="form-check-input" id="ownership" name="ownership" value="1" {{ old('ownership') ? 'checked' : '' }}>
             <label class="form-check-label text-white" for="ownership">Exibir este usuario na pagina "sobre"</label>
         </div>
-        <button type="submit" class="btn btn-primary">Salvar Usuario</button>
+        <button type="submit" class="admin-btn admin-btn-primary">Salvar Usuario</button>
     </form>
 </div>
 @endsection

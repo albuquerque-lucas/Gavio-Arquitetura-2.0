@@ -34,3 +34,101 @@
 
 @import "./auth/login.scss";
 @import "./auth/forgot-password.scss";
+
+:root {
+    --admin-btn-primary-bg: #2f7cf6;
+    --admin-btn-primary-hover: #1f68de;
+    --admin-btn-neutral-bg: #2a3442;
+    --admin-btn-neutral-hover: #344458;
+    --admin-btn-danger-bg: #b84756;
+    --admin-btn-danger-hover: #a03745;
+    --admin-btn-text: #ebf1f8;
+    --admin-btn-border: #334153;
+}
+
+.admin-btn {
+    border: 1px solid var(--admin-btn-border);
+    border-radius: 10px;
+    min-height: 42px;
+    padding: 0.62rem 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: 180ms ease;
+}
+
+.admin-btn:disabled {
+    opacity: 0.58;
+    cursor: not-allowed;
+}
+
+.admin-btn-primary {
+    background-color: var(--admin-btn-primary-bg);
+    border-color: var(--admin-btn-primary-bg);
+    color: #ffffff;
+}
+
+.admin-btn-primary:hover {
+    background-color: var(--admin-btn-primary-hover);
+    border-color: var(--admin-btn-primary-hover);
+    color: #ffffff;
+}
+
+.admin-btn-neutral {
+    background-color: var(--admin-btn-neutral-bg);
+    border-color: var(--admin-btn-border);
+    color: var(--admin-btn-text);
+}
+
+.admin-btn-neutral:hover {
+    background-color: var(--admin-btn-neutral-hover);
+    color: var(--admin-btn-text);
+}
+
+.admin-btn-danger {
+    background-color: var(--admin-btn-danger-bg);
+    border-color: var(--admin-btn-danger-bg);
+    color: #ffffff;
+}
+
+.admin-btn-danger:hover {
+    background-color: var(--admin-btn-danger-hover);
+    border-color: var(--admin-btn-danger-hover);
+    color: #ffffff;
+}
+
+.admin-btn-sm {
+    min-height: 36px;
+    padding: 0.48rem 0.75rem;
+    font-size: 0.82rem;
+}
+
+.admin-btn-icon {
+    width: 36px;
+    min-width: 36px;
+    padding: 0;
+}
+
+.admin-user-chip {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--admin-btn-border);
+    border-radius: 10px;
+    background-color: var(--admin-btn-neutral-bg);
+    padding: 0.52rem 0.82rem;
+}
+
+.admin-user-chip a {
+    color: #ffffff;
+}
+
+.admin-user-chip a:hover {
+    color: #ffffff;
+    opacity: 0.92;
+}

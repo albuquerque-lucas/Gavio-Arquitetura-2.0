@@ -31,7 +31,7 @@ return new class extends Migration
                     ->where('id', '!=', $user->id)
                     ->exists()
             ) {
-                $slug = $base . '-' . $counter;
+                $slug = $base.'-'.$counter;
                 $counter++;
             }
 

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Project;
 use App\Models\User;
-use App\Models\Category;
 
 class PublicAppController extends Controller
 {
@@ -39,16 +38,18 @@ class PublicAppController extends Controller
         return view('public.projects-page', compact('title', 'projects', 'categories', 'category', 'links'));
     }
 
-
     public function showProject($slug)
     {
         $project = Project::where('slug', $slug)->firstOrFail();
         $title = "$project->title | Gávio Arquitetura e Interiores";
+
         return view('public.project-show', compact('project', 'title'));
     }
+
     public function renderContactPage()
     {
         $title = 'Contate-nos | Gávio Arquitetura e Interiores';
+
         return view('public.contact-us', compact('title'));
     }
 }

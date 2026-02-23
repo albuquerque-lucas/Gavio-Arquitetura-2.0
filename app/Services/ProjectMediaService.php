@@ -15,12 +15,12 @@ class ProjectMediaService
 
     public function storeCover(Project $project, UploadedFile $file): Cover
     {
-        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $absolutePath = public_path('storage/projects/cover/' . $filename);
+        $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+        $absolutePath = public_path('storage/projects/cover/'.$filename);
         $this->processImage($file, $absolutePath);
 
         return Cover::create([
-            'path' => '/storage/projects/cover/' . $filename,
+            'path' => '/storage/projects/cover/'.$filename,
             'file_name' => $file->getClientOriginalName(),
             'project_id' => $project->id,
         ]);
@@ -34,19 +34,19 @@ class ProjectMediaService
     }
 
     /**
-     * @param array<int, UploadedFile> $files
+     * @param  array<int, UploadedFile>  $files
      */
     public function storeGalleryImages(Project $project, array $files): int
     {
         $created = 0;
 
         foreach ($files as $file) {
-            $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $absolutePath = public_path('storage/projects/images/' . $filename);
+            $filename = uniqid().'_'.time().'.'.$file->getClientOriginalExtension();
+            $absolutePath = public_path('storage/projects/images/'.$filename);
             $this->processImage($file, $absolutePath);
 
             ProjectImage::create([
-                'path' => '/storage/projects/images/' . $filename,
+                'path' => '/storage/projects/images/'.$filename,
                 'file_name' => $file->getClientOriginalName(),
                 'project_id' => $project->id,
             ]);
@@ -60,7 +60,7 @@ class ProjectMediaService
     public function deleteCover(Project $project): void
     {
         $cover = $project->cover;
-        if (!$cover) {
+        if (! $cover) {
             return;
         }
 

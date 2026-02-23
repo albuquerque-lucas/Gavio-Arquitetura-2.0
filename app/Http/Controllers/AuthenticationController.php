@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Exception;
 
 class AuthenticationController extends Controller
 {
@@ -83,6 +83,7 @@ class AuthenticationController extends Controller
     {
         try {
             Auth::logout();
+
             return redirect()->route('login');
         } catch (Exception $e) {
             return redirect()->route('login')->withErrors(['error' => 'Ocorreu um erro durante o logout.']);
@@ -129,7 +130,7 @@ class AuthenticationController extends Controller
                 $request->only('email', 'password', 'password_confirmation', 'token'),
                 function ($user, $password) {
                     $user->forceFill([
-                        'password' => Hash::make($password)
+                        'password' => Hash::make($password),
                     ])->save();
 
                     $user->setRememberToken(Str::random(60));
@@ -146,4 +147,3 @@ class AuthenticationController extends Controller
         }
     }
 }
-

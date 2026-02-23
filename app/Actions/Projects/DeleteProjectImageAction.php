@@ -8,9 +8,7 @@ use App\Services\ProjectMediaService;
 
 class DeleteProjectImageAction
 {
-    public function __construct(private readonly ProjectMediaService $mediaService)
-    {
-    }
+    public function __construct(private readonly ProjectMediaService $mediaService) {}
 
     public function __invoke(Project $project, int $imageId): void
     {

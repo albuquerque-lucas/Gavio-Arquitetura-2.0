@@ -20,9 +20,9 @@ class ContactMail extends Mailable
     public function build()
     {
         return $this->from(config('mail.from.address'))
-                    ->to(config('mail.to.address'))
-                    ->subject($this->details['subject'] ?? 'No subject')
-                    ->markdown('emails.contact')
-                    ->with('details', $this->details);
+            ->to(config('mail.to.address'))
+            ->subject($this->details['subject'] ?? 'No subject')
+            ->markdown('emails.contact')
+            ->with('details', $this->details);
     }
 }

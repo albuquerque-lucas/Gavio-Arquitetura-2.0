@@ -20,6 +20,6 @@ class TestMail extends Mailable
     public function build()
     {
         return $this->markdown('emails.test')
-                    ->with('details', $this->details);
+            ->with('details', $this->details);
     }
 }

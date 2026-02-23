@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class CreateUserAction
 {
-    public function __construct(private readonly UserCoverService $coverService)
-    {
-    }
+    public function __construct(private readonly UserCoverService $coverService) {}
 
     public function __invoke(array $validated, bool $ownership, ?UploadedFile $coverFile = null): User
     {
-        $user = new User();
+        $user = new User;
         $user->name = $validated['name'];
         $user->username = $validated['username'];
         $user->email = $validated['email'];

@@ -1,18 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminProjectController;
-use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\AdminSiteAssetController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\PublicAppController;
 use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TestMail;
-
-
-
+use App\Http\Controllers\PublicAppController;
+use Illuminate\Support\Facades\Route;
 
 // Rotas de AutenticaÃ§Ã£o
 Route::get('login', [AuthenticationController::class, 'showLoginForm'])->name('login');
@@ -37,7 +32,6 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 // Agrupar rotas protegidas pelo middleware 'auth'
 Route::middleware('auth')->group(function () {
     Route::view('/admin', 'admin.home')->name('admin.home');
-
 
     // Rotas para UsuÃ¡rios
     Route::resource('/admin/users', AdminUserController::class)->scoped([

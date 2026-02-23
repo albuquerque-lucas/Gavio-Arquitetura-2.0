@@ -13,7 +13,7 @@ class UserCoverService
         $path = $file->store('users/covers', 'public');
 
         return [
-            'cover_path' => '/storage/' . $path,
+            'cover_path' => '/storage/'.$path,
             'cover_filename' => $file->getClientOriginalName(),
         ];
     }

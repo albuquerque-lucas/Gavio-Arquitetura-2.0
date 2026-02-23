@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UpdateUserAction
 {
-    public function __construct(private readonly UserCoverService $coverService)
-    {
-    }
+    public function __construct(private readonly UserCoverService $coverService) {}
 
     public function __invoke(User $user, array $validated, bool $ownership, ?UploadedFile $coverFile = null): User
     {
@@ -21,7 +19,7 @@ class UpdateUserAction
         $user->description = $validated['description'] ?? null;
         $user->ownership = $ownership;
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
 

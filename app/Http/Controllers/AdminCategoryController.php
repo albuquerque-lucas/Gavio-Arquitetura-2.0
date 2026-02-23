@@ -12,6 +12,7 @@ class AdminCategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('id', 'desc')->paginate();
+
         return view('admin-categories.index', compact('categories'));
     }
 
@@ -39,7 +40,7 @@ class AdminCategoryController extends Controller
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao criar a categoria: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao criar a categoria: '.$e->getMessage());
         }
     }
 
@@ -70,7 +71,7 @@ class AdminCategoryController extends Controller
         } catch (Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Ocorreu um erro ao atualizar a categoria: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao atualizar a categoria: '.$e->getMessage());
         }
     }
 
@@ -81,7 +82,7 @@ class AdminCategoryController extends Controller
 
             return redirect()->route('admin.categories.index')->with('success', 'Categoria excluida com sucesso!');
         } catch (Exception $e) {
-            return redirect()->route('admin.categories.index')->with('error', 'Ocorreu um erro ao excluir a categoria: ' . $e->getMessage());
+            return redirect()->route('admin.categories.index')->with('error', 'Ocorreu um erro ao excluir a categoria: '.$e->getMessage());
         }
     }
 }
