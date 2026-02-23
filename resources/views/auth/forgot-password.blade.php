@@ -1,8 +1,8 @@
 @extends('admin-layout')
 
-{{-- @section('extra-css')
-    @vite('resources/scss/auth/forgot-password.scss')
-@endsection --}}
+@section('extra-css')
+    <link rel="stylesheet" href="{{ asset('css/publicapp.css') }}">
+@endsection
 
 @section('content')
 <div class="container">
